@@ -1,43 +1,86 @@
-# Windows image file caches
+
+# CUSTOM
+.svn
+local
+# =========================
+
+
+# WINDOWS
 Thumbs.db
 ehthumbs.db
-
-# Folder config file
 Desktop.ini
-
-# Recycle Bin used on file shares
 $RECYCLE.BIN/
-
-# Windows Installer files
 *.cab
 *.msi
 *.msm
 *.msp
-
-# Windows shortcuts
 *.lnk
-
-# =========================
-# Operating System Files
-# =========================
 
 # OSX
 # =========================
-
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# Thumbnails
 ._*
-
-# Files that might appear on external disk
 .Spotlight-V100
 .Trashes
-
-# Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# IDEA
+# =========================
+.idea
+*.iml
+target
+
+# ALTIUM
+# =========================
+private
+__Previews
+DataSource
+History
+Project Outputs*
+*.PrjPCBStructure
+output
+
+# ECLIPSE
+# =========================
+Release
+Release_*
+Debug
+Debug_*
+.settings
+
+# MPIDE
+# =========================
+~*
+*.o
+*.d
+*.__i
+*.crf
+*.bak
+*.Bak
+*.htm
+*.Inp
+*.map
+*.plg
+*.tra
+*.axf
+
+*.lst
+*.err
+*.log
+*.inx
+*.cof
+*.hex
+*.history
+
+# COOCOX
+# =========================
+*.comarker
+*.comemgui
+*.cogui
+*.elf.xcodeproj
