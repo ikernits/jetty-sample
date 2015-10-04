@@ -3,15 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="spring-context-web.xml"/>
-
-    <bean id="jettySpringDispatcherServlet" class="org.eclipse.jetty.servlet.ServletHolder">
-        <constructor-arg ref="dispatcherServler"/>
+    <bean id="jettyWebConfigResolver" class="org.ikernits.sample.JettyWebConfigResolver">
     </bean>
 
-    <bean id="jettyServer" class="org.eclipse.jetty.server.Server" init-method="start" destroy-method="stop">
+    <bean id="jettyWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
+        <property name="contextPath" value="/"/>
+        <property name="war" value="#{jettyWebConfigResolver.configLocation}"/>
+    </bean>
+
+    <bean id="jettyServer" class="org.eclipse.jetty.server.Server">
         <constructor-arg>
-            <bean id="threadPool" class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+            <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
                 <property name="minThreads" value="10"/>
                 <property name="maxThreads" value="50"/>
             </bean>
@@ -24,11 +26,7 @@
                 </bean>
             </list>
         </property>
-        <property name="handler">
-            <bean id="servletHandler" class="org.eclipse.jetty.servlet.ServletContextHandler">
-                <property name="contextPath" value="/"/>
-            </bean>
-        </property>
+        <property name="handler" ref="jettyWebAppContext"/>
     </bean>
 
 </beans>
