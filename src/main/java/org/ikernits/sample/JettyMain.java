@@ -27,27 +27,9 @@ public class JettyMain {
     }
 
     public static void main(String[] args) throws Exception {
-
-        System.out.println(Thread.currentThread().getContextClassLoader().getResource("WEB-INF/web.xml"));
-        WebAppContext webAppContext = new WebAppContext();
-        webAppContext.setContextPath("");
-
-        //String warUrl = Thread.currentThread().getContextClassLoader().getResource("WEB-INF/web.xml").toString();
-        //webAppContext.setWar(warUrl.substring(0, warUrl.length() - 15));
-        //webAppContext.setWar("/");
-        //webAppContext.setBaseResource();
-
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:META-INF/spring-context-jetty.xml");
         Server server = applicationContext.getBean("jettyServer", Server.class);
-//
-        //server.setHandler(webAppContext);
-//        ServletContextHandler contextHandler = new ServletContextHandler();
-//        ServletHolder dispatcherServletHolder = applicationContext.getBean("jettyDispatcherServletHolder", ServletHolder.class);
-//        contextHandler.addServlet(dispatcherServletHolder, "/");
-//        server.setHandler(contextHandler);
         server.start();
         server.join();
-
-
     }
 }

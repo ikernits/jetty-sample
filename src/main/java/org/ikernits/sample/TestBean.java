@@ -1,5 +1,6 @@
 package org.ikernits.sample;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
 /**

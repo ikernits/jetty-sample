@@ -1,5 +1,6 @@
 package org.ikernits.sample;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.springframework.web.servlet.ModelAndView;
