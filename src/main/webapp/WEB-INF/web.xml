@@ -16,7 +16,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /META-INF/spring-context-main.xml
+            classpath:/META-INF/spring-context-main.xml
         </param-value>
     </context-param>
 
@@ -28,7 +28,7 @@
         </servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/web-context.xml</param-value>
+            <param-value>WEB-INF/web-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -38,4 +38,30 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Vaadin Dispatcher Servlet</servlet-name>
+        <servlet-class>
+            com.vaadin.server.VaadinServlet
+        </servlet-class>
+        <init-param>
+            <param-name>UI</param-name>
+            <param-value>org.ikernits.sample.VaadinUI</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Vaadin Dispatcher Servlet</servlet-name>
+        <url-pattern>/va/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Vaadin Dispatcher Servlet</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
+
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pages/error/404.html</location>
+    </error-page>
 </web-app>

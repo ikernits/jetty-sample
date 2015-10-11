@@ -1,8 +1,5 @@
-package org.ikernits.sample;
+package org.ikernits.sample.mvc;
 
-import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -10,15 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by ikernits on 04/10/15.
+ * Created by ikernits on 11/10/15.
  */
-public class HelloController extends AbstractController {
+public class ErrorController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return GsonView.createModelAndView(new Output());
+        String code = request.getParameter("code");
+        response.sendError(Integer.parseInt(code));
+        return null;
     }
 
-    protected static class Output {
-        private Instant time = new Instant();
-    }
 }

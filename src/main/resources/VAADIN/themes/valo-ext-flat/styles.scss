@@ -1,0 +1,6 @@
+@import "variables";
+@import "../valo-ext/valoext";
+
+.valo-ext-flat {
+   @include valoext;
+}

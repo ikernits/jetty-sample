@@ -3,13 +3,18 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="jettyWebConfigResolver" class="org.ikernits.sample.JettyWebConfigResolver">
+    <bean id="jettyWebConfigResolver" class="org.ikernits.sample.jetty.JettyWebConfigResolver">
+    </bean>
+
+    <bean id="jettyErrorHandler" class="org.ikernits.sample.jetty.JettyErrorHandler">
+
     </bean>
 
     <bean id="jettyWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
         <property name="war" value="#{jettyWebConfigResolver.configLocation}"/>
         <property name="extractWAR" value="false"/>
+        <property name="errorHandler" ref="jettyErrorHandler"/>
     </bean>
 
     <bean id="jettyServer" class="org.eclipse.jetty.server.Server">

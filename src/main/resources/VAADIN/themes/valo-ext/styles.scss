@@ -1,0 +1,10 @@
+@import "variables";
+@import "valoext";
+.valo-ext {
+   @include valoext;
+}
+
+html {
+	width: 100px;
+	min-width: 100%;
+}

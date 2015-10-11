@@ -1,4 +1,4 @@
-package org.ikernits.sample;
+package org.ikernits.sample.jetty;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;

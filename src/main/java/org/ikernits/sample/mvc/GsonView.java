@@ -1,4 +1,4 @@
-package org.ikernits.sample;
+package org.ikernits.sample.mvc;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

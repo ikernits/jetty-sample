@@ -10,7 +10,8 @@
 
     <properties>
         <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
-        <org.eclipse.jetty>9.3.3.v20150827</org.eclipse.jetty>
+        <org.eclipse.jetty.version>9.3.3.v20150827</org.eclipse.jetty.version>
+        <com.vaadin.version>7.5.7</com.vaadin.version>
     </properties>
 
 
@@ -64,12 +65,12 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>${org.eclipse.jetty}</version>
+            <version>${org.eclipse.jetty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <version>${org.eclipse.jetty}</version>
+            <version>${org.eclipse.jetty.version}</version>
         </dependency>
 
         <!-- http clients -->
@@ -137,6 +138,21 @@
             <version>1.6.0.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>${com.vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiled</artifactId>
+            <version>${com.vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${com.vaadin.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -175,7 +191,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
-                            <mainClass>org.ikernits.sample.JettyMain</mainClass>
+                            <mainClass>org.ikernits.sample.jetty.JettyMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -186,7 +202,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.ikernits.sample.JettyMain</mainClass>
+                            <mainClass>org.ikernits.sample.jetty.JettyMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -203,13 +219,69 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${com.vaadin.version}</version>
+                <configuration>
+                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+                    <!-- <runTarget>mobilemail</runTarget> -->
+                    <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This
+                        way compatible with Vaadin eclipse plugin. -->
+                    <!--<webappDirectory>src/main/webapp/VAADIN/widgetsets-->
+                    <!--</webappDirectory>-->
+                    <!--<hostedWebapp>src/main/webapp/VAADIN/widgetsets-->
+                    <!--</hostedWebapp>-->
+                    <noServer>true</noServer>
+                    <!-- Remove draftCompile when project is ready -->
+                    <draftCompile>false</draftCompile>
+                    <compileReport>true</compileReport>
+                    <style>PRETTY</style>
+                    <strict>true</strict>
+                    <webappDirectory>/src/main/resources</webappDirectory>
+                    <!--<runTarget>http://localhost:8080/</runTarget>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <!-- if you don't specify any modules, the plugin will find them -->
+                            <!-- <modules> <module>com.vaadin.demo.mobilemail.gwt.ColorPickerWidgetSet</module>
+                                </modules> -->
+                        </configuration>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>resources</goal>
+                            <goal>update-theme</goal>
+                            <goal>update-widgetset</goal>
+                            <goal>compile-theme</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
             <resource>
                 <directory>src/main/java</directory>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/webapp</directory>
             </resource>
         </resources>
     </build>
