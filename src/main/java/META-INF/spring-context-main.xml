@@ -3,7 +3,26 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="test" class="org.ikernits.sample.TestBean">
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/META-INF/server.properties</value>
+                <value>file:${server.config.path:.}/server.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
 
+    <bean id="log4jConfigurer" class="org.ikernits.sample.log.Log4jConfigurer">
+        <property name="resetSubsystem" value="${log.reset.subsystem}"/>
+        <property name="propertyPrefix" value="log"/>
+        <property name="logList" value="${log.list}"/>
+    </bean>
+
+    <bean id="testMain" class="org.ikernits.sample.TestMain">
+    </bean>
+
+    <bean id="test" class="org.ikernits.sample.TestBean">
+        <property name="testProp" value="${default.name}"/>
     </bean>
 </beans>
