@@ -56,6 +56,22 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
+     * @see com.vaadin.ui.AbstractComponent#setIcon
+     */
+    public B setIcon(Resource icon) {
+        delegate.setIcon(icon);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setId
+     */
+    public B setId(String id) {
+        delegate.setId(id);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.AbstractComponent#setStyleName
      */
     public B setStyleName(String param1, boolean param2) {
@@ -108,22 +124,6 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
      */
     public B setCaption(String caption) {
         delegate.setCaption(caption);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setIcon
-     */
-    public B setIcon(Resource icon) {
-        delegate.setIcon(icon);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setId
-     */
-    public B setId(String id) {
-        delegate.setId(id);
         return self;
     }
     

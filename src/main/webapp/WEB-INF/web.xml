@@ -38,6 +38,11 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+        <url-pattern>/va/resources/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>Vaadin Dispatcher Servlet</servlet-name>
         <servlet-class>

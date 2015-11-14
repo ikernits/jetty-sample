@@ -48,22 +48,6 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     }
     
     /**
-     * @see com.vaadin.ui.AbstractField#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setPropertyDataSource
-     */
-    public B setPropertyDataSource(Property propertyDataSource) {
-        delegate.setPropertyDataSource(propertyDataSource);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractField#setInvalidCommitted
      */
     public B setInvalidCommitted(boolean invalidCommitted) {
@@ -82,7 +66,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Class converter) {
+    public B setConverter(Converter converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -90,7 +74,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Converter converter) {
+    public B setConverter(Class converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -172,6 +156,22 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
      */
     public B setCurrentBufferedSourceException(SourceException currentBufferedSourceException) {
         delegate.setCurrentBufferedSourceException(currentBufferedSourceException);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setPropertyDataSource
+     */
+    public B setPropertyDataSource(Property propertyDataSource) {
+        delegate.setPropertyDataSource(propertyDataSource);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setTabIndex
+     */
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
         return self;
     }
     

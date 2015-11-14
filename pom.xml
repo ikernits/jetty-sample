@@ -252,17 +252,18 @@
                     <!-- <runTarget>mobilemail</runTarget> -->
                     <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This
                         way compatible with Vaadin eclipse plugin. -->
-                    <!--<webappDirectory>src/main/webapp/VAADIN/widgetsets-->
-                    <!--</webappDirectory>-->
-                    <!--<hostedWebapp>src/main/webapp/VAADIN/widgetsets-->
-                    <!--</hostedWebapp>-->
+                    <webappDirectory>src/main/resources/VAADIN/widgetsets
+                    </webappDirectory>
+                    <hostedWebapp>src/main/resources/VAADIN/widgetsets
+                    </hostedWebapp>
                     <noServer>true</noServer>
                     <!-- Remove draftCompile when project is ready -->
                     <draftCompile>false</draftCompile>
                     <compileReport>true</compileReport>
                     <style>PRETTY</style>
                     <strict>true</strict>
-                    <webappDirectory>/src/main/resources</webappDirectory>
+                    <webappDirectory>src/main/resources</webappDirectory>
+                    <warSourceDirectory>src/main/resources</warSourceDirectory>
                     <!--<runTarget>http://localhost:8080/</runTarget>-->
                 </configuration>
                 <executions>

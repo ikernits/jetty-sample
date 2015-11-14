@@ -3,6 +3,7 @@ package org.ikernits.vaadin;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -31,6 +32,10 @@ public class VaadinBuilders {
     
     public static LabelBuilder<Label, ? extends LabelBuilder<Label, ?>> label() {
         return new LabelBuilder<>(new Label());
+    }
+    
+    public static PanelBuilder<Panel, ? extends PanelBuilder<Panel, ?>> panel() {
+        return new PanelBuilder<>(new Panel());
     }
     
 }

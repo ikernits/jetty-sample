@@ -31,39 +31,6 @@ import java.util.Base64;
  * Created by ikernits on 24/10/15.
  */
 public class TestCrypto {
-
-    private static byte[] extractKeyFromPem(InputStream pemKeyStream,
-                                            String startMarker, String endMarker) throws IOException, InvalidKeyException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(pemKeyStream));
-        StringBuilder base64Pem = new StringBuilder();
-
-        boolean startLineValid = false;
-        for (String line = br.readLine(); line != null; line = br.readLine()) {
-            if (line.contains(startMarker)) {
-                startLineValid = true;
-                break;
-            }
-        }
-        if (!startLineValid) {
-            throw new InvalidKeyException("failed to detect start of PEM key: '" + startMarker + "'");
-        }
-
-        boolean endLineValid = false;
-        for (String line = br.readLine(); line != null; line = br.readLine()) {
-            if (line.contains(endMarker)) {
-                endLineValid = true;
-                break;
-            }
-            base64Pem.append(line);
-        }
-
-        if (!endLineValid) {
-            throw new InvalidKeyException("failed to detect end of PEM key: '" + endMarker + "'");
-        }
-
-        return Base64.getDecoder().decode(base64Pem.toString());
-    }
-
     public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException {
         Security.addProvider(new BouncyCastleProvider());
         PEMReader pemReader = new PEMReader(new FileReader("../crypto/mykey.pub.pem"));

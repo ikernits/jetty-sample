@@ -30,7 +30,9 @@ public class VaadinComponentAttributes {
         Attribute<? super AbstractComponent> vaSizeFull = new Attribute<>(AbstractComponent::setSizeFull);
         Attribute<? super AbstractComponent> vaReadOnly = new Attribute<>(c -> c.setReadOnly(true));
         Attribute<? super AbstractComponent> vaImmediate = new Attribute<>(c -> c.setImmediate(true));
-        Attribute<? super AbstractComponent> vaStyleSmall = new Attribute<>(c -> c.setStyleName("small"));
+        Attribute<? super AbstractComponent> vaStyleSmall = new Attribute<>(c -> c.addStyleName("small"));
+        Attribute<? super AbstractComponent> vaStyleTiny = new Attribute<>(c -> c.addStyleName("tiny"));
+        Attribute<? super AbstractComponent> vaStyleMonospace = new Attribute<>(c -> c.addStyleName("font-monospace"));
     }
 
     public interface LayoutAttributes {

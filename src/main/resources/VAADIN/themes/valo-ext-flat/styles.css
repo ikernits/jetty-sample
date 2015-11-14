@@ -12835,6 +12835,10 @@ div.v-layout.v-horizontal.v-widget {
 	color: #6bb7b5;
 }
 
+.valo-ext-flat .v-textarea-font-monospace {
+	font-family: monospace;
+}
+
 .valo-ext-flat .v-textarea-color1 {
 	-webkit-appearance: none;
 	-moz-appearance: none;

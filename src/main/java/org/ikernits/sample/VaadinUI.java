@@ -1,14 +1,12 @@
 package org.ikernits.sample;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.BaseEncoding;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -16,18 +14,24 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMReader;
+import org.ikernits.sample.vaadin.components.HighChart;
 import org.ikernits.vaadin.VaadinBuilders;
-import org.ikernits.vaadin.VaadinComponentAttributes;
 
-import java.util.Arrays;
-import java.util.function.Consumer;
+import javax.crypto.Cipher;
+import java.io.StringReader;
+import java.security.KeyPair;
+import java.security.PublicKey;
+import java.security.Security;
 
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.*;
 import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.*;
@@ -121,64 +125,206 @@ public class VaadinUI extends UI {
     }
 
     protected Component createCryptoLayout() {
-        VerticalLayout layout = VaadinBuilders.verticalLayout()
+        VerticalLayout keysLayout = VaadinBuilders.verticalLayout()
                 .setAttributes(vaMargin, vaSpacing, vaWidth100)
                 .build();
 
         Property<String> privatePem = new ObjectProperty<>("");
-        layout.addComponent(VaadinBuilders.textArea()
-                        .setAttributes(vaWidth100)
+        keysLayout.addComponent(VaadinBuilders.textArea()
+                        .setAttributes(vaWidth100, vaStyleTiny, vaStyleMonospace)
                         .setCaption("Private PEM key")
                         .setPropertyDataSource(privatePem)
+                        .setHeight(32, Unit.EM)
                         .build()
         );
 
         Property<String> publicPem = new ObjectProperty<>("");
-        layout.addComponent(VaadinBuilders.textArea()
-                        .setAttributes(vaWidth100)
+        keysLayout.addComponent(VaadinBuilders.textArea()
+                        .setAttributes(vaWidth100, vaStyleTiny, vaStyleMonospace)
                         .setCaption("Public PEM key")
                         .setPropertyDataSource(publicPem)
+                        .setHeight(11, Unit.EM)
                         .build()
         );
 
+        VerticalLayout encryptLayout = VaadinBuilders.verticalLayout()
+                .setAttributes(vaMargin, vaSpacing, vaWidth100)
+                .build();
+
         Property<String> textToEncrypt = new ObjectProperty<>("");
-        layout.addComponent(VaadinBuilders.textField()
+        Property<String> encryptedText = new ObjectProperty<>("");
+        Property<String> decryptedText = new ObjectProperty<>("");
+
+        encryptLayout.addComponent(VaadinBuilders.textField()
                         .setAttributes(vaWidth100)
                         .setCaption("Plain Text")
                         .setPropertyDataSource(textToEncrypt)
                         .build()
         );
 
-        Property<String> encryptedText = new ObjectProperty<>("");
-        layout.addComponent(VaadinBuilders.textField()
-                        .setAttributes(vaWidth100, vaReadOnly)
+        encryptLayout.addComponent(VaadinBuilders.button()
+                        .setCaption("Encrypt")
+                        .addClickListener(e -> {
+                            try {
+                                Security.addProvider(new BouncyCastleProvider());
+                                PEMReader pemReader = new PEMReader(new StringReader(privatePem.getValue()));
+                                KeyPair keyPair = (KeyPair) pemReader.readObject();
+                                Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+                                cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPrivate());
+                                cipher.update(textToEncrypt.getValue().getBytes());
+                                encryptedText.setValue(BaseEncoding.base64().encode(cipher.doFinal()));
+                            } catch (Exception ex) {
+                                log.error("failed to encrypt", ex);
+                                Notification.show("Error occured", ex.getClass().getSimpleName() + " " + ex.getMessage(),
+                                        Notification.Type.TRAY_NOTIFICATION);
+                            }
+                        })
+                        .build()
+        );
+
+
+        encryptLayout.addComponent(VaadinBuilders.textArea()
+                        .setAttributes(vaWidth100, vaStyleMonospace)
+                        .setHeight(8, Unit.EM)
                         .setCaption("Cypher Text")
                         .setPropertyDataSource(encryptedText)
                         .build()
         );
 
-        Property<String> descryptedText = new ObjectProperty<>("");
-        layout.addComponent(VaadinBuilders.textField()
-                        .setAttributes(vaWidth100, vaReadOnly)
-                        .setCaption("Decrypted Text")
-                        .setPropertyDataSource(descryptedText)
+        encryptLayout.addComponent(VaadinBuilders.button()
+                        .setCaption("Decrypt")
+                        .addClickListener(e -> {
+                            try {
+                                Security.addProvider(new BouncyCastleProvider());
+                                PEMReader pemReader = new PEMReader(new StringReader(publicPem.getValue()));
+                                PublicKey keyPair = (PublicKey) pemReader.readObject();
+                                Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+                                cipher.init(Cipher.DECRYPT_MODE, keyPair);
+                                cipher.update(BaseEncoding.base64().decode(encryptedText.getValue()));
+                                decryptedText.setValue(new String(cipher.doFinal()));
+                            } catch (Exception ex) {
+                                Notification.show("Error occured", ex.getClass().getSimpleName() + " " + ex.getMessage(),
+                                        Notification.Type.TRAY_NOTIFICATION);
+                            }
+                        })
                         .build()
         );
 
-        VerticalLayout main = new VerticalLayout();
-        main.addComponent(new Panel("Crypto", layout));
-        main.setMargin(true);
-        return main;
+        encryptLayout.addComponent(VaadinBuilders.textField()
+                        .setAttributes(vaWidth100, vaReadOnly)
+                        .setCaption("Decrypted Text")
+                        .setPropertyDataSource(decryptedText)
+                        .build()
+        );
+
+        return VaadinBuilders.horizontalLayout()
+                .setAttributes(vaSizeFull, vaMargin, vaSpacing)
+                .addComponent(VaadinBuilders.panel()
+                        .setAttributes(vaHeight100)
+                        .setCaption("Keys")
+                        .setContent(keysLayout)
+                        .build())
+                .addComponent(VaadinBuilders.panel()
+                        .setAttributes(vaHeight100)
+                        .setCaption("Encrypt")
+                        .setContent(encryptLayout)
+                        .build())
+                .build();
+    }
+
+    protected Component createChartLayout() {
+        VerticalLayout chartLayout = VaadinBuilders.verticalLayout()
+                .setAttributes(vaMargin, vaSpacing, vaWidth100, vaHeight100)
+                .build();
+
+        HighChart highChart = new HighChart();
+        highChart.setOptionsJson("");
+        highChart.setWidth(100.f, Unit.PERCENTAGE);
+        highChart.setHeight(100.f, Unit.PERCENTAGE);
+
+        HorizontalLayout cl = VaadinBuilders.horizontalLayout()
+                .setAttributes(vaMargin, vaSpacing, vaWidth100, vaHeight100)
+                .build();
+        cl.addComponent(highChart);
+
+        chartLayout.addComponent(cl);
+
+        chartLayout.addComponent(
+                VaadinBuilders.button()
+                        .setCaption("update plot")
+                        .setHeightUndefined()
+                        .addClickListener(e -> {
+                            Notification.show("update", Notification.Type.TRAY_NOTIFICATION);
+                            highChart.setOptionsJson(hcOptions);
+                        })
+                        .build()
+        );
+
+        chartLayout.setExpandRatio(
+                cl, 1.f
+        );
+
+
+        return chartLayout;
     }
 
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.addComponent(createVaTestLayout());
-        layout.addComponent(createCryptoLayout());
-        layout.setSizeFull();
-        setContent(layout);
+        TabSheet tabSheet = new TabSheet();
+        tabSheet.setHeight(100.f, Unit.PERCENTAGE);
+        tabSheet.addTab(createChartLayout(), "Chart");
+        tabSheet.addTab(createVaTestLayout(), "Test");
+        tabSheet.addTab(createCryptoLayout(), "Crypto");
+        setContent(tabSheet);
     }
+
+    private static final String hcOptions = "" +
+            "{\n" +
+            "        title: {\n" +
+            "            text: 'Monthly Average Temperature',\n" +
+            "            x: -20 //center\n" +
+            "        },\n" +
+            "        subtitle: {\n" +
+            "            text: 'Source: WorldClimate.com',\n" +
+            "            x: -20\n" +
+            "        },\n" +
+            "        xAxis: {\n" +
+            "            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',\n" +
+            "                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']\n" +
+            "        },\n" +
+            "        yAxis: {\n" +
+            "            title: {\n" +
+            "                text: 'Temperature (°C)'\n" +
+            "            },\n" +
+            "            plotLines: [{\n" +
+            "                value: 0,\n" +
+            "                width: 1,\n" +
+            "                color: '#808080'\n" +
+            "            }]\n" +
+            "        },\n" +
+            "        tooltip: {\n" +
+            "            valueSuffix: '°C'\n" +
+            "        },\n" +
+            "        legend: {\n" +
+            "            layout: 'vertical',\n" +
+            "            align: 'right',\n" +
+            "            verticalAlign: 'middle',\n" +
+            "            borderWidth: 0\n" +
+            "        },\n" +
+            "        series: [{\n" +
+            "            name: 'Tokyo',\n" +
+            "            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]\n" +
+            "        }, {\n" +
+            "            name: 'New York',\n" +
+            "            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]\n" +
+            "        }, {\n" +
+            "            name: 'Berlin',\n" +
+            "            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]\n" +
+            "        }, {\n" +
+            "            name: 'London',\n" +
+            "            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]\n" +
+            "        }]\n" +
+            "}\n";
 }
 

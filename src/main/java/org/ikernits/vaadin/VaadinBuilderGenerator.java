@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -36,7 +38,8 @@ class VaadinBuilderGenerator {
             Button.class,
             TextField.class,
             TextArea.class,
-            Label.class
+            Label.class,
+            Panel.class
     );
 
     private static final String builderPackage = "org.ikernits.vaadin";

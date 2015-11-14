@@ -51,6 +51,9 @@
     @include valo-textfield-style($background-color: $color4);
   }
 
+  .v-textarea-font-monospace {
+    font-family: monospace;
+  }
 
   .v-textarea-color1 {
     @include valo-textarea-style($background-color: $color1);
