@@ -3,16 +3,32 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/META-INF/server.properties</value>
+                <value>file:${server.config.path:.}/server.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+
     <bean id="jettyWebConfigResolver" class="org.ikernits.sample.jetty.JettyWebConfigResolver">
     </bean>
 
     <bean id="jettyErrorHandler" class="org.ikernits.sample.jetty.JettyErrorHandler">
+    </bean>
 
+    <bean id="jettyShutdownListener" class="org.ikernits.sample.jetty.JettyShutdownListener">
+        <property name="server" ref="jettyServer"/>
+        <property name="shutdownPort" value="${server.shutdown.port}"/>
+        <property name="shutdownCommand" value="${server.shutdown.command}"/>
     </bean>
 
     <bean id="jettyWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
         <property name="war" value="#{jettyWebConfigResolver.configLocation}"/>
+        <property name="descriptor" value="${server.web.xml}"/>
         <property name="extractWAR" value="false"/>
         <property name="errorHandler" ref="jettyErrorHandler"/>
     </bean>
@@ -20,15 +36,15 @@
     <bean id="jettyServer" class="org.eclipse.jetty.server.Server">
         <constructor-arg>
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
-                <property name="minThreads" value="10"/>
-                <property name="maxThreads" value="50"/>
+                <property name="minThreads" value="${server.threads.min}"/>
+                <property name="maxThreads" value="${server.threads.max}"/>
             </bean>
         </constructor-arg>
         <property name="connectors">
             <list>
                 <bean id="connector" class="org.eclipse.jetty.server.ServerConnector">
                     <constructor-arg ref="jettyServer"/>
-                    <property name="port" value="8080"/>
+                    <property name="port" value="${server.port}"/>
                 </bean>
             </list>
         </property>

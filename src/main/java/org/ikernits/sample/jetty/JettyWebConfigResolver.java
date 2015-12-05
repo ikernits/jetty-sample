@@ -2,16 +2,12 @@ package org.ikernits.sample.jetty;
 
 import java.net.URL;
 
-/**
- * Created by ikernits on 04/10/15.
- */
 public class JettyWebConfigResolver {
     public String getConfigLocation() {
-        URL warUrl = Thread.currentThread().getContextClassLoader().getResource("WEB-INF/web.xml");
+        URL warUrl = Thread.currentThread().getContextClassLoader().getResource("WEB-INF");
         if (warUrl == null) {
-            throw new IllegalStateException("Failed to locate web.xml");
+            throw new IllegalStateException("Failed to locate classpath root");
         }
-        String warPath = warUrl.toString();
-        return warPath.substring(0, warPath.length() - 15);
+        return warUrl.toString().substring(0, warUrl.toString().length() - 7);
     }
 }

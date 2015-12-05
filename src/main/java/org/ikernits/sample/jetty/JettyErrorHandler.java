@@ -12,11 +12,6 @@ import java.io.Writer;
  * Created by ikernits on 11/10/15.
  */
 public class JettyErrorHandler extends ErrorPageErrorHandler {
-//    @Override
-//    protected void handleErrorPage(HttpServletRequest request, Writer writer, int code, String message) throws IOException {
-//        writer.write("error " + code);
-//    }
-
     @Override
     protected void writeErrorPageBody(HttpServletRequest request, Writer writer, int code, String message, boolean showStacks) throws IOException {
         writer.write(
