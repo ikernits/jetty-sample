@@ -7,12 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
-/**
- * Created by KerneL on 2015-10-03.
- */
 public class JettyMain {
     public static void main(String[] args) throws Exception {
         Log4jConfigurer.configureIfRequired();
@@ -23,10 +18,16 @@ public class JettyMain {
             server.join();
             applicationContext.destroy();
         } else {
-            DatagramSocket datagramSocket = new DatagramSocket();
-            datagramSocket.send(new DatagramPacket(args[0].getBytes(),
-                    args[0].getBytes().length,
-                    InetAddress.getLocalHost(), 18080));
+            if (args.length == 1) {
+                String shutdownPort = System.getProperty("server.shutdown.port");
+                if (shutdownPort == null) {
+                    shutdownPort = "18080";
+                }
+                DatagramSocket datagramSocket = new DatagramSocket();
+                datagramSocket.send(new DatagramPacket(args[0].getBytes(),
+                        args[0].getBytes().length,
+                        InetAddress.getLocalHost(), Integer.parseInt(shutdownPort)));
+            }
         }
     }
 }

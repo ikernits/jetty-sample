@@ -51,6 +51,7 @@ public class JettyShutdownListener implements InitializingBean, DisposableBean {
                     byte[] data = Arrays.copyOf(packet.getData(), packet.getLength());
                     String command = new String(data);
                     if (command.equals(shutdownCommand)) {
+                        log.info("Valid shutdown command received on {localhost:" + shutdownPort + "}");
                         server.stop();
                         return;
                     } else {
