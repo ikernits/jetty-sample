@@ -14,6 +14,7 @@
     </bean>
 
     <bean id="jettyWebConfigResolver" class="org.ikernits.sample.jetty.JettyWebConfigResolver">
+        <property name="configName" value="${server.web.xml}"/>
     </bean>
 
     <bean id="jettyErrorHandler" class="org.ikernits.sample.jetty.JettyErrorHandler">
@@ -28,7 +29,7 @@
     <bean id="jettyWebAppContext" class="org.eclipse.jetty.webapp.WebAppContext">
         <property name="contextPath" value="/"/>
         <property name="war" value="#{jettyWebConfigResolver.configLocation}"/>
-        <property name="descriptor" value="${server.web.xml}"/>
+        <property name="descriptor" value="#{jettyWebConfigResolver.descriptorName}"/>
         <property name="extractWAR" value="false"/>
         <property name="errorHandler" ref="jettyErrorHandler"/>
     </bean>
