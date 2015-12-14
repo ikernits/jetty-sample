@@ -20,6 +20,12 @@
     <bean id="jettyErrorHandler" class="org.ikernits.sample.jetty.JettyErrorHandler">
     </bean>
 
+    <bean id="jettyServerService" class="org.ikernits.sample.jetty.JettyServerService">
+        <property name="server" ref="jettyServer"/>
+        <property name="shutdownPort" value="${server.shutdown.port}"/>
+        <property name="shutdownCommand" value="${server.shutdown.command}"/>
+    </bean>
+
     <bean id="jettyShutdownListener" class="org.ikernits.sample.jetty.JettyShutdownListener">
         <property name="server" ref="jettyServer"/>
         <property name="shutdownPort" value="${server.shutdown.port}"/>

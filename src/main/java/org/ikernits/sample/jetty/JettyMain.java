@@ -1,32 +1,28 @@
 package org.ikernits.sample.jetty;
 
-import org.eclipse.jetty.server.Server;
+import org.apache.log4j.helpers.LogLog;
 import org.ikernits.sample.log.Log4jConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 public class JettyMain {
     public static void main(String[] args) throws Exception {
         Log4jConfigurer.configureIfRequired();
-        if (args.length == 0) {
-            ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:META-INF/spring-context-jetty.xml");
-            Server server = applicationContext.getBean("jettyServer", Server.class);
-            server.start();
-            server.join();
-            applicationContext.destroy();
+
+        String serverAction = System.getProperty("server.action");
+        if (serverAction == null) {
+            LogLog.error("system propery server.action must be set to one of: start, shutdown");
         } else {
-            if (args.length == 1) {
-                String shutdownPort = System.getProperty("server.shutdown.port");
-                if (shutdownPort == null) {
-                    shutdownPort = "18080";
-                }
-                DatagramSocket datagramSocket = new DatagramSocket();
-                datagramSocket.send(new DatagramPacket(args[0].getBytes(),
-                        args[0].getBytes().length,
-                        InetAddress.getLocalHost(), Integer.parseInt(shutdownPort)));
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:META-INF/spring-context-jetty.xml");
+            JettyServerService jettyServerService = context.getBean("jettyServerService", JettyServerService.class);
+            switch (serverAction) {
+                case "start":
+                    jettyServerService.startServer();
+                    break;
+                case "shutdown":
+                    jettyServerService.sendShutdown();
+                    break;
+                default:
+                    throw new IllegalStateException("unsupported command: '" + serverAction + "'");
             }
         }
     }
