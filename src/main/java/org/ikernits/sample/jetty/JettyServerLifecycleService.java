@@ -6,25 +6,20 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.io.IOException;
+import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
 
-public class JettyShutdownListener implements InitializingBean, DisposableBean {
-    private static final Logger log = Logger.getLogger(JettyShutdownListener.class);
+public class JettyServerLifecycleService implements InitializingBean, DisposableBean {
+    private static final Logger log = Logger.getLogger(JettyServerLifecycleService.class);
 
     protected int shutdownPort;
     protected String shutdownCommand;
     protected Server server;
-
-    private volatile DatagramSocket datagramSocket;
     private Thread shutdownThread;
-
-    @Required
-    public void setServer(Server server) {
-        this.server = server;
-    }
 
     @Required
     public void setShutdownPort(int shutdownPort) {
@@ -36,12 +31,23 @@ public class JettyShutdownListener implements InitializingBean, DisposableBean {
         this.shutdownCommand = shutdownCommand;
     }
 
+    @Required
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("Listening for shutdown command on {localhost:" + shutdownPort + "}");
 
-        datagramSocket = new DatagramSocket(shutdownPort, InetAddress.getLocalHost());
-        datagramSocket.setSoTimeout(0);
+        final DatagramSocket datagramSocket;
+        try {
+            datagramSocket = new DatagramSocket(shutdownPort, InetAddress.getLocalHost());
+            datagramSocket.setSoTimeout(0);
+        } catch (BindException ex) {
+            log.warn("Shutdown port " + shutdownPort + " is already in use");
+            return;
+        }
 
         shutdownThread = new Thread(() -> {
             while (!Thread.interrupted()) {
@@ -70,5 +76,35 @@ public class JettyShutdownListener implements InitializingBean, DisposableBean {
     @Override
     public void destroy() throws Exception {
         shutdownThread.interrupt();
+    }
+
+    public void startServer() {
+        if (shutdownThread == null) {
+            throw new IllegalStateException("Server cannot be started, " +
+                    "looks like shutdown port: " + shutdownPort +
+                    " is used by another application");
+        }
+
+
+        try {
+            server.start();
+        } catch (Exception e) {
+            throw new RuntimeException("failed to start server", e);
+        }
+    }
+
+    public void sendShutdown() {
+        try {
+            DatagramSocket datagramSocket = new DatagramSocket();
+            datagramSocket.send(new DatagramPacket(
+                    shutdownCommand.getBytes(),
+                    shutdownCommand.getBytes().length,
+                    InetAddress.getLocalHost(),
+                    shutdownPort
+            ));
+        } catch (IOException e) {
+            throw new RuntimeException("failed to send shutdown command", e);
+        }
+
     }
 }

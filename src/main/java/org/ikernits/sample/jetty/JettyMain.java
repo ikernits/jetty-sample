@@ -13,7 +13,7 @@ public class JettyMain {
             LogLog.error("system propery server.action must be set to one of: start, shutdown");
         } else {
             ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:META-INF/spring-context-jetty.xml");
-            JettyServerService jettyServerService = context.getBean("jettyServerService", JettyServerService.class);
+            JettyServerLifecycleService jettyServerService = context.getBean("jettyServerLifecycleService", JettyServerLifecycleService.class);
             switch (serverAction) {
                 case "start":
                     jettyServerService.startServer();
