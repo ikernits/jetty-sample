@@ -87,6 +87,7 @@ public class JettyServerLifecycleService implements InitializingBean, Disposable
 
 
         try {
+            log.info("server start requested");
             server.start();
         } catch (Exception e) {
             throw new RuntimeException("failed to start server", e);
@@ -95,6 +96,7 @@ public class JettyServerLifecycleService implements InitializingBean, Disposable
 
     public void sendShutdown() {
         try {
+            log.info("server stop requested");
             DatagramSocket datagramSocket = new DatagramSocket();
             datagramSocket.send(new DatagramPacket(
                     shutdownCommand.getBytes(),
@@ -102,6 +104,7 @@ public class JettyServerLifecycleService implements InitializingBean, Disposable
                     InetAddress.getLocalHost(),
                     shutdownPort
             ));
+            log.info("shutdown command sent to port " + shutdownPort);
         } catch (IOException e) {
             throw new RuntimeException("failed to send shutdown command", e);
         }
