@@ -59,6 +59,7 @@ public class JettyServerLifecycleService implements InitializingBean, Disposable
                     if (command.equals(shutdownCommand)) {
                         log.info("Valid shutdown command received on {localhost:" + shutdownPort + "}");
                         server.stop();
+                        log.info("Server is stopped");
                         return;
                     } else {
                         log.warn("Unsupported server command: '" + command + "'");
@@ -99,10 +100,10 @@ public class JettyServerLifecycleService implements InitializingBean, Disposable
             log.info("server stop requested");
             DatagramSocket datagramSocket = new DatagramSocket();
             datagramSocket.send(new DatagramPacket(
-                    shutdownCommand.getBytes(),
-                    shutdownCommand.getBytes().length,
-                    InetAddress.getLocalHost(),
-                    shutdownPort
+                shutdownCommand.getBytes(),
+                shutdownCommand.getBytes().length,
+                InetAddress.getLocalHost(),
+                shutdownPort
             ));
             log.info("shutdown command sent to port " + shutdownPort);
         } catch (IOException e) {
