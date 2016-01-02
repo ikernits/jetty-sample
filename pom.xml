@@ -9,9 +9,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyy-MM-dd-HH-mm-ss</maven.build.timestamp.format>
+        <project.build.date>${maven.build.timestamp}</project.build.date>
         <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
         <org.eclipse.jetty.version>9.3.3.v20150827</org.eclipse.jetty.version>
-        <com.vaadin.version>7.5.7</com.vaadin.version>
+        <com.vaadin.version>7.5.10</com.vaadin.version>
     </properties>
 
 
@@ -170,6 +173,7 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -181,7 +185,16 @@
                     <encoding>UTF-8</encoding>
                     <fork>false</fork>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -196,6 +209,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -207,25 +221,33 @@
                             <classpathPrefix>lib</classpathPrefix>
                             <mainClass>org.ikernits.sample.jetty.JettyMain</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Build-Date>${project.build.date}</Build-Date>
+                            <Build-Name>${project.artifactId}</Build-Name>
+                        </manifestEntries>
                     </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.ikernits.sample.jetty.JettyMain</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <finalName>${project.artifactId}</finalName>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <descriptor>src/assembly/assembly.xml</descriptor>
+                    <finalName>${project.artifactId}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -235,57 +257,33 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${com.vaadin.version}</version>
                 <configuration>
-                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-                    <!-- <runTarget>mobilemail</runTarget> -->
-                    <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. This
-                        way compatible with Vaadin eclipse plugin. -->
-                    <webappDirectory>src/main/resources/VAADIN/widgetsets
-                    </webappDirectory>
-                    <hostedWebapp>src/main/resources/VAADIN/widgetsets
-                    </hostedWebapp>
-                    <noServer>true</noServer>
-                    <!-- Remove draftCompile when project is ready -->
-                    <draftCompile>false</draftCompile>
-                    <compileReport>true</compileReport>
-                    <style>PRETTY</style>
-                    <strict>true</strict>
                     <webappDirectory>src/main/resources</webappDirectory>
                     <warSourceDirectory>src/main/resources</warSourceDirectory>
-                    <!--<runTarget>http://localhost:8080/</runTarget>-->
                 </configuration>
                 <executions>
                     <execution>
                         <phase>compile</phase>
                         <configuration>
                             <!-- if you don't specify any modules, the plugin will find them -->
-                            <!-- <modules> <module>com.vaadin.demo.mobilemail.gwt.ColorPickerWidgetSet</module>
-                                </modules> -->
                         </configuration>
                         <goals>
-                            <goal>clean</goal>
-                            <goal>resources</goal>
-                            <goal>update-theme</goal>
-                            <goal>update-widgetset</goal>
-                            <goal>compile-theme</goal>
-                            <goal>compile</goal>
+                            <!--<goal>clean</goal>-->
+                            <!--<goal>resources</goal>-->
+                            <!--<goal>update-theme</goal>-->
+                            <!--<goal>update-widgetset</goal>-->
+                            <!--<goal>compile-theme</goal>-->
+                            <!--<goal>compile</goal>-->
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

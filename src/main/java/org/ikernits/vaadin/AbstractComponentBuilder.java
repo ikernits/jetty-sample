@@ -34,16 +34,16 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     /**
      * @see com.vaadin.ui.AbstractComponent#setWidth
      */
-    public B setWidth(String width) {
-        delegate.setWidth(width);
+    public B setWidth(float width, Unit unit) {
+        delegate.setWidth(width, unit);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.AbstractComponent#setWidth
      */
-    public B setWidth(float width, Unit unit) {
-        delegate.setWidth(width, unit);
+    public B setWidth(String width) {
+        delegate.setWidth(width);
         return self;
     }
     
@@ -52,126 +52,6 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
      */
     public B addListener(Listener listener) {
         delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setIcon
-     */
-    public B setIcon(Resource icon) {
-        delegate.setIcon(icon);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setId
-     */
-    public B setId(String id) {
-        delegate.setId(id);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setStyleName
-     */
-    public B setStyleName(String param1, boolean param2) {
-        delegate.setStyleName(param1, param2);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setStyleName
-     */
-    public B setStyleName(String styleName) {
-        delegate.setStyleName(styleName);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#addStyleName
-     */
-    public B addStyleName(String styleName) {
-        delegate.addStyleName(styleName);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setPrimaryStyleName
-     */
-    public B setPrimaryStyleName(String primaryStyleName) {
-        delegate.setPrimaryStyleName(primaryStyleName);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setEnabled
-     */
-    public B setEnabled(boolean enabled) {
-        delegate.setEnabled(enabled);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setVisible
-     */
-    public B setVisible(boolean visible) {
-        delegate.setVisible(visible);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setCaption
-     */
-    public B setCaption(String caption) {
-        delegate.setCaption(caption);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setHeight
-     */
-    public B setHeight(String height) {
-        delegate.setHeight(height);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setHeight
-     */
-    public B setHeight(float height, Unit unit) {
-        delegate.setHeight(height, unit);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setSizeFull
-     */
-    public B setSizeFull() {
-        delegate.setSizeFull();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setSizeUndefined
-     */
-    public B setSizeUndefined() {
-        delegate.setSizeUndefined();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setWidthUndefined
-     */
-    public B setWidthUndefined() {
-        delegate.setWidthUndefined();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setHeightUndefined
-     */
-    public B setHeightUndefined() {
-        delegate.setHeightUndefined();
         return self;
     }
     
@@ -188,6 +68,14 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
      */
     public B setCaptionAsHtml(boolean captionAsHtml) {
         delegate.setCaptionAsHtml(captionAsHtml);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setLocale
+     */
+    public B setLocale(Locale locale) {
+        delegate.setLocale(locale);
         return self;
     }
     
@@ -240,10 +128,122 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setLocale
+     * @see com.vaadin.ui.AbstractComponent#setHeight
      */
-    public B setLocale(Locale locale) {
-        delegate.setLocale(locale);
+    public B setHeight(String height) {
+        delegate.setHeight(height);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setHeight
+     */
+    public B setHeight(float height, Unit unit) {
+        delegate.setHeight(height, unit);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setSizeFull
+     */
+    public B setSizeFull() {
+        delegate.setSizeFull();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setSizeUndefined
+     */
+    public B setSizeUndefined() {
+        delegate.setSizeUndefined();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidthUndefined
+     */
+    public B setWidthUndefined() {
+        delegate.setWidthUndefined();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setHeightUndefined
+     */
+    public B setHeightUndefined() {
+        delegate.setHeightUndefined();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setStyleName
+     */
+    public B setStyleName(String styleName) {
+        delegate.setStyleName(styleName);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setStyleName
+     */
+    public B setStyleName(String param1, boolean param2) {
+        delegate.setStyleName(param1, param2);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#addStyleName
+     */
+    public B addStyleName(String styleName) {
+        delegate.addStyleName(styleName);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setPrimaryStyleName
+     */
+    public B setPrimaryStyleName(String primaryStyleName) {
+        delegate.setPrimaryStyleName(primaryStyleName);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setEnabled
+     */
+    public B setEnabled(boolean enabled) {
+        delegate.setEnabled(enabled);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setVisible
+     */
+    public B setVisible(boolean visible) {
+        delegate.setVisible(visible);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setCaption
+     */
+    public B setCaption(String caption) {
+        delegate.setCaption(caption);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setIcon
+     */
+    public B setIcon(Resource icon) {
+        delegate.setIcon(icon);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setId
+     */
+    public B setId(String id) {
+        delegate.setId(id);
         return self;
     }
     

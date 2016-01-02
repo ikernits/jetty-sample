@@ -48,6 +48,30 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     }
     
     /**
+     * @see com.vaadin.ui.AbstractField#setLocale
+     */
+    public B setLocale(Locale locale) {
+        delegate.setLocale(locale);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setTabIndex
+     */
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setPropertyDataSource
+     */
+    public B setPropertyDataSource(Property propertyDataSource) {
+        delegate.setPropertyDataSource(propertyDataSource);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.AbstractField#setInvalidCommitted
      */
     public B setInvalidCommitted(boolean invalidCommitted) {
@@ -156,30 +180,6 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
      */
     public B setCurrentBufferedSourceException(SourceException currentBufferedSourceException) {
         delegate.setCurrentBufferedSourceException(currentBufferedSourceException);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setPropertyDataSource
-     */
-    public B setPropertyDataSource(Property propertyDataSource) {
-        delegate.setPropertyDataSource(propertyDataSource);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setLocale
-     */
-    public B setLocale(Locale locale) {
-        delegate.setLocale(locale);
         return self;
     }
     

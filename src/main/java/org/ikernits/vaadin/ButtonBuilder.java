@@ -37,10 +37,10 @@ public class ButtonBuilder<T extends Button, B extends ButtonBuilder<T, B>> exte
     }
     
     /**
-     * @see com.vaadin.ui.Button#setIcon
+     * @see com.vaadin.ui.Button#setTabIndex
      */
-    public B setIcon(Resource param1, String param2) {
-        delegate.setIcon(param1, param2);
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
         return self;
     }
     
@@ -93,10 +93,10 @@ public class ButtonBuilder<T extends Button, B extends ButtonBuilder<T, B>> exte
     }
     
     /**
-     * @see com.vaadin.ui.Button#setTabIndex
+     * @see com.vaadin.ui.Button#setIcon
      */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
+    public B setIcon(Resource param1, String param2) {
+        delegate.setIcon(param1, param2);
         return self;
     }
     

@@ -31,7 +31,7 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
     /**
      * @see com.vaadin.ui.AbstractTextField#addListener
      */
-    public B addListener(BlurListener listener) {
+    public B addListener(TextChangeListener listener) {
         delegate.addListener(listener);
         return self;
     }
@@ -39,7 +39,7 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
     /**
      * @see com.vaadin.ui.AbstractTextField#addListener
      */
-    public B addListener(TextChangeListener listener) {
+    public B addListener(BlurListener listener) {
         delegate.addListener(listener);
         return self;
     }

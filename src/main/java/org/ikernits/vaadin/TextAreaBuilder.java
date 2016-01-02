@@ -9,18 +9,18 @@ public class TextAreaBuilder<T extends TextArea, B extends TextAreaBuilder<T, B>
     }
     
     /**
-     * @see com.vaadin.ui.TextArea#setWordwrap
-     */
-    public B setWordwrap(boolean wordwrap) {
-        delegate.setWordwrap(wordwrap);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.TextArea#setRows
      */
     public B setRows(int rows) {
         delegate.setRows(rows);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.TextArea#setWordwrap
+     */
+    public B setWordwrap(boolean wordwrap) {
+        delegate.setWordwrap(wordwrap);
         return self;
     }
     

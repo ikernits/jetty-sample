@@ -3,12 +3,20 @@ package org.ikernits.vaadin;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.vaadin.server.Sizeable;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -28,18 +36,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by ikernits on 24/10/15.
- */
 class VaadinBuilderGenerator {
     private final List<Class<? extends AbstractComponent>> sources = ImmutableList.of(
-            VerticalLayout.class,
-            HorizontalLayout.class,
-            Button.class,
-            TextField.class,
-            TextArea.class,
-            Label.class,
-            Panel.class
+        VerticalLayout.class,
+        HorizontalLayout.class,
+        AbsoluteLayout.class,
+        Button.class,
+        TextField.class,
+        TextArea.class,
+        Label.class,
+        Panel.class,
+        MenuBar.class,
+        TabSheet.class,
+        Table.class,
+        ComboBox.class,
+        CheckBox.class,
+        Link.class,
+        Grid.class
     );
 
     private static final String builderPackage = "org.ikernits.vaadin";

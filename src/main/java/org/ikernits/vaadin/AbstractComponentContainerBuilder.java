@@ -13,6 +13,22 @@ public class AbstractComponentContainerBuilder<T extends AbstractComponentContai
     }
     
     /**
+     * @see com.vaadin.ui.AbstractComponentContainer#addComponentAttachListener
+     */
+    public B addComponentAttachListener(ComponentAttachListener componentAttachListener) {
+        delegate.addComponentAttachListener(componentAttachListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponentContainer#addComponentDetachListener
+     */
+    public B addComponentDetachListener(ComponentDetachListener componentDetachListener) {
+        delegate.addComponentDetachListener(componentDetachListener);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.AbstractComponentContainer#setWidth
      */
     public B setWidth(float width, Unit unit) {
@@ -41,22 +57,6 @@ public class AbstractComponentContainerBuilder<T extends AbstractComponentContai
      */
     public B addListener(ComponentAttachListener listener) {
         delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponentContainer#addComponentAttachListener
-     */
-    public B addComponentAttachListener(ComponentAttachListener componentAttachListener) {
-        delegate.addComponentAttachListener(componentAttachListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponentContainer#addComponentDetachListener
-     */
-    public B addComponentDetachListener(ComponentDetachListener componentDetachListener) {
-        delegate.addComponentDetachListener(componentDetachListener);
         return self;
     }
     

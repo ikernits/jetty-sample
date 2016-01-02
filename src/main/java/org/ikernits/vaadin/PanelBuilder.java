@@ -20,26 +20,18 @@ public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Panel#setCaption
+     * @see com.vaadin.ui.Panel#setTabIndex
      */
-    public B setCaption(String caption) {
-        delegate.setCaption(caption);
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
         return self;
     }
-    
+
     /**
      * @see com.vaadin.ui.Panel#addClickListener
      */
     public B addClickListener(ClickListener clickListener) {
         delegate.addClickListener(clickListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Panel#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
         return self;
     }
     
@@ -64,6 +56,14 @@ public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends
      */
     public B addActionHandler(Handler actionHandler) {
         delegate.addActionHandler(actionHandler);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Panel#setCaption
+     */
+    public B setCaption(String caption) {
+        delegate.setCaption(caption);
         return self;
     }
     
