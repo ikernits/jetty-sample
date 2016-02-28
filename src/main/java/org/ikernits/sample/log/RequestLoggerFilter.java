@@ -1,7 +1,7 @@
 package org.ikernits.sample.log;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,7 +32,15 @@ public class RequestLoggerFilter implements Filter {
             chain.doFilter(request, response);
             status = resp.getStatus();
         } finally {
-            logger.info(req.getMethod() + " - " + req.getRequestURL() + " - " + status);
+            final Level level;
+            if (status >= 200 && status < 400) {
+                level = Level.INFO;
+            } else if (status >= 400 && status < 500) {
+                level = Level.WARN;
+            } else {
+                level = Level.ERROR;
+            }
+            logger.log(level, req.getMethod() + " - " + req.getRequestURL() + " - " + status);
         }
     }
 
