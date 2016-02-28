@@ -9,8 +9,8 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.RollingFileAppender;
 import org.apache.log4j.helpers.LogLog;
+import org.apache.log4j.spi.LoggingEvent;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -114,6 +114,7 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
             } else {
                 throw new IllegalStateException("unsupported property type: " + clazz.getName());
             }
+            //noinspection unchecked
             return (T)result;
         }
 
@@ -147,12 +148,15 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
             this.propertySource = propertySource;
         }
 
-        protected Logger getLogger() {
-            String logger = propertySource.getProperty("logger", String.class, "");
-            if (StringUtils.isBlank(logger)) {
+        protected Logger setupLogger() {
+            String loggerName = propertySource.getProperty("logger", String.class, "");
+            if (StringUtils.isBlank(loggerName)) {
                 return Logger.getRootLogger();
             } else {
-                return Logger.getLogger(logger);
+                Logger logger = Logger.getLogger(loggerName);
+                boolean additive = propertySource.getProperty("additive", Boolean.class, Boolean.TRUE);
+                logger.setAdditivity(additive);
+                return logger;
             }
         }
 
@@ -171,7 +175,7 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
                     )
             );
             appender.activateOptions();
-            getLogger().addAppender(appender);
+            setupLogger().addAppender(appender);
         }
     }
 
@@ -192,7 +196,16 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
         }
 
         protected AppenderSkeleton createAppender() {
-            RollingFileAppender appender = new RollingFileAppender();
+            RollingFileAppender appender = new RollingFileAppender() {
+                @Override
+                public void append(LoggingEvent event) {
+                    File file = new File(this.getFile());
+                    if (!file.exists()) {
+                        this.activateOptions();
+                    }
+                    super.append(event);
+                }
+            };
             appender.setFile(
                     propertySource.getPropertyRequired("path", String.class)
             );
@@ -200,7 +213,7 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
                     propertySource.getProperty("size", String.class, "1M")
             );
             appender.setMaxBackupIndex(
-                    propertySource.getProperty("count", Integer.class, 10)
+                propertySource.getProperty("count", Integer.class, 10)
             );
             return appender;
         }

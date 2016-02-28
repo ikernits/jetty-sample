@@ -26,12 +26,14 @@ public class RequestLoggerFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest req = (HttpServletRequest) request;
         final HttpServletResponse resp = (HttpServletResponse) response;
+
+        int status = 0;
         try {
             chain.doFilter(request, response);
+            status = resp.getStatus();
         } finally {
-            logger.info(req.getMethod() + " - " + req.getRequestURL() + " - " + resp.getStatus());
+            logger.info(req.getMethod() + " - " + req.getRequestURL() + " - " + status);
         }
-
     }
 
     @Override
