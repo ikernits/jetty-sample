@@ -9,6 +9,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.util.converter.Converter;
 import java.util.Locale;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFieldBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public AbstractFieldBuilder(T delegate) {
@@ -28,38 +29,6 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
      */
     public B setValue(Object value) {
         delegate.setValue(value);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#addListener
-     */
-    public B addListener(ReadOnlyStatusChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#addListener
-     */
-    public B addListener(ValueChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setLocale
-     */
-    public B setLocale(Locale locale) {
-        delegate.setLocale(locale);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
         return self;
     }
     
@@ -90,7 +59,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Converter converter) {
+    public B setConverter(Class converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -98,7 +67,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Class converter) {
+    public B setConverter(Converter converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -180,6 +149,38 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
      */
     public B setCurrentBufferedSourceException(SourceException currentBufferedSourceException) {
         delegate.setCurrentBufferedSourceException(currentBufferedSourceException);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setLocale
+     */
+    public B setLocale(Locale locale) {
+        delegate.setLocale(locale);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#setTabIndex
+     */
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#addListener
+     */
+    public B addListener(ValueChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#addListener
+     */
+    public B addListener(ReadOnlyStatusChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

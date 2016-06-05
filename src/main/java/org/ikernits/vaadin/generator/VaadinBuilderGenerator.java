@@ -1,11 +1,10 @@
-package org.ikernits.vaadin;
+package org.ikernits.vaadin.generator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -20,9 +19,12 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class VaadinBuilderGenerator {
+    @SuppressWarnings("unchecked")
     private final List<Class<? extends AbstractComponent>> sources = ImmutableList.of(
         VerticalLayout.class,
         HorizontalLayout.class,
@@ -54,9 +57,6 @@ class VaadinBuilderGenerator {
         Link.class,
         Grid.class
     );
-
-    private static final String builderPackage = "org.ikernits.vaadin";
-    private static final String path = "./src/main/java/" + builderPackage.replace(".", "/");
 
     private static class IndentedPrinter {
         private int indent = 0;
@@ -187,8 +187,7 @@ class VaadinBuilderGenerator {
 
 
         public void generate() throws FileNotFoundException {
-            String path = "./src/main/java/" + builderPackage.replace(".", "/");
-            File file = new File(path + "/" + clazz.getSimpleName() + "Builder.java");
+            File file = new File(targetPath + "/" + clazz.getSimpleName() + "Builder.java");
             try (PrintStream printStream = new PrintStream(file)) {
                 print(new IndentedPrinter(printStream));
             }
@@ -209,11 +208,12 @@ class VaadinBuilderGenerator {
             imports.add(clazz.getName());
             imports.addAll(getMethodImports());
 
-            out.println("package " + builderPackage + ";");
+            out.println("package " + targetPackage + ";");
             out.println("");
             imports.forEach(i -> out.println("import " + i + ";"));
             out.println("");
 
+            out.println("@SuppressWarnings({\"deprecation\", \"unused\", \"unchecked\"})");
             out.println(String.format("public class %s<T extends %s, B extends %s<T, B>> extends %s<T, B> {",
                     builderName, className, builderName, superName));
             out.println("");
@@ -263,7 +263,7 @@ class VaadinBuilderGenerator {
     public void printBuilderClass(IndentedPrinter out) {
         List<String> imports = generateImports(sources);
 
-        out.println("package " + builderPackage + ";");
+        out.println("package " + targetPackage + ";");
         out.println("");
         imports.forEach(i -> out.println("import " + i + ";"));
         out.println("");
@@ -291,7 +291,12 @@ class VaadinBuilderGenerator {
 
     }
 
-    public void generate() throws FileNotFoundException {
+    List<Class<?>> copyClasses = ImmutableList.of(
+        ComponentBuilder.class,
+        VaadinComponentAttributes.class
+    );
+
+    public void generate() throws IOException {
         componentMap.values().forEach((componentModel) -> {
             try {
                 componentModel.generate();
@@ -300,13 +305,28 @@ class VaadinBuilderGenerator {
             }
         });
 
-        File file = new File(path + "/VaadinBuilders.java");
+        File file = new File(targetPath + "/VaadinBuilders.java");
         try (PrintStream printStream = new PrintStream(file)) {
             printBuilderClass(new IndentedPrinter(printStream));
         }
+
+        for (Class<?> clazz : copyClasses) {
+            String content = FileUtils.readFileToString(new File(generatorPath + "/" + clazz.getSimpleName() + ".java"));
+            FileUtils.writeStringToFile(
+                new File(targetPath + "/" + clazz.getSimpleName() + ".java"),
+                StringUtils.replace(content, generatorPackage, targetPackage)
+            );
+        }
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        new VaadinBuilderGenerator().build().generate();
+    private static final String targetPackage = "org.ikernits.vaadin";
+    private static final String sourcesPath = "./src/main/java";
+    private static final String generatorPackage = VaadinBuilderGenerator.class.getPackage().getName();
+    private static final String generatorPath = sourcesPath + "/" + generatorPackage.replace(".", "/");
+    private static final String targetPath = sourcesPath + "/" + targetPackage.replace(".", "/");
+
+    public static void main(String[] args) throws IOException {
+        FileUtils.forceMkdir(new File(targetPath));
+       new VaadinBuilderGenerator().build().generate();
     }
 }

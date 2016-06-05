@@ -1,4 +1,4 @@
-package org.ikernits.vaadin;
+package org.ikernits.vaadin.generator;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractComponent;

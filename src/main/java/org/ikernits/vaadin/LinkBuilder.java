@@ -4,18 +4,11 @@ import com.vaadin.ui.Link;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.BorderStyle;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class LinkBuilder<T extends Link, B extends LinkBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public LinkBuilder(T delegate) {
         super(delegate);
-    }
-    
-    /**
-     * @see com.vaadin.ui.Link#setResource
-     */
-    public B setResource(Resource resource) {
-        delegate.setResource(resource);
-        return self;
     }
     
     /**
@@ -47,6 +40,14 @@ public class LinkBuilder<T extends Link, B extends LinkBuilder<T, B>> extends Ab
      */
     public B setTargetWidth(int targetWidth) {
         delegate.setTargetWidth(targetWidth);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Link#setResource
+     */
+    public B setResource(Resource resource) {
+        delegate.setResource(resource);
         return self;
     }
     

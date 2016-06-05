@@ -7,6 +7,7 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.shared.ui.label.ContentMode;
 import java.util.Locale;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class LabelBuilder<T extends Label, B extends LabelBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public LabelBuilder(T delegate) {
@@ -18,22 +19,6 @@ public class LabelBuilder<T extends Label, B extends LabelBuilder<T, B>> extends
      */
     public B setValue(String value) {
         delegate.setValue(value);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Label#addListener
-     */
-    public B addListener(ValueChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Label#setLocale
-     */
-    public B setLocale(Locale locale) {
-        delegate.setLocale(locale);
         return self;
     }
     
@@ -66,6 +51,22 @@ public class LabelBuilder<T extends Label, B extends LabelBuilder<T, B>> extends
      */
     public B setContentMode(ContentMode contentMode) {
         delegate.setContentMode(contentMode);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Label#setLocale
+     */
+    public B setLocale(Locale locale) {
+        delegate.setLocale(locale);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Label#addListener
+     */
+    public B addListener(ValueChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

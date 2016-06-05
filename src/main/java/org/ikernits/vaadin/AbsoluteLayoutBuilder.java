@@ -5,6 +5,7 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.AbsoluteLayout.ComponentPosition;
 import com.vaadin.ui.Component;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbsoluteLayoutBuilder<T extends AbsoluteLayout, B extends AbsoluteLayoutBuilder<T, B>> extends AbstractLayoutBuilder<T, B> {
 
     public AbsoluteLayoutBuilder(T delegate) {
@@ -14,16 +15,16 @@ public class AbsoluteLayoutBuilder<T extends AbsoluteLayout, B extends AbsoluteL
     /**
      * @see com.vaadin.ui.AbsoluteLayout#addComponent
      */
-    public B addComponent(Component param1, String param2) {
-        delegate.addComponent(param1, param2);
+    public B addComponent(Component component) {
+        delegate.addComponent(component);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.AbsoluteLayout#addComponent
      */
-    public B addComponent(Component component) {
-        delegate.addComponent(component);
+    public B addComponent(Component param1, String param2) {
+        delegate.addComponent(param1, param2);
         return self;
     }
     

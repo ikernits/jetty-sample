@@ -6,6 +6,7 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.ComboBox.ItemStyleGenerator;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>> extends AbstractSelectBuilder<T, B> {
 
     public ComboBoxBuilder(T delegate) {
@@ -13,10 +14,18 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
     }
     
     /**
-     * @see com.vaadin.ui.ComboBox#addListener
+     * @see com.vaadin.ui.ComboBox#setInputPrompt
      */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
+    public B setInputPrompt(String inputPrompt) {
+        delegate.setInputPrompt(inputPrompt);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.ComboBox#setPageLength
+     */
+    public B setPageLength(int pageLength) {
+        delegate.setPageLength(pageLength);
         return self;
     }
     
@@ -24,6 +33,14 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
      * @see com.vaadin.ui.ComboBox#addListener
      */
     public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.ComboBox#addListener
+     */
+    public B addListener(BlurListener listener) {
         delegate.addListener(listener);
         return self;
     }
@@ -41,22 +58,6 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
      */
     public B addFocusListener(FocusListener focusListener) {
         delegate.addFocusListener(focusListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.ComboBox#setInputPrompt
-     */
-    public B setInputPrompt(String inputPrompt) {
-        delegate.setInputPrompt(inputPrompt);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.ComboBox#setPageLength
-     */
-    public B setPageLength(int pageLength) {
-        delegate.setPageLength(pageLength);
         return self;
     }
     

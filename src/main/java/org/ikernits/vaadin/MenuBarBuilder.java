@@ -5,6 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class MenuBarBuilder<T extends MenuBar, B extends MenuBarBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public MenuBarBuilder(T delegate) {
@@ -16,14 +17,6 @@ public class MenuBarBuilder<T extends MenuBar, B extends MenuBarBuilder<T, B>> e
      */
     public B setTabIndex(int tabIndex) {
         delegate.setTabIndex(tabIndex);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.MenuBar#setHtmlContentAllowed
-     */
-    public B setHtmlContentAllowed(boolean htmlContentAllowed) {
-        delegate.setHtmlContentAllowed(htmlContentAllowed);
         return self;
     }
     
@@ -64,6 +57,14 @@ public class MenuBarBuilder<T extends MenuBar, B extends MenuBarBuilder<T, B>> e
      */
     public B setAutoOpen(boolean autoOpen) {
         delegate.setAutoOpen(autoOpen);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.MenuBar#setHtmlContentAllowed
+     */
+    public B setHtmlContentAllowed(boolean htmlContentAllowed) {
+        delegate.setHtmlContentAllowed(htmlContentAllowed);
         return self;
     }
     

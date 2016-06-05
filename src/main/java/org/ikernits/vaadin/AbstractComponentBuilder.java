@@ -9,6 +9,7 @@ import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.HasComponents;
 import java.util.Locale;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractComponentBuilder<T extends AbstractComponent, B extends AbstractComponentBuilder<T, B>> extends ComponentBuilder<T, B> {
 
     public AbstractComponentBuilder(T delegate) {
@@ -32,26 +33,50 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setWidth
+     * @see com.vaadin.ui.AbstractComponent#setHeight
      */
-    public B setWidth(float width, Unit unit) {
-        delegate.setWidth(width, unit);
+    public B setHeight(float height, Unit unit) {
+        delegate.setHeight(height, unit);
         return self;
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setWidth
+     * @see com.vaadin.ui.AbstractComponent#setHeight
      */
-    public B setWidth(String width) {
-        delegate.setWidth(width);
+    public B setHeight(String height) {
+        delegate.setHeight(height);
         return self;
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#addListener
+     * @see com.vaadin.ui.AbstractComponent#setSizeFull
      */
-    public B addListener(Listener listener) {
-        delegate.addListener(listener);
+    public B setSizeFull() {
+        delegate.setSizeFull();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setSizeUndefined
+     */
+    public B setSizeUndefined() {
+        delegate.setSizeUndefined();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidthUndefined
+     */
+    public B setWidthUndefined() {
+        delegate.setWidthUndefined();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setHeightUndefined
+     */
+    public B setHeightUndefined() {
+        delegate.setHeightUndefined();
         return self;
     }
     
@@ -128,54 +153,6 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setHeight
-     */
-    public B setHeight(String height) {
-        delegate.setHeight(height);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setHeight
-     */
-    public B setHeight(float height, Unit unit) {
-        delegate.setHeight(height, unit);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setSizeFull
-     */
-    public B setSizeFull() {
-        delegate.setSizeFull();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setSizeUndefined
-     */
-    public B setSizeUndefined() {
-        delegate.setSizeUndefined();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setWidthUndefined
-     */
-    public B setWidthUndefined() {
-        delegate.setWidthUndefined();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setHeightUndefined
-     */
-    public B setHeightUndefined() {
-        delegate.setHeightUndefined();
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractComponent#setStyleName
      */
     public B setStyleName(String styleName) {
@@ -244,6 +221,30 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
      */
     public B setId(String id) {
         delegate.setId(id);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidth
+     */
+    public B setWidth(float width, Unit unit) {
+        delegate.setWidth(width, unit);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidth
+     */
+    public B setWidth(String width) {
+        delegate.setWidth(width);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#addListener
+     */
+    public B addListener(Listener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

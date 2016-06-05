@@ -6,6 +6,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractOrderedLayoutBuilder<T extends AbstractOrderedLayout, B extends AbstractOrderedLayoutBuilder<T, B>> extends AbstractLayoutBuilder<T, B> {
 
     public AbstractOrderedLayoutBuilder(T delegate) {

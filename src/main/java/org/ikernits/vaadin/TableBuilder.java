@@ -23,6 +23,7 @@ import com.vaadin.ui.Table.TableDragMode;
 import com.vaadin.ui.TableFieldFactory;
 import java.util.Collection;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends AbstractSelectBuilder<T, B> {
 
     public TableBuilder(T delegate) {
@@ -30,50 +31,10 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Table#addListener
+     * @see com.vaadin.ui.Table#setConverter
      */
-    public B addListener(FooterClickListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addListener
-     */
-    public B addListener(ColumnResizeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addListener
-     */
-    public B addListener(ItemClickListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addListener
-     */
-    public B addListener(HeaderClickListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addListener
-     */
-    public B addListener(ColumnReorderListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addItem
-     */
-    public B addItem(Object[] param1, Object param2) {
-        delegate.addItem(param1, param2);
+    public B setConverter(Object param1, Converter param2) {
+        delegate.setConverter(param1, param2);
         return self;
     }
     
@@ -422,18 +383,10 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Table#setConverter
+     * @see com.vaadin.ui.Table#addItem
      */
-    public B setConverter(Object param1, Converter param2) {
-        delegate.setConverter(param1, param2);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addActionHandler
-     */
-    public B addActionHandler(Handler actionHandler) {
-        delegate.addActionHandler(actionHandler);
+    public B addItem(Object[] param1, Object param2) {
+        delegate.addItem(param1, param2);
         return self;
     }
     
@@ -450,6 +403,54 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
      */
     public B setVisible(boolean visible) {
         delegate.setVisible(visible);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addActionHandler
+     */
+    public B addActionHandler(Handler actionHandler) {
+        delegate.addActionHandler(actionHandler);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
+    public B addListener(FooterClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
+    public B addListener(ItemClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
+    public B addListener(HeaderClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
+    public B addListener(ColumnReorderListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
+    public B addListener(ColumnResizeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

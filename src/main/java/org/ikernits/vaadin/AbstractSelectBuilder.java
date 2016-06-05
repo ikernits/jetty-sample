@@ -9,6 +9,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import java.util.Collection;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractSelectBuilder<T, B>> extends AbstractFieldBuilder<T, B> {
 
     public AbstractSelectBuilder(T delegate) {
@@ -20,38 +21,6 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
      */
     public B setValue(Object value) {
         delegate.setValue(value);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addListener
-     */
-    public B addListener(ItemSetChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addListener
-     */
-    public B addListener(PropertySetChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addItem
-     */
-    public B addItem(Object item) {
-        delegate.addItem(item);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addItem
-     */
-    public B addItem() {
-        delegate.addItem();
         return self;
     }
     
@@ -88,10 +57,34 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSelect#setNewItemHandler
+     * @see com.vaadin.ui.AbstractSelect#addItem
      */
-    public B setNewItemHandler(NewItemHandler newItemHandler) {
-        delegate.setNewItemHandler(newItemHandler);
+    public B addItem(Object item) {
+        delegate.addItem(item);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addItem
+     */
+    public B addItem() {
+        delegate.addItem();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addListener
+     */
+    public B addListener(ItemSetChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addListener
+     */
+    public B addListener(PropertySetChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
@@ -100,6 +93,14 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
      */
     public B addItems(Collection items) {
         delegate.addItems(items);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#setNewItemHandler
+     */
+    public B setNewItemHandler(NewItemHandler newItemHandler) {
+        delegate.setNewItemHandler(newItemHandler);
         return self;
     }
     

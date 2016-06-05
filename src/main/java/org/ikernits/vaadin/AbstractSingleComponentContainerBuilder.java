@@ -6,6 +6,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents.ComponentAttachListener;
 import com.vaadin.ui.HasComponents.ComponentDetachListener;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractSingleComponentContainerBuilder<T extends AbstractSingleComponentContainer, B extends AbstractSingleComponentContainerBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public AbstractSingleComponentContainerBuilder(T delegate) {
@@ -21,18 +22,18 @@ public class AbstractSingleComponentContainerBuilder<T extends AbstractSingleCom
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSingleComponentContainer#addComponentDetachListener
+     * @see com.vaadin.ui.AbstractSingleComponentContainer#setHeight
      */
-    public B addComponentDetachListener(ComponentDetachListener componentDetachListener) {
-        delegate.addComponentDetachListener(componentDetachListener);
+    public B setHeight(float height, Unit unit) {
+        delegate.setHeight(height, unit);
         return self;
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSingleComponentContainer#setWidth
+     * @see com.vaadin.ui.AbstractSingleComponentContainer#addComponentDetachListener
      */
-    public B setWidth(float width, Unit unit) {
-        delegate.setWidth(width, unit);
+    public B addComponentDetachListener(ComponentDetachListener componentDetachListener) {
+        delegate.addComponentDetachListener(componentDetachListener);
         return self;
     }
     
@@ -45,10 +46,10 @@ public class AbstractSingleComponentContainerBuilder<T extends AbstractSingleCom
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSingleComponentContainer#setHeight
+     * @see com.vaadin.ui.AbstractSingleComponentContainer#setWidth
      */
-    public B setHeight(float height, Unit unit) {
-        delegate.setHeight(height, unit);
+    public B setWidth(float width, Unit unit) {
+        delegate.setWidth(width, unit);
         return self;
     }
     

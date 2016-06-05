@@ -6,6 +6,7 @@ import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends AbstractTextFieldBuilder<T, B>> extends AbstractFieldBuilder<T, B> {
 
     public AbstractTextFieldBuilder(T delegate) {
@@ -17,46 +18,6 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
      */
     public B setValue(String value) {
         delegate.setValue(value);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(FocusListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(TextChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addBlurListener
-     */
-    public B addBlurListener(BlurListener blurListener) {
-        delegate.addBlurListener(blurListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addFocusListener
-     */
-    public B addFocusListener(FocusListener focusListener) {
-        delegate.addFocusListener(focusListener);
         return self;
     }
     
@@ -137,6 +98,46 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
      */
     public B setCursorPosition(int cursorPosition) {
         delegate.setCursorPosition(cursorPosition);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(TextChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(BlurListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addBlurListener
+     */
+    public B addBlurListener(BlurListener blurListener) {
+        delegate.addBlurListener(blurListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addFocusListener
+     */
+    public B addFocusListener(FocusListener focusListener) {
+        delegate.addFocusListener(focusListener);
         return self;
     }
     

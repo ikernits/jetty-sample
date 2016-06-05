@@ -5,18 +5,11 @@ import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.MouseEvents.ClickListener;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends AbstractSingleComponentContainerBuilder<T, B> {
 
     public PanelBuilder(T delegate) {
         super(delegate);
-    }
-    
-    /**
-     * @see com.vaadin.ui.Panel#addListener
-     */
-    public B addListener(ClickListener listener) {
-        delegate.addListener(listener);
-        return self;
     }
     
     /**
@@ -26,12 +19,12 @@ public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends
         delegate.setTabIndex(tabIndex);
         return self;
     }
-
+    
     /**
-     * @see com.vaadin.ui.Panel#addClickListener
+     * @see com.vaadin.ui.Panel#setCaption
      */
-    public B addClickListener(ClickListener clickListener) {
-        delegate.addClickListener(clickListener);
+    public B setCaption(String caption) {
+        delegate.setCaption(caption);
         return self;
     }
     
@@ -60,10 +53,18 @@ public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Panel#setCaption
+     * @see com.vaadin.ui.Panel#addListener
      */
-    public B setCaption(String caption) {
-        delegate.setCaption(caption);
+    public B addListener(ClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Panel#addClickListener
+     */
+    public B addClickListener(ClickListener clickListener) {
+        delegate.addClickListener(clickListener);
         return self;
     }
     

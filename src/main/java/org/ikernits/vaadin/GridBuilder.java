@@ -20,6 +20,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Grid.SelectionModel;
 import java.util.List;
 
+@SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
 
     public GridBuilder(T delegate) {
@@ -27,10 +28,10 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
-     * @see com.vaadin.ui.Grid#addListener
+     * @see com.vaadin.ui.Grid#setHeight
      */
-    public B addListener(ItemClickListener listener) {
-        delegate.addListener(listener);
+    public B setHeight(float height, Unit unit) {
+        delegate.setHeight(height, unit);
         return self;
     }
     
@@ -85,16 +86,16 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     /**
      * @see com.vaadin.ui.Grid#addColumn
      */
-    public B addColumn(Object param1, Class param2) {
-        delegate.addColumn(param1, param2);
+    public B addColumn(Object column) {
+        delegate.addColumn(column);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.Grid#addColumn
      */
-    public B addColumn(Object column) {
-        delegate.addColumn(column);
+    public B addColumn(Object param1, Class param2) {
+        delegate.addColumn(param1, param2);
         return self;
     }
     
@@ -275,10 +276,10 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
-     * @see com.vaadin.ui.Grid#setHeight
+     * @see com.vaadin.ui.Grid#addListener
      */
-    public B setHeight(float height, Unit unit) {
-        delegate.setHeight(height, unit);
+    public B addListener(ItemClickListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
