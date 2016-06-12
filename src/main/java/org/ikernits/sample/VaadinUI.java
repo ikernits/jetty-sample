@@ -34,6 +34,7 @@ import org.bouncycastle.openssl.PEMReader;
 import org.ikernits.sample.vaadin.components.HighChart;
 import org.ikernits.vaadin.VaadinBuilders;
 import org.ikernits.vaadin.VaadinComponentStyles.ColorStyle;
+import org.joda.time.DateTime;
 
 import javax.crypto.Cipher;
 import java.io.StringReader;
@@ -322,6 +323,7 @@ public class VaadinUI extends UI {
                 .addComponent(label)
                 .addComponent(checkBox)
                 .build())
+            .setCaption("Status: " + DateTime.now())
             .setAttributes(vaWidth100)
             .build();
 
