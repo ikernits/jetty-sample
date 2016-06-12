@@ -39,6 +39,116 @@
   $color5: #fe902a;
   $colors: $color1, $color2, $color3, $color4, $color5;
 
+  .fg-color-green {
+    background-color: #00a300;
+  }
+  .fg-color-greendark {
+    background-color: #1e7145;
+  }
+  .fg-color-greenlight {
+    background-color: #99b433;
+  }
+  .fg-color-magenta {
+    background-color: #ff0097;
+  }
+  .fg-color-purplelight {
+    background-color: #9f00a7;
+  }
+  .fg-color-purple {
+    background-color: #7e3878;
+  }
+  .fg-color-purpledark {
+    background-color: #603cba;
+  }
+  .fg-color-darken {
+    background-color: #1d1d1d;
+  }
+  .fg-color-teal {
+    background-color: #00aba9;
+  }
+  .fg-color-bluelight {
+    background-color: #eff4ff;
+  }
+  .fg-color-blue {
+    background-color: #2d89ef;
+  }
+  .fg-color-bluedark {
+    background-color: #2b5797;
+  }
+  .fg-color-yellow {
+    background-color: #ffc40d;
+  }
+  .fg-color-orange {
+    background-color: #e3a21a;
+  }
+  .fg-color-orangedark {
+    background-color: #da532c;
+  }
+  .fg-color-reddark {
+    background-color: #b91d47;
+  }
+  .fg-color-red {
+    background-color: #ee1111;
+  }
+  .fg-color-white {
+    background-color: #ffffff;
+  }
+
+  .bg-color-green {
+    background-color: #00a300;
+  }
+  .bg-color-greendark {
+    background-color: #1e7145;
+  }
+  .bg-color-greenlight {
+    background-color: #99b433;
+  }
+  .bg-color-magenta {
+    background-color: #ff0097;
+  }
+  .bg-color-purplelight {
+    background-color: #9f00a7;
+  }
+  .bg-color-purple {
+    background-color: #7e3878;
+  }
+  .bg-color-purpledark {
+    background-color: #603cba;
+  }
+  .bg-color-darken {
+    background-color: #1d1d1d;
+  }
+  .bg-color-teal {
+    background-color: #00aba9;
+  }
+  .bg-color-bluelight {
+    background-color: #eff4ff;
+  }
+  .bg-color-blue {
+    background-color: #2d89ef;
+  }
+  .bg-color-bluedark {
+    background-color: #2b5797;
+  }
+  .bg-color-yellow {
+    background-color: #ffc40d;
+  }
+  .bg-color-orange {
+    background-color: #e3a21a;
+  }
+  .bg-color-orangedark {
+    background-color: #da532c;
+  }
+  .bg-color-reddark {
+    background-color: #b91d47;
+  }
+  .bg-color-red {
+    background-color: #ee1111;
+  }
+  .bg-color-white {
+    background-color: #ffffff;
+  }
+
   .v-textfield-color1 {
     @include valo-textfield-style($background-color: $color1);
   }
@@ -118,6 +228,17 @@
     @include valo-slider-indicator-style($background-color: #dcdc1e);
   }
 
+  .v-panel-color1 {
+    background-color: $color5
+  }
+
+  .v-panel-color2 {
+    background-color: $color2
+  }
+
+  .v-background-color1 {
+    background-color: $color5
+  }
 
   .v-panel-caption-color1 {
     @include valo-panel-caption-style($background-color: $color1);

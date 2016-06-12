@@ -13,8 +13,8 @@
         <maven.build.timestamp.format>yyyy-MM-dd-HH-mm-ss</maven.build.timestamp.format>
         <project.build.date>${maven.build.timestamp}</project.build.date>
         <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
-        <org.eclipse.jetty.version>9.3.3.v20150827</org.eclipse.jetty.version>
-        <com.vaadin.version>7.5.10</com.vaadin.version>
+        <org.eclipse.jetty.version>9.3.9.v20160517</org.eclipse.jetty.version>
+        <com.vaadin.version>7.6.6</com.vaadin.version>
     </properties>
 
 
@@ -79,6 +79,16 @@
             <artifactId>jetty-webapp</artifactId>
             <version>${org.eclipse.jetty.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>${org.eclipse.jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>javax-websocket-server-impl</artifactId>
+            <version>${org.eclipse.jetty.version}</version>
+        </dependency>
 
         <!-- http clients -->
         <dependency>
@@ -119,7 +129,6 @@
             <version>${org.springframework.version}</version>
         </dependency>
 
-
         <!-- spring data -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -145,6 +154,8 @@
             <version>1.6.0.RELEASE</version>
         </dependency>
 
+
+        <!-- vaadin -->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -161,14 +172,35 @@
             <version>${com.vaadin.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>${com.vaadin.version}</version>
+        </dependency>
+
+        <!-- tests -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
             <version>1.11.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>1.11.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

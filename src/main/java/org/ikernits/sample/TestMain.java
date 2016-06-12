@@ -2,7 +2,6 @@ package org.ikernits.sample;
 
 import org.apache.log4j.Logger;
 import org.ikernits.sample.log.Log4jConfigurer;
-import org.openjdk.jmh.runner.RunnerException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -14,7 +13,7 @@ import java.util.Arrays;
  * Created by ikernits on 11/10/15.
  */
 public class TestMain implements BeanFactoryPostProcessor {
-    public static void main(String[] args) throws RunnerException {
+    public static void main(String[] args) {
         Log4jConfigurer.configureIfRequired();
         ClassPathXmlApplicationContext c1 = new ClassPathXmlApplicationContext(
                 "classpath:/META-INF/spring-context-main.xml"

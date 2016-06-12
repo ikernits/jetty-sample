@@ -34,6 +34,15 @@
         <property name="errorHandler" ref="jettyErrorHandler"/>
     </bean>
 
+    <bean id="jettyWebSocketJsr356Deploy" class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="staticMethod" value="org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer.configureContext"/>
+        <property name="arguments">
+            <list>
+               <ref bean="jettyWebAppContext"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="jettyServer" class="org.eclipse.jetty.server.Server">
         <constructor-arg>
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">

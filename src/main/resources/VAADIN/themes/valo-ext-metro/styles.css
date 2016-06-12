@@ -316,6 +316,24 @@
  */
 
 @font-face {
+	font-family: ThemeIcons;
+	font-weight: normal;
+	font-style: normal;
+	src: url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.eot);
+	src: url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.eot?#iefix) format("embedded-opentype"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.woff) format("woff"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.ttf) format("truetype"), url(../valo/util/bourbon/css3/../../../../base/fonts/themeicons-webfont.svg#ThemeIcons) format("svg");
+}
+
+.ThemeIcons {
+	font-family: ThemeIcons;
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	text-align: center;
+}
+
+@font-face {
 	font-family: FontAwesome;
 	font-weight: normal;
 	font-style: normal;
@@ -971,7 +989,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.5.7";
+	content: "7.6.6";
 }
 
 .v-widget {
@@ -1855,6 +1873,60 @@ div.v-layout.v-horizontal.v-widget {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
+.valo-ext-metro .v-reconnect-dialog {
+	color: white;
+	top: 12px;
+	right: 12px;
+	max-width: 100%;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.25);
+	padding: 12px 15px;
+	background-color: #444;
+	background-color: rgba(68, 68, 68, 0.9);
+	line-height: 22px;
+	text-align: center;
+}
+
+.valo-ext-metro .v-reconnect-dialog .text {
+	display: inline-block;
+	padding-left: 10px;
+}
+
+.valo-ext-metro .v-reconnect-dialog .spinner {
+	height: 24px !important;
+	width: 24px !important;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 2px solid rgba(0, 114, 198, 0.2);
+	border-top-color: #0072C6;
+	border-right-color: #0072C6;
+	border-radius: 100%;
+	-webkit-animation: v-rotate-360 500ms infinite linear;
+	-moz-animation: v-rotate-360 500ms infinite linear;
+	animation: v-rotate-360 500ms infinite linear;
+	pointer-events: none;
+	display: none;
+	vertical-align: middle;
+}
+
+.v-ie8 .valo-ext-metro .v-reconnect-dialog .spinner, .v-ie9 .valo-ext-metro .v-reconnect-dialog .spinner {
+	border: none;
+	border-radius: 0px;
+	background: #fff url(../valo/shared/img/spinner.gif) no-repeat 50% 50%;
+	background-size: 80%;
+}
+
+.v-ie8 .valo-ext-metro .v-reconnect-dialog .spinner {
+	min-width: 30px;
+	min-height: 30px;
+}
+
+.valo-ext-metro .v-reconnect-dialog.active .spinner {
+	display: inline-block;
+}
+
 .valo-ext-metro .v-absolutelayout-wrapper {
 	position: absolute;
 }
@@ -2474,7 +2546,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -2599,7 +2671,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-checkbox-small > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -2724,7 +2796,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-checkbox-large > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -2815,7 +2887,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 44px;
+	padding-right: 38px;
 	border-radius: inherit;
 }
 
@@ -2884,7 +2956,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -3074,7 +3146,7 @@ div.v-layout.v-horizontal.v-widget {
 	height: 25px;
 	line-height: 25px;
 	text-align: center;
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	-webkit-transform: scale(0.8);
 	-moz-transform: scale(0.8);
 	-ms-transform: scale(0.8);
@@ -3262,7 +3334,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 34px;
+	padding-right: 29px;
 	border-radius: inherit;
 }
 
@@ -3297,7 +3369,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-tiny [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -3388,7 +3460,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 37px;
+	padding-right: 32px;
 	border-radius: inherit;
 }
 
@@ -3423,7 +3495,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-compact [class$="button"]:before, .valo-ext-metro .v-filterselect-small [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -3519,7 +3591,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 53px;
+	padding-right: 45px;
 	border-radius: inherit;
 }
 
@@ -3554,7 +3626,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-large [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -3646,7 +3718,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 71px;
+	padding-right: 60px;
 	border-radius: inherit;
 }
 
@@ -3681,7 +3753,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-huge [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -4223,6 +4295,10 @@ div.v-layout.v-horizontal.v-widget {
 	z-index: 5;
 }
 
+.valo-ext-metro .v-grid-sidebar.v-contextmenu.v-grid-sidebar-popup {
+	right: auto;
+}
+
 .valo-ext-metro .v-grid-sidebar.v-contextmenu .v-grid-sidebar-button {
 	background: transparent;
 	border: none;
@@ -4245,7 +4321,7 @@ div.v-layout.v-horizontal.v-widget {
 .valo-ext-metro .v-grid-sidebar.v-contextmenu .v-grid-sidebar-button:after {
 	content: "\f0c9";
 	display: block;
-	font-family: FontAwesome, sans-serif;
+	font-family: ThemeIcons, sans-serif;
 	font-size: 14px;
 }
 
@@ -4275,6 +4351,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-grid-sidebar.v-contextmenu .v-grid-sidebar-content {
 	padding: 4px 0;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .valo-ext-metro .v-grid-sidebar.v-contextmenu .v-grid-sidebar-content .gwt-MenuBar .gwt-MenuItem .column-hiding-toggle {
@@ -4283,7 +4361,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-grid-cell {
 	background-color: #f3f3f3;
-	padding: 0 12px;
+	padding: 0 18px;
 	line-height: 37px;
 	text-overflow: ellipsis;
 }
@@ -4351,19 +4429,34 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-grid-header .sort-asc, .valo-ext-metro .v-grid-header .sort-desc {
-	padding-right: 29px;
+	padding-right: 35px;
 }
 
 .valo-ext-metro .v-grid-header .sort-asc:after, .valo-ext-metro .v-grid-header .sort-desc:after {
-	font-family: FontAwesome, sans-serif;
+	font-family: ThemeIcons, sans-serif;
 	content: "\f0de" " " attr(sort-order);
 	position: absolute;
-	right: 12px;
+	right: 18px;
 	font-size: 12px;
 }
 
 .valo-ext-metro .v-grid-header .sort-desc:after {
 	content: "\f0dd" " " attr(sort-order);
+}
+
+.valo-ext-metro .v-grid-column-resize-handle {
+	position: absolute;
+	width: 36px;
+	right: -18px;
+	top: 0px;
+	bottom: 0px;
+	cursor: col-resize;
+	z-index: 10;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .valo-ext-metro .v-grid-footer td {
@@ -4378,6 +4471,18 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-grid-footer td:first-child {
 	border-left: none;
+}
+
+.valo-ext-metro .v-grid-header .v-grid-cell, .valo-ext-metro .v-grid-footer .v-grid-cell {
+	overflow: visible;
+}
+
+.valo-ext-metro .v-grid-column-header-content, .valo-ext-metro .v-grid-column-footer-content {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 37px;
+	vertical-align: baseline;
 }
 
 .valo-ext-metro .v-grid-header-deco {
@@ -4440,6 +4545,10 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 }
 
+.valo-ext-metro .v-grid-editor.unbuffered .v-grid-editor-footer {
+	width: 100%;
+}
+
 .valo-ext-metro .v-grid-editor-cells {
 	position: relative;
 	white-space: nowrap;
@@ -4467,6 +4576,22 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 }
 
+.valo-ext-metro .v-grid-editor-cells  > div .v-filterselect {
+	padding-left: 0;
+}
+
+.valo-ext-metro .v-grid-editor-cells  > div input[type="text"], .valo-ext-metro .v-grid-editor-cells  > div input[type="text"].v-filterselect-input, .valo-ext-metro .v-grid-editor-cells  > div input[type="password"] {
+	padding-left: 18px;
+}
+
+.valo-ext-metro .v-grid-editor-cells  > div input[type="text"]:not(.v-filterselect-input), .valo-ext-metro .v-grid-editor-cells  > div input[type="password"] {
+	padding-right: 9px;
+}
+
+.valo-ext-metro .v-grid-editor-cells  > div input[type="checkbox"] {
+	margin-left: 18px;
+}
+
 .valo-ext-metro .v-grid-editor-cells  > div .v-textfield, .valo-ext-metro .v-grid-editor-cells  > div .v-datefield, .valo-ext-metro .v-grid-editor-cells  > div .v-filterselect {
 	min-width: 100%;
 	max-width: 100%;
@@ -4475,16 +4600,20 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .v-ie8 .valo-ext-metro .v-grid-editor-cells  > div .v-datefield-button {
-	margin-left: -30px;
+	margin-left: -37px;
 }
 
 .v-ie8 .valo-ext-metro .v-grid-editor-cells  > div .v-filterselect-button {
-	margin-left: -27px;
+	margin-left: -25px;
 }
 
 .valo-ext-metro .v-grid-editor-cells  > div .v-select, .valo-ext-metro .v-grid-editor-cells  > div .v-select-select {
 	min-width: 100%;
 	max-width: 100%;
+}
+
+.valo-ext-metro .v-grid-editor-cells  > div.not-editable.v-grid-cell {
+	float: none;
 }
 
 .valo-ext-metro .v-grid-editor-cells .error::before {
@@ -4597,6 +4726,11 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: #eee;
 }
 
+.valo-ext-metro .v-grid.v-disabled {
+	opacity: 0.5;
+	filter: alpha(opacity=50) ;
+}
+
 .valo-ext-metro .v-grid-header .v-grid-cell {
 	background: #eee;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -4670,6 +4804,10 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: middle;
 }
 
+.valo-ext-metro .v-grid-editor-cells > div.not-editable.v-grid-cell {
+	float: none;
+}
+
 .valo-ext-metro .v-grid-editor-cells > div .error::before {
 	border-top: 9px solid #ed473b;
 	border-right: 9px solid transparent;
@@ -4687,6 +4825,10 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: none;
 }
 
+.valo-ext-metro .v-grid-editor-cells > div input[type="text"].v-datefield-textfield {
+	padding-left: 44.4px;
+}
+
 .v-ie8 .valo-ext-metro .v-grid-editor-cells > div .v-datefield-button {
 	margin-left: 0px;
 }
@@ -4700,15 +4842,19 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-grid-editor-cells > div .v-select {
-	padding-left: 6px;
-	padding-right: 6px;
+	padding-left: 9px;
+	padding-right: 9px;
 }
 
 .valo-ext-metro .v-grid-editor-cells > div .v-checkbox {
-	margin: 0 6px;
+	margin: 0 9px 0 18px;
 }
 
-.valo-ext-metro .v-grid-editor-cells > div .v-checkbox label {
+.valo-ext-metro .v-grid-editor-cells > div .v-checkbox  > input[type="checkbox"] {
+	margin-left: 0;
+}
+
+.valo-ext-metro .v-grid-editor-cells > div .v-checkbox  > label {
 	white-space: nowrap;
 }
 
@@ -4754,6 +4900,8 @@ div.v-layout.v-horizontal.v-widget {
 .valo-ext-metro .v-grid-sidebar.v-contextmenu.open .v-grid-sidebar-content {
 	margin: 0 0 2px;
 	padding: 4px 4px 2px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .valo-ext-metro .v-grid-sidebar.v-contextmenu.closed {
@@ -5621,7 +5769,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -5866,22 +6014,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-popup .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .valo-ext-metro .v-datefield-popup .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .valo-ext-metro .v-datefield-popup .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .valo-ext-metro .v-datefield-popup .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -6056,22 +6204,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .valo-ext-metro .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .valo-ext-metro .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .valo-ext-metro .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -6219,7 +6367,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-tiny [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -6333,7 +6481,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-compact [class*="button"]:before, .valo-ext-metro .v-datefield-small [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -6452,7 +6600,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-large [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -6567,7 +6715,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-huge [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -6744,22 +6892,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-button-prevyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f100";
 }
 
 .valo-ext-metro .v-button-prevmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f104";
 }
 
 .valo-ext-metro .v-button-nextyear:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f101";
 }
 
 .valo-ext-metro .v-button-nextmonth:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f105";
 }
 
@@ -7036,7 +7184,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-menubar .v-menubar-submenu-indicator  + .v-menubar-menuitem-caption:after {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	font-size: 0.7em;
 	vertical-align: 0.15em;
@@ -7119,7 +7267,7 @@ div.v-layout.v-horizontal.v-widget {
 .valo-ext-metro .v-menubar-popup .v-menubar-submenu-indicator  + .v-menubar-menuitem-caption:after {
 	position: absolute;
 	right: 10px;
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 	line-height: 29px;
 }
@@ -7141,7 +7289,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-menubar-popup [class*="checked"] .v-menubar-menuitem-caption:before {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	position: absolute;
 	left: 10px;
 }
@@ -7323,7 +7471,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -7481,7 +7629,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-select-optiongroup-small .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -7605,7 +7753,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-select-optiongroup-small .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -7763,7 +7911,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-select-optiongroup-large .v-checkbox > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -7887,7 +8035,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-select-optiongroup-large .v-radiobutton > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -8402,7 +8550,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin-left: -1.9em;
 	vertical-align: top;
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	text-align: center;
 	background: transparent;
 }
@@ -8428,7 +8576,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-tree-node-caption > div:before {
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	display: inline-block;
 	width: 0.5em;
 	text-align: center;
@@ -8491,12 +8639,12 @@ div.v-layout.v-horizontal.v-widget {
 	-o-transform: rotate(90deg);
 	transform: rotate(90deg);
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .v-ie8 .valo-ext-metro .v-tree-node-expanded:before {
 	content: "\f0d7";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro .v-tree-node-leaf:before, .valo-ext-metro .v-tree-node-leaf > .v-tree-node-caption > div:before {
@@ -8714,7 +8862,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-top: 0 solid #b8b8b8;
 }
 
-.valo-ext-metro .v-table-table tr:first-child td {
+.valo-ext-metro .v-table-table tr:first-child > td {
 	border-top: none;
 }
 
@@ -8772,12 +8920,12 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-table-header-cell-asc .v-table-sort-indicator:before {
 	content: "\f0de";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro .v-table-header-cell-desc .v-table-sort-indicator:before {
 	content: "\f0dd";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro [class*="rowheader"] span.v-icon {
@@ -8886,7 +9034,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-table-column-selector:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f013";
 }
 
@@ -8900,7 +9048,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-on:before, .valo-ext-metro .v-off:before {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	font-size: 0.9em;
 	margin-right: 6px;
 }
@@ -9164,12 +9312,12 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-treetable-node-closed:before {
 	content: "\f0da";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro .v-treetable-node-open:before {
 	content: "\f0d7";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro .v-splitpanel-horizontal  > div > .v-splitpanel-hsplitter {
@@ -9903,7 +10051,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-tabsheet-scroller [class*="Next"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -9912,7 +10060,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-tabsheet-scroller [class*="Prev"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
@@ -10170,8 +10318,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-colorpicker-popup .resize-button:before {
-	font-family: FontAwesome;
-	content: "\F141";
+	font-family: ThemeIcons;
+	content: "\f141";
 }
 
 .valo-ext-metro .v-colorpicker-popup .resize-button-caption {
@@ -10549,12 +10697,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-select-twincol-buttons .v-button-wrap:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
 .valo-ext-metro .v-select-twincol-buttons .v-button:first-child .v-button-wrap:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -10622,12 +10770,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-calendar-header-week .v-calendar-back:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f053";
 }
 
 .valo-ext-metro .v-calendar-header-week .v-calendar-next:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f054";
 }
 
@@ -11144,7 +11292,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-label-success:before, .valo-ext-metro .v-label-failure:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f00c";
 	margin-right: 0.5em;
 	margin-left: -19px;
@@ -11447,7 +11595,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-richtextarea .gwt-RichTextToolbar-top div:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 }
 
 .valo-ext-metro .v-richtextarea .gwt-RichTextToolbar-top div[title="Toggle Bold"]:before {
@@ -11918,7 +12066,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-Notification.success .v-Notification-caption:before, .valo-ext-metro .v-Notification.failure .v-Notification-caption:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f00c";
 	margin-right: 0.5em;
 }
@@ -12551,6 +12699,150 @@ div.v-layout.v-horizontal.v-widget {
 	top: 37px;
 }
 
+.valo-ext-metro .fg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-metro .fg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-metro .fg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-metro .fg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-metro .fg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-metro .fg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-metro .fg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-metro .fg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-metro .fg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-metro .fg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-metro .fg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-metro .fg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-metro .fg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-metro .fg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-metro .fg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-metro .fg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-metro .fg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-metro .fg-color-white {
+	background-color: #ffffff;
+}
+
+.valo-ext-metro .bg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-metro .bg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-metro .bg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-metro .bg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-metro .bg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-metro .bg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-metro .bg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-metro .bg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-metro .bg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-metro .bg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-metro .bg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-metro .bg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-metro .bg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-metro .bg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-metro .bg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-metro .bg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-metro .bg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-metro .bg-color-white {
+	background-color: #ffffff;
+}
+
 .valo-ext-metro .v-textfield-color1 {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -13011,7 +13303,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-color1 [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13163,7 +13455,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-color2 [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13315,7 +13607,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-datefield-color3 [class*="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f073";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13404,7 +13696,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 44px;
+	padding-right: 38px;
 	border-radius: inherit;
 }
 
@@ -13473,7 +13765,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-color1 [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13572,7 +13864,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 44px;
+	padding-right: 38px;
 	border-radius: inherit;
 }
 
@@ -13641,7 +13933,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-color2 [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13740,7 +14032,7 @@ div.v-layout.v-horizontal.v-widget {
 	transition: box-shadow 180ms, border 180ms;
 	width: 100% !important;
 	height: 100%;
-	padding-right: 44px;
+	padding-right: 38px;
 	border-radius: inherit;
 }
 
@@ -13809,7 +14101,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo-ext-metro .v-filterselect-color3 [class$="button"]:before {
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	content: "\f078";
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -13944,7 +14236,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-checkbox-color1 > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -14068,7 +14360,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo-ext-metro .v-checkbox-color2 > input ~ label:after {
 	content: "\f00c";
-	font-family: FontAwesome;
+	font-family: ThemeIcons;
 	color: transparent;
 	-webkit-transition: color 100ms;
 	-moz-transition: color 100ms;
@@ -14194,6 +14486,18 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo-ext-metro .v-slider-color3.v-slider-vertical .v-slider-base:after {
 	background: #dcdc1e;
+}
+
+.valo-ext-metro .v-panel-color1 {
+	background-color: #fe902a;
+}
+
+.valo-ext-metro .v-panel-color2 {
+	background-color: #5d73c0;
+}
+
+.valo-ext-metro .v-background-color1 {
+	background-color: #fe902a;
 }
 
 .valo-ext-metro .v-panel-caption-color1 {

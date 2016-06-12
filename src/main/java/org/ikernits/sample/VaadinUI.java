@@ -2,13 +2,19 @@ package org.ikernits.sample;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -17,6 +23,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -26,21 +33,33 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMReader;
 import org.ikernits.sample.vaadin.components.HighChart;
 import org.ikernits.vaadin.VaadinBuilders;
+import org.ikernits.vaadin.VaadinComponentStyles.ColorStyle;
 
 import javax.crypto.Cipher;
 import java.io.StringReader;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.Security;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.*;
-import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.*;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaHeight100;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaReadOnly;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaSizeFull;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleMonospace;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleTiny;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaWidth100;
+import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaMargin;
+import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaSpacing;
 
 /**
  * Created by ikernits on 10/10/15.
  */
 @Title("Vaadin UI")
 @Theme("valo-ext")
+@Push(value = PushMode.MANUAL, transport = Transport.WEBSOCKET)
 public class VaadinUI extends UI {
 
 
@@ -268,14 +287,106 @@ public class VaadinUI extends UI {
         return chartLayout;
     }
 
+    ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(
+        4, new ThreadFactoryBuilder().setDaemon(true).build());
+
+    static class Bean {
+        ColorStyle colorStyle;
+        String text;
+
+        public Bean(ColorStyle colorStyle) {
+            this.colorStyle = colorStyle;
+            this.text = colorStyle.name();
+        }
+    }
+
+    Property<Boolean> checkBoxValue = new ObjectProperty<>(true);
+    BeanItemContainer<Bean> beanItemContainer = new BeanItemContainer<Bean>(
+        Bean.class
+    );
+
+    Component createAutoUpdateLayout() {
+        Label label = VaadinBuilders.label()
+            .setValue("label")
+            .setImmediate(true)
+            .setResponsive(true)
+            .build();
+
+        CheckBox checkBox = VaadinBuilders.checkBox()
+            .setPropertyDataSource(checkBoxValue)
+            .setImmediate(true)
+            .build();
+
+        Panel panel = VaadinBuilders.panel()
+            .setContent(VaadinBuilders.verticalLayout()
+                .addComponent(label)
+                .addComponent(checkBox)
+                .build())
+            .setAttributes(vaWidth100)
+            .build();
+
+        beanItemContainer.addItem(new Bean(ColorStyle.red));
+        beanItemContainer.addItem(new Bean(ColorStyle.green));
+
+        Table table = VaadinBuilders.table()
+            .setContainerDataSource(beanItemContainer)
+            .addGeneratedColumn("Name", (source, itemId, columnId) -> {
+                return ((Bean) itemId).text;
+            })
+            .addGeneratedColumn("Color", (s, item, cid) -> {
+                Bean bean = (Bean)item;
+                return VaadinBuilders.verticalLayout()
+                    .setAttributes(vaSizeFull)
+                    .setWidth(100.f, Unit.PIXELS)
+                    .setHeight(30.f, Unit.PIXELS)
+                    .addStyleName(bean.colorStyle.getBgName())
+                    .build();
+            })
+            .setAttributes(vaSizeFull)
+            .build();
+
+        VerticalLayout layout = VaadinBuilders.verticalLayout()
+            .setAttributes(vaSizeFull, vaMargin, vaSpacing)
+            .addComponent(panel)
+            .addComponent(table)
+            .build();
+
+        AtomicInteger counter = new AtomicInteger();
+        scheduledExecutorService.scheduleAtFixedRate(
+            () -> {
+                UI.getCurrent().access(() -> {
+                    //UI.getCurrent().getSession().lock();
+                    int c = counter.incrementAndGet();
+                    int c2 = c / 2;
+                    ColorStyle colorStyle = ColorStyle.values()[c2 % ColorStyle.values().length];
+                    label.setValue("" + System.currentTimeMillis());
+                    if (c % 2 == 0) {
+                        checkBoxValue.setValue(false);
+                        colorStyle.addBg(panel);
+                        beanItemContainer.addItemAt(0, new Bean(colorStyle));
+                    } else {
+                        checkBoxValue.setValue(true);
+                        colorStyle.remBg(panel);
+                    }
+                    UI.getCurrent().push();
+                    //UI.getCurrent().getSession().unlock();
+                });
+                log.info("tick");
+            }, 0, 1, TimeUnit.SECONDS
+        );
+
+        return layout;
+    }
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         TabSheet tabSheet = new TabSheet();
         tabSheet.setHeight(100.f, Unit.PERCENTAGE);
+        tabSheet.addTab(createAutoUpdateLayout(), "Auto");
         tabSheet.addTab(createChartLayout(), "Chart");
         tabSheet.addTab(createVaTestLayout(), "Test");
         tabSheet.addTab(createCryptoLayout(), "Crypto");
+        tabSheet.setSelectedTab(tabSheet.getTab(0));
         setContent(tabSheet);
     }
 

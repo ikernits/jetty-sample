@@ -293,7 +293,8 @@ class VaadinBuilderGenerator {
 
     List<Class<?>> copyClasses = ImmutableList.of(
         ComponentBuilder.class,
-        VaadinComponentAttributes.class
+        VaadinComponentAttributes.class,
+        VaadinComponentStyles.class
     );
 
     public void generate() throws IOException {
