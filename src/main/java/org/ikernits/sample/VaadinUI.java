@@ -11,7 +11,9 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.shared.ui.ui.Transport;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -34,6 +36,8 @@ import org.bouncycastle.openssl.PEMReader;
 import org.ikernits.sample.vaadin.components.HighChart;
 import org.ikernits.vaadin.VaadinBuilders;
 import org.ikernits.vaadin.VaadinComponentStyles.ColorStyle;
+import org.ikernits.vaadin.shared.VaadinPropertyContainer;
+import org.ikernits.vaadin.shared.VaadinSharedModel;
 import org.joda.time.DateTime;
 
 import javax.crypto.Cipher;
@@ -41,10 +45,17 @@ import java.io.StringReader;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.Security;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaHeight100;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaReadOnly;
@@ -64,7 +75,7 @@ import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaS
 public class VaadinUI extends UI {
 
 
-    Logger log = Logger.getLogger(VaadinUI.class);
+    static Logger log = Logger.getLogger(VaadinUI.class);
     Property<Integer> count = new ObjectProperty<>(0);
     ObjectProperty<String> theme = new ObjectProperty<>("valo");
     Property<String> text = new ObjectProperty<>("123");
@@ -288,23 +299,125 @@ public class VaadinUI extends UI {
         return chartLayout;
     }
 
-    ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(
+    static ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(
         4, new ThreadFactoryBuilder().setDaemon(true).build());
 
-    static class Bean {
+    public static class Bean {
         ColorStyle colorStyle;
         String text;
+        boolean value;
 
         public Bean(ColorStyle colorStyle) {
             this.colorStyle = colorStyle;
             this.text = colorStyle.name();
         }
+
+        public boolean isValue() {
+            return value;
+        }
+
+        public void setValue(boolean value) {
+            this.value = value;
+        }
+    }
+
+    static class UpdateSubscribers {
+        List<Runnable> subscribers = new ArrayList<>();
+        void add(Runnable r) {
+            subscribers.add(r);
+        }
+        void fire() {
+            subscribers.forEach(Runnable::run);
+        }
+    }
+
+    static AtomicInteger counter = new AtomicInteger();
+    static {
+        scheduledExecutorService.scheduleAtFixedRate(
+            () -> {
+                try {
+                    int c = counter.incrementAndGet();
+                    ColorStyle colorStyle = ColorStyle.values()[c % ColorStyle.values().length];
+                    addBean(new Bean(colorStyle));
+                    log.info("tick");
+                    setSharedBoolean(true);
+                } catch (Exception ex) {
+                    log.error("fire error", ex);
+                }
+            }, 0, 10, TimeUnit.SECONDS
+        );
+    }
+    static void clearBeans() {
+        sharedBeans.clear();
+        sharedModel.update();
+    }
+    static void shuffleBeans() {
+        Collections.shuffle(sharedBeans);
+        sharedModel.update();
+    }
+
+    static final VaadinSharedModel<VaadinPropertyContainerImpl> sharedModel =
+        new VaadinSharedModel<>(VaadinPropertyContainerImpl::new);
+
+    private static volatile boolean sharedBoolean;
+    private static volatile String sharedString = "text";
+    private static volatile List<Bean> sharedBeans = new ArrayList<>();
+
+    public static void setSharedBoolean(boolean sharedBoolean) {
+        if (VaadinUI.sharedBoolean != sharedBoolean) {
+            VaadinUI.sharedBoolean = sharedBoolean;
+            sharedModel.update();
+        }
+    }
+
+    public static void setSharedString(String sharedString) {
+        if (!VaadinUI.sharedString.equals(sharedString)) {
+            VaadinUI.sharedString = sharedString;
+            sharedModel.update();
+        }
+    }
+
+    public static void addBean(Bean bean) {
+        sharedBeans.add(bean);
+        sharedModel.update();
+    }
+
+    public static void removeBean(Bean bean) {
+        sharedBeans.remove(bean);
+        sharedModel.update();
+    }
+
+    public static void updateBean(Bean bean, boolean value) {
+        bean.setValue(value);
+        sharedModel.update();
+    }
+
+    static class VaadinPropertyContainerImpl implements VaadinPropertyContainer {
+        final ObjectProperty<Boolean> booleanProperty = new ObjectProperty<>(false);
+        final ObjectProperty<String> stringProperty = new ObjectProperty<>("");
+        final BeanItemContainer<Bean> beanItemContainer = new BeanItemContainer<>(Bean.class, ImmutableList.of());
+
+        public Property<Boolean> getBooleanProperty() {
+            return booleanProperty;
+        }
+
+        public ObjectProperty<String> getStringProperty() {
+            return stringProperty;
+        }
+
+        public BeanItemContainer<Bean> getBeanItemContainer() {
+            return beanItemContainer;
+        }
+
+        public void update() {
+            booleanProperty.setValue(sharedBoolean);
+            stringProperty.setValue(sharedString);
+            beanItemContainer.removeAllItems();
+            beanItemContainer.addAll(sharedBeans);
+        }
     }
 
     Property<Boolean> checkBoxValue = new ObjectProperty<>(true);
-    BeanItemContainer<Bean> beanItemContainer = new BeanItemContainer<Bean>(
-        Bean.class
-    );
 
     Component createAutoUpdateLayout() {
         Label label = VaadinBuilders.label()
@@ -318,6 +431,10 @@ public class VaadinUI extends UI {
             .setImmediate(true)
             .build();
 
+        Button hideButton = VaadinBuilders.button()
+            .setCaption("Details")
+            .build();
+
         Panel panel = VaadinBuilders.panel()
             .setContent(VaadinBuilders.verticalLayout()
                 .addComponent(label)
@@ -327,55 +444,133 @@ public class VaadinUI extends UI {
             .setAttributes(vaWidth100)
             .build();
 
-        beanItemContainer.addItem(new Bean(ColorStyle.red));
-        beanItemContainer.addItem(new Bean(ColorStyle.green));
+        VaadinPropertyContainerImpl vpmi = sharedModel.registerUpdateHandler(
+            this, () -> {}
+        );
 
         Table table = VaadinBuilders.table()
-            .setContainerDataSource(beanItemContainer)
+            .setContainerDataSource(vpmi.getBeanItemContainer())
+            .setAttributes(vaStyleTiny)
             .addGeneratedColumn("Name", (source, itemId, columnId) -> {
                 return ((Bean) itemId).text;
             })
             .addGeneratedColumn("Color", (s, item, cid) -> {
-                Bean bean = (Bean)item;
+                Bean bean = (Bean) item;
                 return VaadinBuilders.verticalLayout()
                     .setAttributes(vaSizeFull)
                     .setWidth(100.f, Unit.PIXELS)
-                    .setHeight(30.f, Unit.PIXELS)
+                    .setHeight(20.f, Unit.PIXELS)
                     .addStyleName(bean.colorStyle.getBgName())
                     .build();
             })
+            .addGeneratedColumn("Check", (s, item, id) -> {
+                Bean bean = (Bean) item;
+                return VaadinBuilders.checkBox()
+                    .setValue(bean.isValue())
+                    .setAttributes(vaStyleTiny)
+                    .addValueChangeListener(e -> {
+                        updateBean(bean, (Boolean) e.getProperty().getValue());
+                    })
+                    .build();
+            })
+            .addGeneratedColumn("Remove", (s, item, id) -> {
+                Bean bean = (Bean) item;
+                return VaadinBuilders.button()
+                    .setCaption("Remove")
+                    .setAttributes(vaStyleTiny)
+                    .addClickListener(e -> {
+                        removeBean(bean);
+                    })
+                    .build();
+            })
+            .addGeneratedColumn("Html", (s, item, id) -> {
+                Bean bean = (Bean) item;
+                return new Label("<b>" + bean.colorStyle + "</b>", ContentMode.HTML);
+            })
+            .setHeight(null)
+            .setPageLength(0)
             .setAttributes(vaSizeFull)
             .build();
 
-        VerticalLayout layout = VaadinBuilders.verticalLayout()
-            .setAttributes(vaSizeFull, vaMargin, vaSpacing)
-            .addComponent(panel)
-            .addComponent(table)
+        hideButton.addClickListener(e -> {
+            table.setVisible(!table.isVisible());
+        });
+
+        Button removeAllButton = VaadinBuilders.button()
+            .setCaption("Clear")
+            .addClickListener(e -> {
+                clearBeans();
+            })
             .build();
 
-        AtomicInteger counter = new AtomicInteger();
-        scheduledExecutorService.scheduleAtFixedRate(
-            () -> {
-                UI.getCurrent().access(() -> {
-                    //UI.getCurrent().getSession().lock();
-                    int c = counter.incrementAndGet();
-                    int c2 = c / 2;
-                    ColorStyle colorStyle = ColorStyle.values()[c2 % ColorStyle.values().length];
-                    label.setValue("" + System.currentTimeMillis());
-                    if (c % 2 == 0) {
-                        checkBoxValue.setValue(false);
-                        colorStyle.addBg(panel);
-                        beanItemContainer.addItemAt(0, new Bean(colorStyle));
-                    } else {
-                        checkBoxValue.setValue(true);
-                        colorStyle.remBg(panel);
-                    }
-                    UI.getCurrent().push();
-                    //UI.getCurrent().getSession().unlock();
-                });
-                log.info("tick");
-            }, 0, 1, TimeUnit.SECONDS
-        );
+        Button shuffleButton = VaadinBuilders.button()
+            .setCaption("Shuffle")
+            .addClickListener(e -> {
+                shuffleBeans();
+            })
+            .build();
+
+        Random rnd = new Random();
+        Button addButton = VaadinBuilders.button()
+            .setCaption("Add")
+            .addClickListener(e -> {
+                addBean(new Bean(ColorStyle.values()[rnd.nextInt(ColorStyle.values().length)]));
+            })
+            .build();
+
+        Panel panel1 = VaadinBuilders.panel()
+            .setCaptionAsHtml(true)
+            .setCaption("<div> <div style=\"width: 20px; height: 20px; background-color: #FF0000\"></div><div><li>Stage2</li></div></div>")
+            .setContent(
+                VaadinBuilders.verticalLayout()
+                    .addComponent(VaadinBuilders.label().setValue("Label").build())
+                    .addComponent(VaadinBuilders.checkBox()
+                        .setCaption("Synced checkbox")
+                        .setAttributes()
+                        .setPropertyDataSource(vpmi.getBooleanProperty())
+                        .addValueChangeListener(e -> setSharedBoolean((Boolean) e.getProperty().getValue()))
+                        .setImmediate(true)
+                        .build())
+                    .addComponent(VaadinBuilders.textField()
+                        .setCaption("Synced text")
+                        .setPropertyDataSource(vpmi.getStringProperty())
+                        .setImmediate(true)
+                        .setTextChangeEventMode(AbstractTextField.TextChangeEventMode.EAGER)
+                        .addTextChangeListener(e -> setSharedString(e.getText()))
+                        .build())
+                    .build()
+            )
+            .setSizeFull()
+            .build();
+
+        AbsoluteLayout panelWithButton = VaadinBuilders.absoluteLayout()
+            .addComponent(panel)
+            .addComponent(hideButton)
+            .setSizeFull()
+            .build();
+
+        panelWithButton.getPosition(hideButton).setBottom(100.f, Unit.PERCENTAGE);
+        panelWithButton.getPosition(hideButton).setRight(100.f, Unit.PERCENTAGE);
+
+
+        VerticalLayout layout = VaadinBuilders.verticalLayout()
+            .setAttributes(vaSizeFull, vaMargin)
+            .addComponent(VaadinBuilders.verticalLayout()
+                    .addComponent(panelWithButton)
+                    .setSizeFull()
+                    .build()
+            )
+            .addComponent(VaadinBuilders.horizontalLayout()
+                    .addComponent(removeAllButton)
+                    .addComponent(shuffleButton)
+                    .addComponent(addButton)
+                    .setAttributes(vaSpacing)
+                    .build()
+            )
+            .addComponent(table)
+            .addComponent(panel1)
+            .setHeight(null)
+            .build();
 
         return layout;
     }
@@ -390,6 +585,12 @@ public class VaadinUI extends UI {
         tabSheet.addTab(createCryptoLayout(), "Crypto");
         tabSheet.setSelectedTab(tabSheet.getTab(0));
         setContent(tabSheet);
+    }
+
+    @Override
+    public void detach() {
+        sharedModel.unregisterUpdateHandler(this);
+        super.detach();
     }
 
     private static final String hcOptions = "" +
