@@ -23,6 +23,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 public final class ProcessExecutor {
 
@@ -120,7 +121,9 @@ public final class ProcessExecutor {
                 try {
                     process = processBuilder.start();
                 } catch (IOException e) {
-                    return new ExecutionResult(startTime, startTime, null, e, IoResult.empty(), IoResult.empty(), IoResult.empty());
+                    return new ExecutionResult(config,
+                        startTime, startTime, null, e,
+                        IoResult.empty(), IoResult.empty(), IoResult.empty());
                 }
 
                 final Future<?> stdinFuture;
@@ -177,11 +180,11 @@ public final class ProcessExecutor {
 
                 final long endTime = System.currentTimeMillis();
 
-                waitIoFutureAndCloseStream(stdinFuture, process.getInputStream());
-                waitIoFutureAndCloseStream(stdoutFuture, process.getOutputStream());
+                waitIoFutureAndCloseStream(stdinFuture, process.getOutputStream());
+                waitIoFutureAndCloseStream(stdoutFuture, process.getInputStream());
                 waitIoFutureAndCloseStream(stderrFuture, process.getErrorStream());
 
-                return new ExecutionResult(startTime, endTime, exitCode,
+                return new ExecutionResult(config, startTime, endTime, exitCode,
                     timeout ? new TimeoutException() : null,
                     stdinIoCopyRunnable != null ? stdinIoCopyRunnable.getIoResult() : IoResult.EMPTY_RESULT,
                     stdoutIoCopyRunnable.getIoResult(),
@@ -267,12 +270,12 @@ public final class ProcessExecutor {
             }
 
             public Builder setParameters(String... parameters) {
-                delegate.parameters = Arrays.asList(parameters);
+                delegate.parameters = new ArrayList<>(Arrays.asList(parameters));
                 return this;
             }
 
-            public Builder setParameters(List<String> parameters) {
-                delegate.parameters = parameters;
+            public Builder addParameters(String... parameters) {
+                delegate.parameters.addAll(Arrays.asList(parameters));
                 return this;
             }
 
@@ -331,6 +334,10 @@ public final class ProcessExecutor {
 
         public String getDirectoryPath() {
             return directoryPath;
+        }
+
+        public String getCommandLine() {
+            return getExecutablePath() + " " + getParameters().stream().collect(Collectors.joining(" "));
         }
 
         public List<String> getParameters() {
@@ -414,16 +421,19 @@ public final class ProcessExecutor {
 
 
     public static class ExecutionResult {
-        private long startTime;
-        private long endTime;
-        private Integer exitCode;
-        private IoResult stdinResult;
-        private IoResult stdoutResult;
-        private IoResult stderrResult;
-        private Throwable error;
+        private final ExecutionConfig config;
+        private final long startTime;
+        private final long endTime;
+        private final Integer exitCode;
+        private final IoResult stdinResult;
+        private final IoResult stdoutResult;
+        private final IoResult stderrResult;
+        private final Throwable error;
 
-        public ExecutionResult(long startTime, long endTime, Integer exitCode, Throwable error,
+        public ExecutionResult(ExecutionConfig config, long startTime, long endTime,
+                               Integer exitCode, Throwable error,
                                IoResult stdinResult, IoResult stdoutResult, IoResult stderrResult) {
+            this.config = config;
             this.startTime = startTime;
             this.endTime = endTime;
             this.exitCode = exitCode;
@@ -431,6 +441,10 @@ public final class ProcessExecutor {
             this.stdoutResult = stdoutResult;
             this.stderrResult = stderrResult;
             this.error = error;
+        }
+
+        public ExecutionConfig getConfig() {
+            return config;
         }
 
         public long getStartTime() {
