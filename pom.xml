@@ -330,6 +330,9 @@
             <resource>
                 <directory>src/main/webapp</directory>
             </resource>
+            <resource>
+                <directory>src/test/java</directory>
+            </resource>
         </resources>
     </build>
 
