@@ -1,21 +1,36 @@
 package org.ikernits.sample.exec;
 
 import junit.framework.Assert;
-import org.ikernits.sample.exec.ProcessExecutor.ExecutionConfig;
-import org.ikernits.sample.exec.ProcessExecutor.ExecutionResult;
+import org.apache.commons.io.FileUtils;
+import org.ikernits.sample.log.Log4jConfigurer;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
-public class TestProcessExecutor {
+import static org.ikernits.sample.exec.ProcessExecutionService.ExecutionConfig;
+import static org.ikernits.sample.exec.ProcessExecutionService.ExecutionResult;
+import static org.ikernits.sample.exec.ProcessExecutionService.IoResult;
 
-    private ProcessExecutor executor = new ProcessExecutor();
+public class TestProcessExecutionService {
+    static {
+        Log4jConfigurer.configureWithDefaults();
+    }
+
+    private ProcessExecutionServiceImpl executor;
+
+    private static final String testExecutable = "./src/test/resources/exec-test.sh";
+    private static final String testLockPath = "./local/test/lock.file";
 
     private void assertResultBase(ExecutionResult result, Integer exitCode, Class<?> errorClass) {
         Assert.assertEquals(exitCode, result.getExitCode());
@@ -26,7 +41,7 @@ public class TestProcessExecutor {
         }
     }
 
-    private void assertIo(ProcessExecutor.IoResult io, String data, int bytesRead, int bytesWritten, Class<?> errorClass) {
+    private void assertIo(IoResult io, String data, int bytesRead, int bytesWritten, Class<?> errorClass) {
         if (data != null) {
             Assert.assertEquals(data, io.getDataAsString());
         }
@@ -53,6 +68,19 @@ public class TestProcessExecutor {
         assertIo(result.getStderrResult(), errD, errR, errW, errC);
     }
 
+    @BeforeMethod
+    public void init() throws Exception {
+        FileUtils.deleteQuietly(new File(testLockPath));
+        executor = new ProcessExecutionServiceImpl();
+        executor.afterPropertiesSet();
+    }
+
+    @AfterMethod
+    public void destroy() throws Exception {
+        executor.destroy();
+        FileUtils.deleteQuietly(new File(testLockPath));
+    }
+
     @Test
     public void testNormalExecution() {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
@@ -60,6 +88,19 @@ public class TestProcessExecutor {
             .build();
 
         ExecutionResult result = executor.execute(config);
+        assertResult(result, 0, null,
+            0, 0, null,
+            "", 0, 0, null,
+            "", 0, 0, null);
+    }
+
+    @Test
+    public void testNormalExecutionAsync() throws InterruptedException, ExecutionException, TimeoutException {
+        ExecutionConfig config = ExecutionConfig.builder("sleep")
+            .setParameters("0")
+            .build();
+
+        ExecutionResult result = executor.executeAsync(config).get(1, TimeUnit.SECONDS);
         assertResult(result, 0, null,
             0, 0, null,
             "", 0, 0, null,
@@ -307,6 +348,7 @@ public class TestProcessExecutor {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
             .setParameters("5")
             .setTimeout(1, TimeUnit.SECONDS)
+            .setKillAllowed(true)
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -321,6 +363,7 @@ public class TestProcessExecutor {
         ExecutionConfig config = ExecutionConfig.builder("bash")
             .setParameters("-c", "echo 123 && sleep 5")
             .setTimeout(1, TimeUnit.SECONDS)
+            .setKillAllowed(true)
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -342,5 +385,100 @@ public class TestProcessExecutor {
             "", 0, 0, null,
             "", 0, 0, null);
         Assert.assertTrue(result.getEndTime() - result.getStartTime() > 1000);
+    }
+
+    @Test
+    public void testErrorInterruptAndNormalExit() throws InterruptedException {
+        FileUtils.deleteQuietly(new File(testLockPath));
+
+        ExecutionConfig config = ExecutionConfig.builder(testExecutable)
+            .setParameters(testLockPath, "5", "0")
+            .setTimeout(2, TimeUnit.SECONDS)
+            .setKillAllowed(true)
+            .build();
+
+        AtomicReference<ExecutionResult> result = new AtomicReference<>();
+        Thread thread = new Thread(() -> {
+            result.set(executor.execute(config));
+        });
+        thread.start();
+
+        Thread.sleep(500);
+        Assert.assertTrue(new File(testLockPath).isFile());
+        thread.interrupt();
+        Thread.sleep(1500);
+
+        Assert.assertFalse(thread.isAlive());
+        assertResult(result.get(), null, InterruptedException.class,
+            0, 0, null,
+            null, -1, -1, null,
+            null, -1, -1, null);
+        Assert.assertFalse(new File(testLockPath).isFile());
+    }
+
+    @Test
+    public void testErrorInterruptAndKill() throws InterruptedException {
+        FileUtils.deleteQuietly(new File(testLockPath));
+
+        ExecutionConfig config = ExecutionConfig.builder(testExecutable)
+            .setParameters(testLockPath, "5", "5")
+            .setTimeout(2, TimeUnit.SECONDS)
+            .setKillAllowed(true)
+            .build();
+
+        AtomicReference<ExecutionResult> result = new AtomicReference<>();
+        Thread thread = new Thread(() -> {
+            result.set(executor.execute(config));
+        });
+        thread.start();
+
+        Thread.sleep(500);
+        Assert.assertTrue(new File(testLockPath).isFile());
+        thread.interrupt();
+        Thread.sleep(1500);
+
+        Assert.assertFalse(thread.isAlive());
+        assertResult(result.get(), null, InterruptedException.class,
+            0, 0, null,
+            null, -1, -1, null,
+            null, -1, -1, null);
+        Assert.assertTrue(new File(testLockPath).isFile());
+    }
+
+    @Test
+    public void testExecInterruptAndShutdown() throws Exception {
+        ExecutionConfig config = ExecutionConfig.builder(testExecutable)
+            .setParameters(testLockPath, "5", "1")
+            .setTimeout(2, TimeUnit.SECONDS)
+            .setKillAllowed(true)
+            .build();
+
+        Future<ExecutionResult> result = executor.executeAsync(config);
+
+        Thread.sleep(500);
+        Assert.assertTrue(new File(testLockPath).isFile());
+        result.cancel(true);
+        Thread.sleep(500);
+        executor.destroy();
+        Thread.sleep(1000);
+        Assert.assertFalse(new File(testLockPath).isFile());
+    }
+
+    @Test
+    public void testErrorTimeoutAndKillNotAllowed() throws Exception {
+        ExecutionConfig config = ExecutionConfig.builder(testExecutable)
+            .setParameters(testLockPath, "3", "0")
+            .setTimeout(1, TimeUnit.SECONDS)
+            .setKillAllowed(false)
+            .build();
+
+        ExecutionResult result = executor.execute(config);
+        assertResult(result, null, TimeoutException.class,
+            0, 0, null,
+            null, -1, -1, null,
+            null, -1, -1, null);
+        Assert.assertTrue(new File(testLockPath).isFile());
+        Thread.sleep(2500);
+        Assert.assertFalse(new File(testLockPath).isFile());
     }
 }
