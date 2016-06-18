@@ -2,6 +2,7 @@ package org.ikernits.sample.exec;
 
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.ikernits.sample.log.Log4jConfigurer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -30,7 +31,8 @@ public class TestProcessExecutionService {
     private ProcessExecutionServiceImpl executor;
 
     private static final String testExecutable = "./src/test/resources/exec-test.sh";
-    private static final String testLockPath = "./local/test/lock.file";
+    private static final String tempPath = "./local/test";
+    private String testLockPath;
 
     private void assertResultBase(ExecutionResult result, Integer exitCode, Class<?> errorClass) {
         Assert.assertEquals(exitCode, result.getExitCode());
@@ -70,7 +72,7 @@ public class TestProcessExecutionService {
 
     @BeforeMethod
     public void init() throws Exception {
-        FileUtils.deleteQuietly(new File(testLockPath));
+        testLockPath = tempPath + "/test.lock." + RandomStringUtils.randomAlphanumeric(8);
         executor = new ProcessExecutionServiceImpl();
         executor.afterPropertiesSet();
     }
@@ -467,7 +469,7 @@ public class TestProcessExecutionService {
     @Test
     public void testErrorTimeoutAndKillNotAllowed() throws Exception {
         ExecutionConfig config = ExecutionConfig.builder(testExecutable)
-            .setParameters(testLockPath, "3", "0")
+            .setParameters(testLockPath, "4", "0")
             .setTimeout(1, TimeUnit.SECONDS)
             .setKillAllowed(false)
             .build();
