@@ -1,5 +1,6 @@
 package org.ikernits.sample.exec;
 
+import com.google.common.collect.ImmutableList;
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -86,7 +87,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecution() {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
-            .setParameters("0")
+            .addParameters("0")
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -99,7 +100,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionAsync() throws InterruptedException, ExecutionException, TimeoutException {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
-            .setParameters("0")
+            .addParameters("0")
             .build();
 
         ExecutionResult result = executor.executeAsync(config).get(1, TimeUnit.SECONDS);
@@ -112,7 +113,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdout() {
         ExecutionConfig config = ExecutionConfig.builder("echo")
-            .setParameters("123")
+            .addParameters("123")
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -123,9 +124,24 @@ public class TestProcessExecutionService {
     }
 
     @Test
+    public void testNormalExecutionAddParameters() {
+        ExecutionConfig config = ExecutionConfig.builder("echo")
+            .addParameters("123")
+            .addParameters(ImmutableList.of("456", "789"))
+            .addParameters("123", "456")
+            .build();
+
+        ExecutionResult result = executor.execute(config);
+        assertResult(result, 0, null,
+            0, 0, null,
+            "123 456 789 123 456\n", 20, 20, null,
+            "", 0, 0, null);
+    }
+
+    @Test
     public void testNormalExecutionStderr() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "echo 123 >&2")
+            .addParameters("-c", "echo 123 >&2")
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -138,7 +154,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdin() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "cat")
+            .addParameters("-c", "cat")
             .setStdin(new ByteArrayInputStream("123".getBytes()))
             .build();
 
@@ -152,7 +168,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdinToStderr() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "cat >&2")
+            .addParameters("-c", "cat >&2")
             .setStdin(new ByteArrayInputStream("123".getBytes()))
             .build();
 
@@ -166,7 +182,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdoutLimit() {
         ExecutionConfig config = ExecutionConfig.builder("echo")
-            .setParameters("123")
+            .addParameters("123")
             .setStdoutLimit(2)
             .build();
 
@@ -180,7 +196,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStderrLimit() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "echo 123 >&2")
+            .addParameters("-c", "echo 123 >&2")
             .setStderrLimit(2)
             .build();
 
@@ -194,7 +210,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdinLimit() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "cat")
+            .addParameters("-c", "cat")
             .setStdin(new ByteArrayInputStream("123".getBytes()))
             .setStdinLimit(2)
             .build();
@@ -209,7 +225,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalExecutionStdoutLarge() {
         ExecutionConfig config = ExecutionConfig.builder("dd")
-            .setParameters("if=/dev/zero", "bs=1024", "count=2048")
+            .addParameters("if=/dev/zero", "bs=1024", "count=2048")
             .setStdoutLimit(1024 * 1024)
             .build();
 
@@ -223,7 +239,7 @@ public class TestProcessExecutionService {
     @Test
     public void testNormalDirectory() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "ls -1 / | grep -oe bin | uniq")
+            .addParameters("-c", "ls -1 / | grep -oe bin | uniq")
             .setDirectoryPath("/")
             .build();
 
@@ -238,7 +254,7 @@ public class TestProcessExecutionService {
     public void testNormalExecutionCustomStdout() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ExecutionConfig config = ExecutionConfig.builder("echo")
-            .setParameters("123")
+            .addParameters("123")
             .setStdout(out)
             .build();
 
@@ -254,7 +270,7 @@ public class TestProcessExecutionService {
     public void testNormalExecutionCustomStderr() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "echo 123 >&2")
+            .addParameters("-c", "echo 123 >&2")
             .setStderr(out)
             .build();
 
@@ -275,7 +291,7 @@ public class TestProcessExecutionService {
             }
         };
         ExecutionConfig config = ExecutionConfig.builder("dd")
-            .setParameters("if=/dev/zero", "bs=1024", "count=2048")
+            .addParameters("if=/dev/zero", "bs=1024", "count=2048")
             .setStdout(out)
             .build();
 
@@ -295,7 +311,7 @@ public class TestProcessExecutionService {
             }
         };
         ExecutionConfig config = ExecutionConfig.builder("dd")
-            .setParameters("if=/dev/zero", "bs=1024", "count=2048", "of=/dev/stderr")
+            .addParameters("if=/dev/zero", "bs=1024", "count=2048", "of=/dev/stderr")
             .setStderr(out)
             .build();
 
@@ -335,7 +351,7 @@ public class TestProcessExecutionService {
     @Test
     public void testErrorExitCode() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "exit 100")
+            .addParameters("-c", "exit 100")
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -348,7 +364,7 @@ public class TestProcessExecutionService {
     @Test
     public void testErrorTimeout() {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
-            .setParameters("5")
+            .addParameters("5")
             .setTimeout(1, TimeUnit.SECONDS)
             .setKillAllowed(true)
             .build();
@@ -363,7 +379,7 @@ public class TestProcessExecutionService {
     @Test
     public void testErrorTimeoutStdout() {
         ExecutionConfig config = ExecutionConfig.builder("bash")
-            .setParameters("-c", "echo 123 && sleep 5")
+            .addParameters("-c", "echo 123 && sleep 5")
             .setTimeout(1, TimeUnit.SECONDS)
             .setKillAllowed(true)
             .build();
@@ -378,7 +394,7 @@ public class TestProcessExecutionService {
     @Test
     public void testStartEndTime() {
         ExecutionConfig config = ExecutionConfig.builder("sleep")
-            .setParameters("1")
+            .addParameters("1")
             .build();
 
         ExecutionResult result = executor.execute(config);
@@ -394,7 +410,7 @@ public class TestProcessExecutionService {
         FileUtils.deleteQuietly(new File(testLockPath));
 
         ExecutionConfig config = ExecutionConfig.builder(testExecutable)
-            .setParameters(testLockPath, "5", "0")
+            .addParameters(testLockPath, "5", "0")
             .setTimeout(2, TimeUnit.SECONDS)
             .setKillAllowed(true)
             .build();
@@ -423,7 +439,7 @@ public class TestProcessExecutionService {
         FileUtils.deleteQuietly(new File(testLockPath));
 
         ExecutionConfig config = ExecutionConfig.builder(testExecutable)
-            .setParameters(testLockPath, "5", "5")
+            .addParameters(testLockPath, "5", "5")
             .setTimeout(2, TimeUnit.SECONDS)
             .setKillAllowed(true)
             .build();
@@ -450,7 +466,7 @@ public class TestProcessExecutionService {
     @Test
     public void testExecInterruptAndShutdown() throws Exception {
         ExecutionConfig config = ExecutionConfig.builder(testExecutable)
-            .setParameters(testLockPath, "5", "1")
+            .addParameters(testLockPath, "5", "1")
             .setTimeout(2, TimeUnit.SECONDS)
             .setKillAllowed(true)
             .build();
@@ -469,7 +485,7 @@ public class TestProcessExecutionService {
     @Test
     public void testErrorTimeoutAndKillNotAllowed() throws Exception {
         ExecutionConfig config = ExecutionConfig.builder(testExecutable)
-            .setParameters(testLockPath, "4", "0")
+            .addParameters(testLockPath, "4", "0")
             .setTimeout(1, TimeUnit.SECONDS)
             .setKillAllowed(false)
             .build();

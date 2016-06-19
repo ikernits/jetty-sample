@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public interface ProcessExecutionService {
         private String name;
         private String executablePath;
         private String directoryPath = null;
-        private List<String> parameters = Collections.emptyList();
+        private List<String> parameters = new ArrayList<>();
 
         private InputStream stdin = null;
         private OutputStream stdout = null;
@@ -78,13 +77,13 @@ public interface ProcessExecutionService {
                 return this;
             }
 
-            public Builder setParameters(String... parameters) {
-                delegate.parameters = new ArrayList<>(Arrays.asList(parameters));
+            public Builder addParameters(String... parameters) {
+                delegate.parameters.addAll(Arrays.asList(parameters));
                 return this;
             }
 
-            public Builder addParameters(String... parameters) {
-                delegate.parameters.addAll(Arrays.asList(parameters));
+            public Builder addParameters(List<String> parameters) {
+                delegate.parameters.addAll(parameters);
                 return this;
             }
 
