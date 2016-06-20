@@ -1,6 +1,7 @@
 package org.ikernits.sample.log;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Appender;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -24,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-public class Log4jConfigurer implements InitializingBean, ApplicationContextAware{
+public class Log4jConfigurer implements InitializingBean, ApplicationContextAware {
 
     private static final String DEFAULT_PATTERN = "%d [%t] %p %c %m%n";
     private static final String CONFIG_CLASSPATH = "META-INF/log4j.properties";
@@ -53,8 +54,12 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
         if (resetSubsystem) {
             log.info("log4j config is reset");
             Logger.getRootLogger().removeAllAppenders();
+            Logger.getRootLogger().addAppender(emptyAppender);
         }
         configureFromContext();
+        if (resetSubsystem) {
+            Logger.getRootLogger().removeAppender(emptyAppender);
+        }
     }
 
     @Override
@@ -166,13 +171,13 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
             AppenderSkeleton appender = createAppender();
             appender.setName(name);
             appender.setLayout(new PatternLayout(
-                    propertySource.getProperty("pattern", String.class, DEFAULT_PATTERN)
+                propertySource.getProperty("pattern", String.class, DEFAULT_PATTERN)
             ));
             appender.setThreshold(
-                    Level.toLevel(
-                            propertySource.getProperty("level", String.class, "INFO"),
-                            Level.INFO
-                    )
+                Level.toLevel(
+                    propertySource.getProperty("level", String.class, "INFO"),
+                    Level.INFO
+                )
             );
             appender.activateOptions();
             setupLogger().addAppender(appender);
@@ -207,10 +212,10 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
                 }
             };
             appender.setFile(
-                    propertySource.getPropertyRequired("path", String.class)
+                propertySource.getPropertyRequired("path", String.class)
             );
             appender.setMaxFileSize(
-                    propertySource.getProperty("size", String.class, "1M")
+                propertySource.getProperty("size", String.class, "1M")
             );
             appender.setMaxBackupIndex(
                 propertySource.getProperty("count", Integer.class, 10)
@@ -224,22 +229,22 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
         PropertySource basePropertySource = new PropertySource(propertyPrefix, defaultPropertySource);
 
         Arrays.stream(logList.split(","))
-                .map(String::trim)
-                .map(logName -> {
-                    PropertySource logPropertySource = basePropertySource.createNested(logName);
-                    String logType = logPropertySource.getPropertyDirectRequired("type", String.class)
-                            .toLowerCase();
-                    switch (logType) {
-                        case "file":
-                            return new FileConfig(logName, logPropertySource);
-                        case "stdout":
-                        case "console":
-                            return new ConsoleConfig(logName, logPropertySource);
-                        default:
-                            throw new RuntimeException("unsupported log configuration type: '" + logType + "'");
-                    }
-                })
-                .forEach(BaseConfig::configure);
+            .map(String::trim)
+            .map(logName -> {
+                PropertySource logPropertySource = basePropertySource.createNested(logName);
+                String logType = logPropertySource.getPropertyDirectRequired("type", String.class)
+                    .toLowerCase();
+                switch (logType) {
+                    case "file":
+                        return new FileConfig(logName, logPropertySource);
+                    case "stdout":
+                    case "console":
+                        return new ConsoleConfig(logName, logPropertySource);
+                    default:
+                        throw new RuntimeException("unsupported log configuration type: '" + logType + "'");
+                }
+            })
+            .forEach(BaseConfig::configure);
     }
 
     public static void configureWithDefaults() {
@@ -270,6 +275,26 @@ public class Log4jConfigurer implements InitializingBean, ApplicationContextAwar
             LogLog.warn("failed to load log4j configuration from classpath: '" + classpath + "'", e);
             throw new RuntimeException("log4j configuration failed", e);
         }
+    }
+
+    private static final Appender emptyAppender = new AppenderSkeleton() {
+        @Override
+        protected void append(LoggingEvent event) {
+        }
+
+        @Override
+        public void close() {
+        }
+
+        @Override
+        public boolean requiresLayout() {
+            return false;
+        }
+    };
+
+    public static void configureWithEmpty() {
+        Logger.getRootLogger().removeAllAppenders();
+        Logger.getRootLogger().addAppender(emptyAppender);
     }
 
     public static void configureIfRequired() {
