@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-4.1.xsd
+">
+
+    <sec:http realm="Jetty Sample">
+        <sec:intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+        <sec:http-basic/>
+        <sec:csrf disabled="true"/>
+        <sec:headers>
+            <sec:frame-options policy="SAMEORIGIN"/>
+            <sec:hsts disabled="true"/>
+        </sec:headers>
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="${auth.admin.username}" password="${auth.admin.password}" authorities="ROLE_ADMIN"/>
+            </sec:user-service>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+</beans>
