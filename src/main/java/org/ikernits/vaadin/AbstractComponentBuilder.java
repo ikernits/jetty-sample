@@ -1,6 +1,7 @@
 package org.ikernits.vaadin;
 
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.event.ContextClickEvent.ContextClickListener;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Resource;
@@ -153,10 +154,34 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setStyleName
+     * @see com.vaadin.ui.AbstractComponent#addContextClickListener
      */
-    public B setStyleName(String styleName) {
-        delegate.setStyleName(styleName);
+    public B addContextClickListener(ContextClickListener contextClickListener) {
+        delegate.addContextClickListener(contextClickListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidth
+     */
+    public B setWidth(float width, Unit unit) {
+        delegate.setWidth(width, unit);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setWidth
+     */
+    public B setWidth(String width) {
+        delegate.setWidth(width);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setIcon
+     */
+    public B setIcon(Resource icon) {
+        delegate.setIcon(icon);
         return self;
     }
     
@@ -165,6 +190,14 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
      */
     public B setStyleName(String param1, boolean param2) {
         delegate.setStyleName(param1, param2);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractComponent#setStyleName
+     */
+    public B setStyleName(String styleName) {
+        delegate.setStyleName(styleName);
         return self;
     }
     
@@ -209,34 +242,10 @@ public class AbstractComponentBuilder<T extends AbstractComponent, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractComponent#setIcon
-     */
-    public B setIcon(Resource icon) {
-        delegate.setIcon(icon);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractComponent#setId
      */
     public B setId(String id) {
         delegate.setId(id);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setWidth
-     */
-    public B setWidth(float width, Unit unit) {
-        delegate.setWidth(width, unit);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractComponent#setWidth
-     */
-    public B setWidth(String width) {
-        delegate.setWidth(width);
         return self;
     }
     

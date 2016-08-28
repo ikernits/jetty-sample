@@ -17,34 +17,26 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     }
     
     /**
+     * @see com.vaadin.ui.TabSheet#addBlurListener
+     */
+    public B addBlurListener(BlurListener blurListener) {
+        delegate.addBlurListener(blurListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.TabSheet#addFocusListener
+     */
+    public B addFocusListener(FocusListener focusListener) {
+        delegate.addFocusListener(focusListener);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.TabSheet#setTabIndex
      */
     public B setTabIndex(int tabIndex) {
         delegate.setTabIndex(tabIndex);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.TabSheet#addTab
-     */
-    public B addTab(Component param1, String param2, Resource param3, int param4) {
-        delegate.addTab(param1, param2, param3, param4);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.TabSheet#addTab
-     */
-    public B addTab(Component tab) {
-        delegate.addTab(tab);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.TabSheet#addTab
-     */
-    public B addTab(Component param1, String param2) {
-        delegate.addTab(param1, param2);
         return self;
     }
     
@@ -59,7 +51,31 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     /**
      * @see com.vaadin.ui.TabSheet#addTab
      */
+    public B addTab(Component tab) {
+        delegate.addTab(tab);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.TabSheet#addTab
+     */
+    public B addTab(Component param1, String param2, Resource param3, int param4) {
+        delegate.addTab(param1, param2, param3, param4);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.TabSheet#addTab
+     */
     public B addTab(Component param1, int param2) {
+        delegate.addTab(param1, param2);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.TabSheet#addTab
+     */
+    public B addTab(Component param1, String param2) {
         delegate.addTab(param1, param2);
         return self;
     }
@@ -75,7 +91,7 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     /**
      * @see com.vaadin.ui.TabSheet#setSelectedTab
      */
-    public B setSelectedTab(Tab selectedTab) {
+    public B setSelectedTab(int selectedTab) {
         delegate.setSelectedTab(selectedTab);
         return self;
     }
@@ -83,7 +99,7 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     /**
      * @see com.vaadin.ui.TabSheet#setSelectedTab
      */
-    public B setSelectedTab(int selectedTab) {
+    public B setSelectedTab(Tab selectedTab) {
         delegate.setSelectedTab(selectedTab);
         return self;
     }
@@ -147,7 +163,7 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     /**
      * @see com.vaadin.ui.TabSheet#addListener
      */
-    public B addListener(BlurListener listener) {
+    public B addListener(SelectedTabChangeListener listener) {
         delegate.addListener(listener);
         return self;
     }
@@ -155,24 +171,8 @@ public class TabSheetBuilder<T extends TabSheet, B extends TabSheetBuilder<T, B>
     /**
      * @see com.vaadin.ui.TabSheet#addListener
      */
-    public B addListener(SelectedTabChangeListener listener) {
+    public B addListener(BlurListener listener) {
         delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.TabSheet#addBlurListener
-     */
-    public B addBlurListener(BlurListener blurListener) {
-        delegate.addBlurListener(blurListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.TabSheet#addFocusListener
-     */
-    public B addFocusListener(FocusListener focusListener) {
-        delegate.addFocusListener(focusListener);
         return self;
     }
     

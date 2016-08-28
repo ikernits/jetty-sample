@@ -13,6 +13,14 @@ public class AbsoluteLayoutBuilder<T extends AbsoluteLayout, B extends AbsoluteL
     }
     
     /**
+     * @see com.vaadin.ui.AbsoluteLayout#setPosition
+     */
+    public B setPosition(Component param1, ComponentPosition param2) {
+        delegate.setPosition(param1, param2);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.AbsoluteLayout#addComponent
      */
     public B addComponent(Component component) {
@@ -41,14 +49,6 @@ public class AbsoluteLayoutBuilder<T extends AbsoluteLayout, B extends AbsoluteL
      */
     public B addListener(LayoutClickListener listener) {
         delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbsoluteLayout#setPosition
-     */
-    public B setPosition(Component param1, ComponentPosition param2) {
-        delegate.setPosition(param1, param2);
         return self;
     }
     

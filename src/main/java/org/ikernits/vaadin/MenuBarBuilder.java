@@ -13,14 +13,6 @@ public class MenuBarBuilder<T extends MenuBar, B extends MenuBarBuilder<T, B>> e
     }
     
     /**
-     * @see com.vaadin.ui.MenuBar#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.MenuBar#addItem
      */
     public B addItem(String param1, Resource param2, Command param3) {
@@ -57,6 +49,14 @@ public class MenuBarBuilder<T extends MenuBar, B extends MenuBarBuilder<T, B>> e
      */
     public B setAutoOpen(boolean autoOpen) {
         delegate.setAutoOpen(autoOpen);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.MenuBar#setTabIndex
+     */
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
         return self;
     }
     

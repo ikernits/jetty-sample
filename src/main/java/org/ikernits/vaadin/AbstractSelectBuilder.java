@@ -25,34 +25,10 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSelect#setContainerDataSource
+     * @see com.vaadin.ui.AbstractSelect#addItem
      */
-    public B setContainerDataSource(Container containerDataSource) {
-        delegate.setContainerDataSource(containerDataSource);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addContainerProperty
-     */
-    public B addContainerProperty(Object param1, Class param2, Object param3) {
-        delegate.addContainerProperty(param1, param2, param3);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#setNewItemsAllowed
-     */
-    public B setNewItemsAllowed(boolean newItemsAllowed) {
-        delegate.setNewItemsAllowed(newItemsAllowed);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#setItemCaptionMode
-     */
-    public B setItemCaptionMode(ItemCaptionMode itemCaptionMode) {
-        delegate.setItemCaptionMode(itemCaptionMode);
+    public B addItem() {
+        delegate.addItem();
         return self;
     }
     
@@ -65,34 +41,10 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSelect#addItem
+     * @see com.vaadin.ui.AbstractSelect#setContainerDataSource
      */
-    public B addItem() {
-        delegate.addItem();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addListener
-     */
-    public B addListener(ItemSetChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addListener
-     */
-    public B addListener(PropertySetChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addItems
-     */
-    public B addItems(Collection items) {
-        delegate.addItems(items);
+    public B setContainerDataSource(Container containerDataSource) {
+        delegate.setContainerDataSource(containerDataSource);
         return self;
     }
     
@@ -101,6 +53,14 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
      */
     public B setNewItemHandler(NewItemHandler newItemHandler) {
         delegate.setNewItemHandler(newItemHandler);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addItems
+     */
+    public B addItems(Collection items) {
+        delegate.addItems(items);
         return self;
     }
     
@@ -173,6 +133,46 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
      */
     public B setNullSelectionItemId(Object nullSelectionItemId) {
         delegate.setNullSelectionItemId(nullSelectionItemId);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addContainerProperty
+     */
+    public B addContainerProperty(Object param1, Class param2, Object param3) {
+        delegate.addContainerProperty(param1, param2, param3);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#setNewItemsAllowed
+     */
+    public B setNewItemsAllowed(boolean newItemsAllowed) {
+        delegate.setNewItemsAllowed(newItemsAllowed);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#setItemCaptionMode
+     */
+    public B setItemCaptionMode(ItemCaptionMode itemCaptionMode) {
+        delegate.setItemCaptionMode(itemCaptionMode);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addListener
+     */
+    public B addListener(ItemSetChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addListener
+     */
+    public B addListener(PropertySetChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

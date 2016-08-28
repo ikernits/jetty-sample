@@ -14,18 +14,18 @@ public class AbstractSingleComponentContainerBuilder<T extends AbstractSingleCom
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSingleComponentContainer#addComponentAttachListener
-     */
-    public B addComponentAttachListener(ComponentAttachListener componentAttachListener) {
-        delegate.addComponentAttachListener(componentAttachListener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractSingleComponentContainer#setHeight
      */
     public B setHeight(float height, Unit unit) {
         delegate.setHeight(height, unit);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSingleComponentContainer#addComponentAttachListener
+     */
+    public B addComponentAttachListener(ComponentAttachListener componentAttachListener) {
+        delegate.addComponentAttachListener(componentAttachListener);
         return self;
     }
     

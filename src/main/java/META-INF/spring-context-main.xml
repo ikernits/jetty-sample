@@ -25,4 +25,6 @@
     <bean id="test" class="org.ikernits.sample.TestBean">
         <property name="testProp" value="${default.name}"/>
     </bean>
+
+
 </beans>

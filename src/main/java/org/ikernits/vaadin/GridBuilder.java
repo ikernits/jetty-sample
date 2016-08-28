@@ -9,19 +9,22 @@ import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.event.SortEvent.SortListener;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.grid.HeightMode;
+import com.vaadin.ui.Grid.CellDescriptionGenerator;
 import com.vaadin.ui.Grid.CellStyleGenerator;
 import com.vaadin.ui.Grid.ColumnReorderListener;
+import com.vaadin.ui.Grid.ColumnResizeListener;
 import com.vaadin.ui.Grid.ColumnVisibilityChangeListener;
 import com.vaadin.ui.Grid.DetailsGenerator;
 import com.vaadin.ui.Grid.EditorErrorHandler;
 import com.vaadin.ui.Grid.HeaderRow;
+import com.vaadin.ui.Grid.RowDescriptionGenerator;
 import com.vaadin.ui.Grid.RowStyleGenerator;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Grid.SelectionModel;
 import java.util.List;
 
 @SuppressWarnings({"deprecation", "unused", "unchecked"})
-public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends AbstractComponentBuilder<T, B> {
+public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends AbstractFocusableBuilder<T, B> {
 
     public GridBuilder(T delegate) {
         super(delegate);
@@ -76,10 +79,26 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
+     * @see com.vaadin.ui.Grid#addColumnResizeListener
+     */
+    public B addColumnResizeListener(ColumnResizeListener columnResizeListener) {
+        delegate.addColumnResizeListener(columnResizeListener);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.Grid#addColumnReorderListener
      */
     public B addColumnReorderListener(ColumnReorderListener columnReorderListener) {
         delegate.addColumnReorderListener(columnReorderListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Grid#addListener
+     */
+    public B addListener(ItemClickListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
@@ -196,6 +215,22 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
+     * @see com.vaadin.ui.Grid#setCellDescriptionGenerator
+     */
+    public B setCellDescriptionGenerator(CellDescriptionGenerator cellDescriptionGenerator) {
+        delegate.setCellDescriptionGenerator(cellDescriptionGenerator);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Grid#setRowDescriptionGenerator
+     */
+    public B setRowDescriptionGenerator(RowDescriptionGenerator rowDescriptionGenerator) {
+        delegate.setRowDescriptionGenerator(rowDescriptionGenerator);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.Grid#setRowStyleGenerator
      */
     public B setRowStyleGenerator(RowStyleGenerator rowStyleGenerator) {
@@ -252,6 +287,14 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
+     * @see com.vaadin.ui.Grid#setEditorBuffered
+     */
+    public B setEditorBuffered(boolean editorBuffered) {
+        delegate.setEditorBuffered(editorBuffered);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.Grid#addColumnVisibilityChangeListener
      */
     public B addColumnVisibilityChangeListener(ColumnVisibilityChangeListener columnVisibilityChangeListener) {
@@ -272,14 +315,6 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
      */
     public B setDetailsVisible(Object param1, boolean param2) {
         delegate.setDetailsVisible(param1, param2);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Grid#addListener
-     */
-    public B addListener(ItemClickListener listener) {
-        delegate.addListener(listener);
         return self;
     }
     

@@ -8,9 +8,12 @@ import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MultiSelectMode;
+import com.vaadin.shared.ui.table.CollapseMenuContent;
 import com.vaadin.ui.AbstractSelect.ItemDescriptionGenerator;
+import com.vaadin.ui.HasChildMeasurementHint.ChildMeasurementHint;
 import com.vaadin.ui.Table.Align;
 import com.vaadin.ui.Table.CellStyleGenerator;
+import com.vaadin.ui.Table.ColumnCollapseListener;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.Table.ColumnHeaderMode;
 import com.vaadin.ui.Table.ColumnReorderListener;
@@ -31,10 +34,18 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Table#setConverter
+     * @see com.vaadin.ui.Table#addActionHandler
      */
-    public B setConverter(Object param1, Converter param2) {
-        delegate.setConverter(param1, param2);
+    public B addActionHandler(Handler actionHandler) {
+        delegate.addActionHandler(actionHandler);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addItem
+     */
+    public B addItem(Object[] param1, Object param2) {
+        delegate.addItem(param1, param2);
         return self;
     }
     
@@ -185,16 +196,16 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     /**
      * @see com.vaadin.ui.Table#addContainerProperty
      */
-    public B addContainerProperty(Object param1, Class param2, Object param3) {
-        delegate.addContainerProperty(param1, param2, param3);
+    public B addContainerProperty(Object param1, Class param2, Object param3, String param4, Resource param5, Align param6) {
+        delegate.addContainerProperty(param1, param2, param3, param4, param5, param6);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.Table#addContainerProperty
      */
-    public B addContainerProperty(Object param1, Class param2, Object param3, String param4, Resource param5, Align param6) {
-        delegate.addContainerProperty(param1, param2, param3, param4, param5, param6);
+    public B addContainerProperty(Object param1, Class param2, Object param3) {
+        delegate.addContainerProperty(param1, param2, param3);
         return self;
     }
     
@@ -217,16 +228,16 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     /**
      * @see com.vaadin.ui.Table#addItemAfter
      */
-    public B addItemAfter(Object param1, Object param2) {
-        delegate.addItemAfter(param1, param2);
+    public B addItemAfter(Object itemAfter) {
+        delegate.addItemAfter(itemAfter);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.Table#addItemAfter
      */
-    public B addItemAfter(Object itemAfter) {
-        delegate.addItemAfter(itemAfter);
+    public B addItemAfter(Object param1, Object param2) {
+        delegate.addItemAfter(param1, param2);
         return self;
     }
     
@@ -367,6 +378,14 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
+     * @see com.vaadin.ui.Table#addColumnCollapseListener
+     */
+    public B addColumnCollapseListener(ColumnCollapseListener columnCollapseListener) {
+        delegate.addColumnCollapseListener(columnCollapseListener);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.Table#setItemDescriptionGenerator
      */
     public B setItemDescriptionGenerator(ItemDescriptionGenerator itemDescriptionGenerator) {
@@ -383,10 +402,18 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Table#addItem
+     * @see com.vaadin.ui.Table#setChildMeasurementHint
      */
-    public B addItem(Object[] param1, Object param2) {
-        delegate.addItem(param1, param2);
+    public B setChildMeasurementHint(ChildMeasurementHint childMeasurementHint) {
+        delegate.setChildMeasurementHint(childMeasurementHint);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#setCollapseMenuContent
+     */
+    public B setCollapseMenuContent(CollapseMenuContent collapseMenuContent) {
+        delegate.setCollapseMenuContent(collapseMenuContent);
         return self;
     }
     
@@ -407,25 +434,9 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Table#addActionHandler
-     */
-    public B addActionHandler(Handler actionHandler) {
-        delegate.addActionHandler(actionHandler);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.Table#addListener
      */
-    public B addListener(FooterClickListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Table#addListener
-     */
-    public B addListener(ItemClickListener listener) {
+    public B addListener(ColumnResizeListener listener) {
         delegate.addListener(listener);
         return self;
     }
@@ -441,6 +452,14 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     /**
      * @see com.vaadin.ui.Table#addListener
      */
+    public B addListener(ItemClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#addListener
+     */
     public B addListener(ColumnReorderListener listener) {
         delegate.addListener(listener);
         return self;
@@ -449,8 +468,16 @@ public class TableBuilder<T extends Table, B extends TableBuilder<T, B>> extends
     /**
      * @see com.vaadin.ui.Table#addListener
      */
-    public B addListener(ColumnResizeListener listener) {
+    public B addListener(FooterClickListener listener) {
         delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Table#setConverter
+     */
+    public B setConverter(Object param1, Converter param2) {
+        delegate.setConverter(param1, param2);
         return self;
     }
     

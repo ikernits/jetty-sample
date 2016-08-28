@@ -23,10 +23,34 @@ public class LabelBuilder<T extends Label, B extends LabelBuilder<T, B>> extends
     }
     
     /**
+     * @see com.vaadin.ui.Label#setLocale
+     */
+    public B setLocale(Locale locale) {
+        delegate.setLocale(locale);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.Label#setPropertyDataSource
      */
     public B setPropertyDataSource(Property propertyDataSource) {
         delegate.setPropertyDataSource(propertyDataSource);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Label#setContentMode
+     */
+    public B setContentMode(ContentMode contentMode) {
+        delegate.setContentMode(contentMode);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Label#addListener
+     */
+    public B addListener(ValueChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
@@ -43,30 +67,6 @@ public class LabelBuilder<T extends Label, B extends LabelBuilder<T, B>> extends
      */
     public B addValueChangeListener(ValueChangeListener valueChangeListener) {
         delegate.addValueChangeListener(valueChangeListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Label#setContentMode
-     */
-    public B setContentMode(ContentMode contentMode) {
-        delegate.setContentMode(contentMode);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Label#setLocale
-     */
-    public B setLocale(Locale locale) {
-        delegate.setLocale(locale);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Label#addListener
-     */
-    public B addListener(ValueChangeListener listener) {
-        delegate.addListener(listener);
         return self;
     }
     

@@ -14,10 +14,18 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
     }
     
     /**
-     * @see com.vaadin.ui.ComboBox#setInputPrompt
+     * @see com.vaadin.ui.ComboBox#addBlurListener
      */
-    public B setInputPrompt(String inputPrompt) {
-        delegate.setInputPrompt(inputPrompt);
+    public B addBlurListener(BlurListener blurListener) {
+        delegate.addBlurListener(blurListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.ComboBox#addFocusListener
+     */
+    public B addFocusListener(FocusListener focusListener) {
+        delegate.addFocusListener(focusListener);
         return self;
     }
     
@@ -26,6 +34,14 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
      */
     public B setPageLength(int pageLength) {
         delegate.setPageLength(pageLength);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.ComboBox#setMultiSelect
+     */
+    public B setMultiSelect(boolean multiSelect) {
+        delegate.setMultiSelect(multiSelect);
         return self;
     }
     
@@ -46,26 +62,10 @@ public class ComboBoxBuilder<T extends ComboBox, B extends ComboBoxBuilder<T, B>
     }
     
     /**
-     * @see com.vaadin.ui.ComboBox#addBlurListener
+     * @see com.vaadin.ui.ComboBox#setInputPrompt
      */
-    public B addBlurListener(BlurListener blurListener) {
-        delegate.addBlurListener(blurListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.ComboBox#addFocusListener
-     */
-    public B addFocusListener(FocusListener focusListener) {
-        delegate.addFocusListener(focusListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.ComboBox#setMultiSelect
-     */
-    public B setMultiSelect(boolean multiSelect) {
-        delegate.setMultiSelect(multiSelect);
+    public B setInputPrompt(String inputPrompt) {
+        delegate.setInputPrompt(inputPrompt);
         return self;
     }
     

@@ -108,6 +108,9 @@ public final class ProcessExecutionServiceImpl implements ProcessExecutionServic
             try {
                 future.get(IO_WAIT_MILLIS, TimeUnit.MILLISECONDS);
             } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                if (e instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
                 log.warn("stream IO: " + name + "does not stop normally after process end");
             }
 
@@ -115,7 +118,9 @@ public final class ProcessExecutionServiceImpl implements ProcessExecutionServic
 
             try {
                 future.get(IO_WAIT_MILLIS, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } catch (ExecutionException e) {
                 //ignored
             } catch (TimeoutException e) {
                 future.cancel(true);
@@ -181,6 +186,7 @@ public final class ProcessExecutionServiceImpl implements ProcessExecutionServic
                     process.waitFor(config.getTimeout(), config.getTimeoutTimeUnit());
                 }
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 error = e;
             }
 
@@ -194,11 +200,15 @@ public final class ProcessExecutionServiceImpl implements ProcessExecutionServic
 
                     //loop is required because interrupt and happen in several cases
                     //future.cancel, executor shutdown
-                    for (int i = 0; i < 3; ++i) {
+                    final long killWaitStartMillis = System.currentTimeMillis();
+                    for (int i = 0; i < 10; ++i) {
                         try {
                             process.waitFor(KILL_WAIT_MILLIS, TimeUnit.MILLISECONDS);
-                            break;
+                            if (System.currentTimeMillis() - killWaitStartMillis > KILL_WAIT_MILLIS) {
+                                break;
+                            }
                         } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                             log.warn("interrupted during process kill, ignored" + i);
                         }
                     }

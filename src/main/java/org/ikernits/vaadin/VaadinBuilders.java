@@ -4,6 +4,8 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -15,6 +17,7 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 public class VaadinBuilders {
 
@@ -76,6 +79,18 @@ public class VaadinBuilders {
     
     public static GridBuilder<Grid, ? extends GridBuilder<Grid, ?>> grid() {
         return new GridBuilder<>(new Grid());
+    }
+    
+    public static WindowBuilder<Window, ? extends WindowBuilder<Window, ?>> window() {
+        return new WindowBuilder<>(new Window());
+    }
+    
+    public static FormLayoutBuilder<FormLayout, ? extends FormLayoutBuilder<FormLayout, ?>> formLayout() {
+        return new FormLayoutBuilder<>(new FormLayout());
+    }
+    
+    public static DateFieldBuilder<DateField, ? extends DateFieldBuilder<DateField, ?>> dateField() {
+        return new DateFieldBuilder<>(new DateField());
     }
     
 }

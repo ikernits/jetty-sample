@@ -22,6 +22,46 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
     }
     
     /**
+     * @see com.vaadin.ui.AbstractTextField#addBlurListener
+     */
+    public B addBlurListener(BlurListener blurListener) {
+        delegate.addBlurListener(blurListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addFocusListener
+     */
+    public B addFocusListener(FocusListener focusListener) {
+        delegate.addFocusListener(focusListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(BlurListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(TextChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
      * @see com.vaadin.ui.AbstractTextField#setNullRepresentation
      */
     public B setNullRepresentation(String nullRepresentation) {
@@ -98,46 +138,6 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
      */
     public B setCursorPosition(int cursorPosition) {
         delegate.setCursorPosition(cursorPosition);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(TextChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(FocusListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addBlurListener
-     */
-    public B addBlurListener(BlurListener blurListener) {
-        delegate.addBlurListener(blurListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addFocusListener
-     */
-    public B addFocusListener(FocusListener focusListener) {
-        delegate.addFocusListener(focusListener);
         return self;
     }
     

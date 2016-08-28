@@ -12,22 +12,6 @@ public class CheckBoxBuilder<T extends CheckBox, B extends CheckBoxBuilder<T, B>
     }
     
     /**
-     * @see com.vaadin.ui.CheckBox#addListener
-     */
-    public B addListener(FocusListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.CheckBox#addListener
-     */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.CheckBox#addBlurListener
      */
     public B addBlurListener(BlurListener blurListener) {
@@ -40,6 +24,22 @@ public class CheckBoxBuilder<T extends CheckBox, B extends CheckBoxBuilder<T, B>
      */
     public B addFocusListener(FocusListener focusListener) {
         delegate.addFocusListener(focusListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.CheckBox#addListener
+     */
+    public B addListener(BlurListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.CheckBox#addListener
+     */
+    public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
