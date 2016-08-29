@@ -208,7 +208,6 @@ public final class ProcessExecutionServiceImpl implements ProcessExecutionServic
                                 break;
                             }
                         } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
                             log.warn("interrupted during process kill, ignored" + i);
                         }
                     }
