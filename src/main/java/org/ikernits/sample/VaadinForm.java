@@ -41,6 +41,9 @@ public class VaadinForm {
         private final String shortName;
         private final String longName;
         private final List<T> allowedValues;
+        final ListenerList<UiProperty<?>> changeListeners = new ListenerList<>(
+            MoreExecutors.directExecutor(), th -> {}
+        );
 
         public UiProperty(String shortName, String longName, Class<T> clazz, T defaultValue, List<T> allowedValues) {
             this.shortName = shortName;
@@ -48,6 +51,7 @@ public class VaadinForm {
             this.property = new ObjectProperty<>(defaultValue, clazz);
             this.value = defaultValue;
             this.allowedValues = allowedValues;
+            this.property.addValueChangeListener(e -> changeListeners.fire(this));
         }
 
         public T getValue() {
@@ -89,10 +93,6 @@ public class VaadinForm {
             this.properties = properties;
         }
 
-        private void onValueChange(UiProperty<?> uip) {
-
-        }
-
         private Component createComponentForProperty(UiProperty<?> uip) {
             if (uip.getProperty().getType() == Void.class) {
                 return VaadinBuilders.button()
@@ -102,18 +102,18 @@ public class VaadinForm {
             } else if (uip.getProperty().getType() == Boolean.class) {
                 return VaadinBuilders.checkBox()
                     .setPropertyDataSource(uip.getProperty())
-                    .addValueChangeListener(e -> changeListeners.fire(uip))
+                  //  .addValueChangeListener(e -> changeListeners.fire(uip))
                     .build();
             } else if (uip.getProperty().getType() == Date.class) {
                 return VaadinBuilders.dateField()
                     .setPropertyDataSource(uip.getProperty())
-                    .addValueChangeListener(e -> changeListeners.fire(uip))
+                  //  .addValueChangeListener(e -> changeListeners.fire(uip))
                     .build();
             } else {
                 if (uip.getAllowedValues().isEmpty()) {
                     return VaadinBuilders.textField()
                         .setPropertyDataSource(uip.getProperty())
-                        .addValueChangeListener(e -> changeListeners.fire(uip))
+                   //     .addValueChangeListener(e -> changeListeners.fire(uip))
                         .build();
                 } else {
                     return VaadinBuilders.comboBox()
@@ -122,7 +122,7 @@ public class VaadinForm {
                         .setTextInputAllowed(false)
                         .addItems(uip.getAllowedValues())
                         .setPropertyDataSource(uip.getProperty())
-                        .addValueChangeListener(e -> changeListeners.fire(uip))
+                    //    .addValueChangeListener(e -> changeListeners.fire(uip))
                         .build();
                 }
             }
