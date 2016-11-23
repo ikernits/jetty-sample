@@ -37,7 +37,7 @@ import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaS
 public class VaadinForm {
     private static class UiProperty<T> {
         private T value;
-        private final Property<T> property;
+        private final ObjectProperty<T> property;
         private final String shortName;
         private final String longName;
         private final List<T> allowedValues;
@@ -87,6 +87,10 @@ public class VaadinForm {
 
         public UiProperties(List<UiProperty<?>> properties) {
             this.properties = properties;
+        }
+
+        private void onValueChange(UiProperty<?> uip) {
+
         }
 
         private Component createComponentForProperty(UiProperty<?> uip) {
@@ -153,6 +157,7 @@ public class VaadinForm {
         @SafeVarargs
         public final HorizontalLayout createHorizontalLayout(Consumer<? super HorizontalLayout>... modifiers) {
             HorizontalLayout layout = VaadinBuilders.horizontalLayout()
+                .setAttributes(modifiers)
                 .setDefaultComponentAlignment(Alignment.MIDDLE_LEFT)
                 .build();
             addComponentsToLayout(layout, true, false,
@@ -215,21 +220,21 @@ public class VaadinForm {
         return VaadinBuilders.verticalLayout()
             .setAttributes(vaMargin)
             .addComponent(VaadinBuilders.panel()
-                .setAttributes(vaStylePaddingSmall, vaStyleMarginTiny)
+                .setAttributes(vaStyleMarginTiny)
                 .setCaption("Horizontal")
                 .setContent(properties.createHorizontalLayout(
                     vaStylePaddingTiny
                 ))
                 .build())
             .addComponent(VaadinBuilders.panel()
-                .setAttributes(vaStylePaddingSmall, vaStyleMarginTiny)
+                .setAttributes(vaStyleMarginTiny)
                 .setCaption("Vertical")
                 .setContent(properties.createVerticalLayout(
                     vaStylePaddingTiny
                 ))
                 .build())
             .addComponent(VaadinBuilders.panel()
-                .setAttributes(vaStylePaddingSmall, vaStyleMarginTiny)
+                .setAttributes(vaStyleMarginTiny)
                 .setCaption("Form")
                 .setContent(properties.createFormLayout())
                 .build())
