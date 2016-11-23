@@ -28,6 +28,13 @@ public class VaadinComponentAttributes {
         Attribute<? super AbstractComponent> vaImmediate = new Attribute<>(c -> c.setImmediate(true));
         Attribute<? super AbstractComponent> vaStyleSmall = new Attribute<>(c -> c.addStyleName("small"));
         Attribute<? super AbstractComponent> vaStyleTiny = new Attribute<>(c -> c.addStyleName("tiny"));
+        Attribute<? super AbstractComponent> vaStyleMarginNormal = new Attribute<>(c -> c.addStyleName("margin-normal"));
+        Attribute<? super AbstractComponent> vaStyleMarginSmall = new Attribute<>(c -> c.addStyleName("margin-small"));
+        Attribute<? super AbstractComponent> vaStyleMarginTiny = new Attribute<>(c -> c.addStyleName("margin-tiny"));
+        Attribute<? super AbstractComponent> vaStylePaddingNormal = new Attribute<>(c -> c.addStyleName("padding-normal"));
+        Attribute<? super AbstractComponent> vaStylePaddingSmall = new Attribute<>(c -> c.addStyleName("padding-small"));
+        Attribute<? super AbstractComponent> vaStylePaddingTiny = new Attribute<>(c -> c.addStyleName("padding-tiny"));
+        Attribute<? super AbstractComponent> vaStyleScrollable = new Attribute<>(c -> c.addStyleName("v-scrollable"));
         Attribute<? super AbstractComponent> vaStyleMonospace = new Attribute<>(c -> c.addStyleName("font-monospace"));
     }
 

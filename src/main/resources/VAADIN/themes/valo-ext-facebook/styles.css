@@ -975,7 +975,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.6";
+	content: "7.6.8";
 }
 
 .v-widget {
@@ -14958,4 +14958,268 @@ div.v-layout.v-horizontal.v-widget {
 	max-width: 960px;
 	display: block;
 	margin: 0 auto;
+}
+
+.valo-ext-facebook .margin-normal {
+	margin: 27px 27px 27px 27px;
+}
+
+.valo-ext-facebook .margin-small {
+	margin: 9px 9px 9px 9px;
+}
+
+.valo-ext-facebook .margin-tiny {
+	margin: 3px 3px 3px 3px;
+}
+
+.valo-ext-facebook .padding-normal {
+	padding: 27px 27px 27px 27px;
+}
+
+.valo-ext-facebook .padding-small {
+	padding: 9px 9px 9px 9px;
+}
+
+.valo-ext-facebook .padding-tiny {
+	padding: 3px 3px 3px 3px;
+}
+
+.valo-ext-facebook .margin-top-normal {
+	margin-top: 27px;
+}
+
+.valo-ext-facebook .margin-top-small {
+	margin-top: 9px;
+}
+
+.valo-ext-facebook .margin-top-tiny {
+	margin-top: 3px;
+}
+
+.valo-ext-facebook .padding-top-normal {
+	padding-top: 27px;
+}
+
+.valo-ext-facebook .padding-top-small {
+	padding-top: 9px;
+}
+
+.valo-ext-facebook .padding-top-tiny {
+	padding-top: 3px;
+}
+
+.valo-ext-facebook .margin-left-normal {
+	margin-left: 27px;
+}
+
+.valo-ext-facebook .margin-left-small {
+	margin-left: 9px;
+}
+
+.valo-ext-facebook .margin-left-tiny {
+	margin-left: 3px;
+}
+
+.valo-ext-facebook .padding-left-normal {
+	padding-left: 27px;
+}
+
+.valo-ext-facebook .padding-left-small {
+	padding-left: 9px;
+}
+
+.valo-ext-facebook .padding-left-tiny {
+	padding-left: 3px;
+}
+
+.valo-ext-facebook .margin-bottom-normal {
+	margin-bottom: 27px;
+}
+
+.valo-ext-facebook .margin-bottom-small {
+	margin-bottom: 9px;
+}
+
+.valo-ext-facebook .margin-bottom-tiny {
+	margin-bottom: 3px;
+}
+
+.valo-ext-facebook .padding-bottom-normal {
+	padding-bottom: 27px;
+}
+
+.valo-ext-facebook .padding-bottom-small {
+	padding-bottom: 9px;
+}
+
+.valo-ext-facebook .padding-bottom-tiny {
+	padding-bottom: 3px;
+}
+
+.valo-ext-facebook .margin-right-normal {
+	margin-right: 27px;
+}
+
+.valo-ext-facebook .margin-right-small {
+	margin-right: 9px;
+}
+
+.valo-ext-facebook .margin-right-tiny {
+	margin-right: 3px;
+}
+
+.valo-ext-facebook .padding-right-normal {
+	padding-right: 27px;
+}
+
+.valo-ext-facebook .padding-right-small {
+	padding-right: 9px;
+}
+
+.valo-ext-facebook .padding-right-tiny {
+	padding-right: 3px;
+}
+
+.valo-ext-facebook .fg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-facebook .fg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-facebook .fg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-facebook .fg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-facebook .fg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-facebook .fg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-facebook .fg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-facebook .fg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-facebook .fg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-facebook .fg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-facebook .fg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-facebook .fg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-facebook .fg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-facebook .fg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-facebook .fg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-facebook .fg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-facebook .fg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-facebook .fg-color-white {
+	background-color: #ffffff;
+}
+
+.valo-ext-facebook .bg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-facebook .bg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-facebook .bg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-facebook .bg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-facebook .bg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-facebook .bg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-facebook .bg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-facebook .bg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-facebook .bg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-facebook .bg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-facebook .bg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-facebook .bg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-facebook .bg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-facebook .bg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-facebook .bg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-facebook .bg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-facebook .bg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-facebook .bg-color-white {
+	background-color: #ffffff;
 }

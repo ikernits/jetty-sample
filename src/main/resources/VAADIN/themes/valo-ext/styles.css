@@ -999,7 +999,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.6";
+	content: "7.6.8";
 }
 
 .v-widget {
@@ -14993,6 +14993,270 @@ div.v-layout.v-horizontal.v-widget {
 	max-width: 960px;
 	display: block;
 	margin: 0 auto;
+}
+
+.valo-ext .margin-normal {
+	margin: 27px 27px 27px 27px;
+}
+
+.valo-ext .margin-small {
+	margin: 9px 9px 9px 9px;
+}
+
+.valo-ext .margin-tiny {
+	margin: 3px 3px 3px 3px;
+}
+
+.valo-ext .padding-normal {
+	padding: 27px 27px 27px 27px;
+}
+
+.valo-ext .padding-small {
+	padding: 9px 9px 9px 9px;
+}
+
+.valo-ext .padding-tiny {
+	padding: 3px 3px 3px 3px;
+}
+
+.valo-ext .margin-top-normal {
+	margin-top: 27px;
+}
+
+.valo-ext .margin-top-small {
+	margin-top: 9px;
+}
+
+.valo-ext .margin-top-tiny {
+	margin-top: 3px;
+}
+
+.valo-ext .padding-top-normal {
+	padding-top: 27px;
+}
+
+.valo-ext .padding-top-small {
+	padding-top: 9px;
+}
+
+.valo-ext .padding-top-tiny {
+	padding-top: 3px;
+}
+
+.valo-ext .margin-left-normal {
+	margin-left: 27px;
+}
+
+.valo-ext .margin-left-small {
+	margin-left: 9px;
+}
+
+.valo-ext .margin-left-tiny {
+	margin-left: 3px;
+}
+
+.valo-ext .padding-left-normal {
+	padding-left: 27px;
+}
+
+.valo-ext .padding-left-small {
+	padding-left: 9px;
+}
+
+.valo-ext .padding-left-tiny {
+	padding-left: 3px;
+}
+
+.valo-ext .margin-bottom-normal {
+	margin-bottom: 27px;
+}
+
+.valo-ext .margin-bottom-small {
+	margin-bottom: 9px;
+}
+
+.valo-ext .margin-bottom-tiny {
+	margin-bottom: 3px;
+}
+
+.valo-ext .padding-bottom-normal {
+	padding-bottom: 27px;
+}
+
+.valo-ext .padding-bottom-small {
+	padding-bottom: 9px;
+}
+
+.valo-ext .padding-bottom-tiny {
+	padding-bottom: 3px;
+}
+
+.valo-ext .margin-right-normal {
+	margin-right: 27px;
+}
+
+.valo-ext .margin-right-small {
+	margin-right: 9px;
+}
+
+.valo-ext .margin-right-tiny {
+	margin-right: 3px;
+}
+
+.valo-ext .padding-right-normal {
+	padding-right: 27px;
+}
+
+.valo-ext .padding-right-small {
+	padding-right: 9px;
+}
+
+.valo-ext .padding-right-tiny {
+	padding-right: 3px;
+}
+
+.valo-ext .fg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext .fg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext .fg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext .fg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext .fg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext .fg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext .fg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext .fg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext .fg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext .fg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext .fg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext .fg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext .fg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext .fg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext .fg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext .fg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext .fg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext .fg-color-white {
+	background-color: #ffffff;
+}
+
+.valo-ext .bg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext .bg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext .bg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext .bg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext .bg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext .bg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext .bg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext .bg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext .bg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext .bg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext .bg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext .bg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext .bg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext .bg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext .bg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext .bg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext .bg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext .bg-color-white {
+	background-color: #ffffff;
 }
 
 html {

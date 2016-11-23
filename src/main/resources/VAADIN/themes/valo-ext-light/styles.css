@@ -999,7 +999,7 @@
  */
 
 .v-vaadin-version:after {
-	content: "7.6.6";
+	content: "7.6.8";
 }
 
 .v-widget {
@@ -15000,4 +15000,268 @@ div.v-layout.v-horizontal.v-widget {
 	max-width: 960px;
 	display: block;
 	margin: 0 auto;
+}
+
+.valo-ext-light .margin-normal {
+	margin: 27px 27px 27px 27px;
+}
+
+.valo-ext-light .margin-small {
+	margin: 9px 9px 9px 9px;
+}
+
+.valo-ext-light .margin-tiny {
+	margin: 3px 3px 3px 3px;
+}
+
+.valo-ext-light .padding-normal {
+	padding: 27px 27px 27px 27px;
+}
+
+.valo-ext-light .padding-small {
+	padding: 9px 9px 9px 9px;
+}
+
+.valo-ext-light .padding-tiny {
+	padding: 3px 3px 3px 3px;
+}
+
+.valo-ext-light .margin-top-normal {
+	margin-top: 27px;
+}
+
+.valo-ext-light .margin-top-small {
+	margin-top: 9px;
+}
+
+.valo-ext-light .margin-top-tiny {
+	margin-top: 3px;
+}
+
+.valo-ext-light .padding-top-normal {
+	padding-top: 27px;
+}
+
+.valo-ext-light .padding-top-small {
+	padding-top: 9px;
+}
+
+.valo-ext-light .padding-top-tiny {
+	padding-top: 3px;
+}
+
+.valo-ext-light .margin-left-normal {
+	margin-left: 27px;
+}
+
+.valo-ext-light .margin-left-small {
+	margin-left: 9px;
+}
+
+.valo-ext-light .margin-left-tiny {
+	margin-left: 3px;
+}
+
+.valo-ext-light .padding-left-normal {
+	padding-left: 27px;
+}
+
+.valo-ext-light .padding-left-small {
+	padding-left: 9px;
+}
+
+.valo-ext-light .padding-left-tiny {
+	padding-left: 3px;
+}
+
+.valo-ext-light .margin-bottom-normal {
+	margin-bottom: 27px;
+}
+
+.valo-ext-light .margin-bottom-small {
+	margin-bottom: 9px;
+}
+
+.valo-ext-light .margin-bottom-tiny {
+	margin-bottom: 3px;
+}
+
+.valo-ext-light .padding-bottom-normal {
+	padding-bottom: 27px;
+}
+
+.valo-ext-light .padding-bottom-small {
+	padding-bottom: 9px;
+}
+
+.valo-ext-light .padding-bottom-tiny {
+	padding-bottom: 3px;
+}
+
+.valo-ext-light .margin-right-normal {
+	margin-right: 27px;
+}
+
+.valo-ext-light .margin-right-small {
+	margin-right: 9px;
+}
+
+.valo-ext-light .margin-right-tiny {
+	margin-right: 3px;
+}
+
+.valo-ext-light .padding-right-normal {
+	padding-right: 27px;
+}
+
+.valo-ext-light .padding-right-small {
+	padding-right: 9px;
+}
+
+.valo-ext-light .padding-right-tiny {
+	padding-right: 3px;
+}
+
+.valo-ext-light .fg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-light .fg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-light .fg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-light .fg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-light .fg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-light .fg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-light .fg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-light .fg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-light .fg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-light .fg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-light .fg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-light .fg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-light .fg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-light .fg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-light .fg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-light .fg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-light .fg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-light .fg-color-white {
+	background-color: #ffffff;
+}
+
+.valo-ext-light .bg-color-green {
+	background-color: #00a300;
+}
+
+.valo-ext-light .bg-color-greendark {
+	background-color: #1e7145;
+}
+
+.valo-ext-light .bg-color-greenlight {
+	background-color: #99b433;
+}
+
+.valo-ext-light .bg-color-magenta {
+	background-color: #ff0097;
+}
+
+.valo-ext-light .bg-color-purplelight {
+	background-color: #9f00a7;
+}
+
+.valo-ext-light .bg-color-purple {
+	background-color: #7e3878;
+}
+
+.valo-ext-light .bg-color-purpledark {
+	background-color: #603cba;
+}
+
+.valo-ext-light .bg-color-darken {
+	background-color: #1d1d1d;
+}
+
+.valo-ext-light .bg-color-teal {
+	background-color: #00aba9;
+}
+
+.valo-ext-light .bg-color-bluelight {
+	background-color: #eff4ff;
+}
+
+.valo-ext-light .bg-color-blue {
+	background-color: #2d89ef;
+}
+
+.valo-ext-light .bg-color-bluedark {
+	background-color: #2b5797;
+}
+
+.valo-ext-light .bg-color-yellow {
+	background-color: #ffc40d;
+}
+
+.valo-ext-light .bg-color-orange {
+	background-color: #e3a21a;
+}
+
+.valo-ext-light .bg-color-orangedark {
+	background-color: #da532c;
+}
+
+.valo-ext-light .bg-color-reddark {
+	background-color: #b91d47;
+}
+
+.valo-ext-light .bg-color-red {
+	background-color: #ee1111;
+}
+
+.valo-ext-light .bg-color-white {
+	background-color: #ffffff;
 }

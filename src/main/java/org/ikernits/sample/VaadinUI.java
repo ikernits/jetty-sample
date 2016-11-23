@@ -386,6 +386,7 @@ public class VaadinUI extends UI {
         tabSheet.addTab(createVaTestLayout(), "Test");
         tabSheet.addTab(createCryptoLayout(), "Crypto");
         tabSheet.addTab(createTableTab(), "Table");
+        tabSheet.addTab(new VaadinForm().createLayout(), "Forms");
         tabSheet.setSelectedTab(tabSheet.getTab(0));
         setContent(tabSheet);
     }
