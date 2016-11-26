@@ -12,15 +12,14 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.converter.StringToLongConverter;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.ikernits.sample.util.ListenerList;
 import org.ikernits.vaadin.VaadinBuilders;
@@ -31,6 +30,7 @@ import org.joda.time.DateTime;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -38,11 +38,12 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleMargin;
-import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleMarginTiny;
-import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStylePaddingTiny;
-import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaMargin;
 
 public class VaadinForm {
+
+    public enum FormLayoutType {
+        Horizontal, Vertial, Form
+    }
 
     public static class FormProperty<T> {
         private T value;
@@ -54,6 +55,9 @@ public class VaadinForm {
         final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
             MoreExecutors.directExecutor(), th -> {}
         );
+
+        @SuppressWarnings("unchecked")
+        private Map<FormLayoutType, List<Consumer<AbstractComponent>>> customComponentModifiers = new HashMap<>();
 
         public static FormProperty<Boolean> checkBox(String shortName, String longName, boolean initialValue) {
             return new FormProperty<>(shortName, longName, Boolean.class, initialValue);
@@ -181,6 +185,18 @@ public class VaadinForm {
             property.setValue(value);
             return value;
         }
+
+        @SafeVarargs
+        public final FormProperty<T> setCustomComponentModifiers(
+            FormLayoutType layoutType, Consumer<AbstractComponent>... modifiers) {
+            this.customComponentModifiers.put(layoutType, Arrays.asList(modifiers));
+            return this;
+        }
+
+
+        public List<Consumer<AbstractComponent>> getCustomComponentModifiers(FormLayoutType layoutType) {
+            return customComponentModifiers.getOrDefault(layoutType, ImmutableList.of());
+        }
     }
 
     private static final Map<Class<?>, AbstractStringToNumberConverter<?>> plainNumberConverters = ImmutableMap.of(
@@ -243,7 +259,7 @@ public class VaadinForm {
         this.properties.forEach(p -> p.changeListeners.add(changeListeners::fire));
     }
 
-    private <T> Component createComponentForProperty(FormProperty<T> uip) {
+    private <T> AbstractComponent createComponentForProperty(FormProperty<T> uip) {
         Class<?> propertyType = uip.getProperty().getType();
 
         if (propertyType == Void.class) {
@@ -297,16 +313,16 @@ public class VaadinForm {
     }
 
     private void addComponentsToLayout(
-        Layout layout,
+        Layout layout, FormLayoutType layoutType,
         boolean useShortNames,
         boolean setCaptions,
         List<Consumer<Component>> labelModifiers,
-        List<Consumer<Component>> componentModifiers
-    ) {
+        List<Consumer<Component>> componentModifiers) {
         properties.forEach(uip -> {
             final String name = useShortNames ? uip.getShortName() : uip.getLongName();
-            Component component = createComponentForProperty(uip);
+            AbstractComponent component = createComponentForProperty(uip);
             componentModifiers.forEach(cm -> cm.accept(component));
+            uip.getCustomComponentModifiers(layoutType).forEach(cm -> cm.accept(component));
 
             if (setCaptions) {
                 component.setCaption(name);
@@ -328,20 +344,19 @@ public class VaadinForm {
             .setAttributes(modifiers)
             .setDefaultComponentAlignment(Alignment.MIDDLE_LEFT)
             .build();
-        addComponentsToLayout(layout, true, false,
+        addComponentsToLayout(layout, FormLayoutType.Horizontal, true, false,
             ImmutableList.of(vaStyleMargin(Side.Right, Size.Tiny)),
             ImmutableList.of(vaStyleMargin(Side.Right, Size.Small)));
         return layout;
     }
 
-    ;
 
     @SafeVarargs
     public final VerticalLayout createVerticalLayout(Consumer<? super VerticalLayout>... modifiers) {
         VerticalLayout layout = VaadinBuilders.verticalLayout()
             .setAttributes(modifiers)
             .build();
-        addComponentsToLayout(layout, false, false,
+        addComponentsToLayout(layout, FormLayoutType.Vertial, false, false,
             ImmutableList.of(vaStyleMargin(Side.Bottom, Size.Tiny)),
             ImmutableList.of(vaStyleMargin(Side.Bottom, Size.Small)));
         return layout;
@@ -352,7 +367,7 @@ public class VaadinForm {
         FormLayout layout = VaadinBuilders.formLayout()
             .setAttributes(modifiers)
             .build();
-        addComponentsToLayout(layout, false, true,
+        addComponentsToLayout(layout, FormLayoutType.Form, false, true,
             ImmutableList.of(),
             ImmutableList.of());
         return layout;

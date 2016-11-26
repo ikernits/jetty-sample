@@ -381,6 +381,12 @@ public class VaadinUI extends UI {
         List<FormProperty<?>> properties = ImmutableList.of(
             FormProperty.button("Button"),
             FormProperty.stringTextField("Text", "Text Field", "initial"),
+            FormProperty.stringTextField("Text CW", "Text Field Custom Width", "1")
+                .setCustomComponentModifiers(
+                    VaadinForm.FormLayoutType.Horizontal,
+                    c -> c.setWidth(40.f, Unit.PIXELS)
+                ),
+
             FormProperty.integerTextField("Integer", "Integer Number", 10),
             FormProperty.doubleTextField("Double", "Double Number", 10),
             FormProperty.checkBox("Boolean", "Boolean Flag", true),
