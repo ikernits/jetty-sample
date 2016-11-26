@@ -1,6 +1,7 @@
 package org.ikernits.sample;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.vaadin.annotations.Push;
@@ -8,17 +9,12 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.communication.PushMode;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.shared.ui.ui.Transport;
-import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -27,7 +23,6 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -35,6 +30,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMReader;
+import org.ikernits.sample.VaadinForm.FormProperty;
 import org.ikernits.sample.vaadin.components.HighChart;
 import org.ikernits.vaadin.VaadinBuilders;
 import org.ikernits.vaadin.VaadinComponentStyles.ColorStyle;
@@ -47,21 +43,18 @@ import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.Security;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaHeight100;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaReadOnly;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaSizeFull;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleMarginTiny;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleMonospace;
+import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStylePaddingTiny;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaStyleTiny;
 import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.vaWidth100;
 import static org.ikernits.vaadin.VaadinComponentAttributes.LayoutAttributes.vaMargin;
@@ -378,6 +371,85 @@ public class VaadinUI extends UI {
             .build();
     }
 
+
+    enum FormChoice {
+        Good, Bad, Ugly
+    }
+
+    protected Component createVaadinFormLayout() {
+        AtomicInteger updateCount = new AtomicInteger();
+        List<FormProperty<?>> properties = ImmutableList.of(
+            FormProperty.button("Button"),
+            FormProperty.stringTextField("Text", "Text Field", "initial"),
+            FormProperty.integerTextField("Integer", "Integer Number", 10),
+            FormProperty.doubleTextField("Double", "Double Number", 10),
+            FormProperty.checkBox("Boolean", "Boolean Flag", true),
+            FormProperty.dateField("Date", "Date Value", DateTime.now()),
+            FormProperty.stringComboBox("String List", "String List Field", "A", ImmutableList.of("A","B","C")),
+            FormProperty.comboBox(
+                "Number List",
+                "Number List Field",
+                1,
+                ImmutableList.of(1,2,3),
+                ImmutableMap.of(
+                    1, "value 1", 2, "value 2", 3, "value 3"
+                ),
+                Integer.class
+            ),
+            FormProperty.enumComboBox(
+                "Choice List",
+                "Choice List Field",
+                FormChoice.Good
+            ),
+            FormProperty.comboBox(
+                "Custom List",
+                "Custom List With Names",
+                FormChoice.Good,
+                Arrays.asList(FormChoice.values()),
+                ImmutableMap.of(
+                    FormChoice.Good, "Very Good",
+                    FormChoice.Bad, "Very Bad",
+                    FormChoice.Ugly, "Very Ugly"
+                ),
+                FormChoice.class
+            )
+        );
+
+        VaadinForm vaadinForm = new VaadinForm(properties);
+        vaadinForm.addChangeListener(uip -> {
+            String caption =  "Update #" + updateCount.incrementAndGet() + ": '" + uip.getLongName()
+                + "' from " + uip.getValue()
+                + " to " + uip.getProperty().getValue();
+            Notification notif = new Notification(caption, Notification.Type.HUMANIZED_MESSAGE);
+            notif.setDelayMsec(1500);
+            notif.show(UI.getCurrent().getPage());
+            uip.store();
+        });
+
+        return VaadinBuilders.verticalLayout()
+            .setAttributes(vaMargin)
+            .addComponent(VaadinBuilders.panel()
+                .setAttributes(vaStyleMarginTiny)
+                .setCaption("Horizontal")
+                .setContent(vaadinForm.createHorizontalLayout(
+                    vaStylePaddingTiny
+                ))
+                .build())
+            .addComponent(VaadinBuilders.panel()
+                .setAttributes(vaStyleMarginTiny)
+                .setCaption("Vertical")
+                .setContent(vaadinForm.createVerticalLayout(
+                    vaStylePaddingTiny
+                ))
+                .build())
+            .addComponent(VaadinBuilders.panel()
+                .setAttributes(vaStyleMarginTiny)
+                .setCaption("Form")
+                .setContent(vaadinForm.createFormLayout())
+                .build())
+            .build();
+    }
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         TabSheet tabSheet = new TabSheet();
@@ -386,7 +458,7 @@ public class VaadinUI extends UI {
         tabSheet.addTab(createVaTestLayout(), "Test");
         tabSheet.addTab(createCryptoLayout(), "Crypto");
         tabSheet.addTab(createTableTab(), "Table");
-        tabSheet.addTab(new VaadinForm().createLayout(), "Forms");
+        tabSheet.addTab(createVaadinFormLayout(), "Forms");
         tabSheet.setSelectedTab(tabSheet.getTab(0));
         setContent(tabSheet);
     }
