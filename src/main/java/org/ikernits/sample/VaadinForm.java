@@ -57,7 +57,7 @@ public class VaadinForm {
         );
 
         @SuppressWarnings("unchecked")
-        private Map<FormLayoutType, List<Consumer<AbstractComponent>>> customComponentModifiers = new HashMap<>();
+        private Map<FormLayoutType, List<Consumer<? super Component>>> customComponentModifiers = new HashMap<>();
 
         public static FormProperty<Boolean> checkBox(String shortName, String longName, boolean initialValue) {
             return new FormProperty<>(shortName, longName, Boolean.class, initialValue);
@@ -188,13 +188,13 @@ public class VaadinForm {
 
         @SafeVarargs
         public final FormProperty<T> setCustomComponentModifiers(
-            FormLayoutType layoutType, Consumer<AbstractComponent>... modifiers) {
+            FormLayoutType layoutType, Consumer<? super Component>... modifiers) {
             this.customComponentModifiers.put(layoutType, Arrays.asList(modifiers));
             return this;
         }
 
 
-        public List<Consumer<AbstractComponent>> getCustomComponentModifiers(FormLayoutType layoutType) {
+        public List<Consumer<? super Component>> getCustomComponentModifiers(FormLayoutType layoutType) {
             return customComponentModifiers.getOrDefault(layoutType, ImmutableList.of());
         }
     }
