@@ -12,9 +12,14 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.converter.StringToLongConverter;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -52,6 +57,7 @@ public class VaadinForm {
         private final String longName;
         private final Converter<String, T> converter;
         private final List<T> allowedValues;
+        private final Class<? extends AbstractComponent> componentType;
         final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
             MoreExecutors.directExecutor(), th -> {}
         );
@@ -60,27 +66,31 @@ public class VaadinForm {
         private Map<FormLayoutType, List<Consumer<? super Component>>> customComponentModifiers = new HashMap<>();
 
         public static FormProperty<Boolean> checkBox(String shortName, String longName, boolean initialValue) {
-            return new FormProperty<>(shortName, longName, Boolean.class, initialValue);
+            return new FormProperty<>(shortName, longName, Boolean.class, CheckBox.class, initialValue);
         }
 
         public static FormProperty<String> stringTextField(String shortName, String longName, String initialValue) {
-            return new FormProperty<>(shortName, longName, String.class, initialValue);
+            return new FormProperty<>(shortName, longName, String.class, TextField.class, initialValue);
         }
 
         public static FormProperty<Integer> integerTextField(String shortName, String longName, int initialValue) {
-            return new FormProperty<>(shortName, longName, Integer.class, initialValue);
+            return new FormProperty<>(shortName, longName, Integer.class, TextField.class, initialValue);
         }
 
         public static FormProperty<Double> doubleTextField(String shortName, String longName, double initialValue) {
-            return new FormProperty<>(shortName, longName, Double.class, initialValue);
+            return new FormProperty<>(shortName, longName, Double.class, TextField.class, initialValue);
         }
 
         public static FormProperty<DateTime> dateField(String shortName, String longName, DateTime initialValue) {
-            return new FormProperty<>(shortName, longName, DateTime.class, initialValue);
+            return new FormProperty<>(shortName, longName, DateTime.class, DateField.class, initialValue);
         }
 
         public static FormProperty<Void> button(String name) {
-            return new FormProperty<>(name, name, Void.class, null);
+            return new FormProperty<>(name, name, Void.class, Button.class, null);
+        }
+
+        public static FormProperty<String> label(String value) {
+            return new FormProperty<>(null, null, String.class, Label.class, null);
         }
 
         public static FormProperty<String> stringComboBox(String shortName, String longName, String initialValue, List<String> values) {
@@ -99,19 +109,24 @@ public class VaadinForm {
             );
         }
 
-        public static <T> FormProperty<T> comboBox(String shortName, String longName, T initialValue, List<T> values, Map<T, String> valueMapping, Class<T> propertyType) {
+        public static <T> FormProperty<T> comboBox(
+            String shortName, String longName, T initialValue,
+            List<T> values, Map<T, String> valueMapping,
+            Class<T> propertyType) {
+
             return new FormProperty<T>(
                 shortName,
                 longName,
                 propertyType,
+                ComboBox.class,
                 initialValue,
                 createConverterForMap(valueMapping, String.class, propertyType),
                 values
             );
         }
 
-        private FormProperty(String shortName, String longName, Class<T> clazz, T initialValue) {
-           this(shortName, longName, clazz, initialValue, null, null);
+        private FormProperty(String shortName, String longName, Class<T> propertyType, Class<? extends AbstractComponent> componentType, T initialValue) {
+           this(shortName, longName, propertyType, componentType, initialValue, null, null);
         }
 
         private static <P, M> Converter<P, M> createConverterForMap(Map<M, P> modelToPresentationMapping,
@@ -142,7 +157,11 @@ public class VaadinForm {
             };
         }
 
-        private FormProperty(String shortName, String longName, Class<T> clazz, T initialValue, Converter<String, T> converter, List<T> allowedValues) {
+        private FormProperty(
+            String shortName, String longName,
+            Class<T> clazz, Class<? extends AbstractComponent> componentType,
+            T initialValue, Converter<String, T> converter, List<T> allowedValues
+        ) {
             this.shortName = shortName;
             this.longName = longName;
             this.property = new ObjectProperty<>(initialValue, clazz);
@@ -150,6 +169,7 @@ public class VaadinForm {
             this.property.addValueChangeListener(e -> changeListeners.fire(this));
             this.converter = converter;
             this.allowedValues = allowedValues;
+            this.componentType = componentType;
         }
 
         public T getValue() {
@@ -158,6 +178,10 @@ public class VaadinForm {
 
         public ObjectProperty<T> getProperty() {
             return property;
+        }
+
+        public Class<? extends AbstractComponent> getComponentType() {
+            return componentType;
         }
 
         public String getShortName() {
@@ -249,8 +273,8 @@ public class VaadinForm {
     };
 
 
-    final List<FormProperty<?>> properties;
-    final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
+    private final List<FormProperty<?>> properties;
+    private final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
         MoreExecutors.directExecutor(), th -> {}
     );
 
@@ -260,55 +284,61 @@ public class VaadinForm {
     }
 
     private <T> AbstractComponent createComponentForProperty(FormProperty<T> uip) {
-        Class<?> propertyType = uip.getProperty().getType();
+        Class<? extends AbstractComponent> type = uip.getComponentType();
 
-        if (propertyType == Void.class) {
+        if (type == Button.class) {
             return VaadinBuilders.button()
                 .setCaption(uip.getShortName())
                 .addClickListener(e -> uip.getProperty().setValue(null))
                 .build();
-        } else if (propertyType == Boolean.class) {
+        } else if (type == Label.class) {
+            return VaadinBuilders.label()
+                .setContentMode(ContentMode.HTML)
+                .setWidthUndefined()
+                .build();
+        } else if (type == CheckBox.class) {
             return VaadinBuilders.checkBox()
                 .setPropertyDataSource(uip.getProperty())
                 .setValidationVisible(true)
                 .setImmediate(true)
                 .build();
-        } else if (propertyType == DateTime.class) {
+        } else if (type == DateField.class) {
             return VaadinBuilders.dateField()
                 .setConverter(dateTimeConverter)
                 .setPropertyDataSource(uip.getProperty())
                 .setValidationVisible(true)
                 .setImmediate(true)
                 .build();
-        } else {
-            if (uip.getAllowedValues() == null) {
-                TextField textField = VaadinBuilders.textField()
-                    .setPropertyDataSource(uip.getProperty())
-                    .setValidationVisible(true)
-                    .setImmediate(true)
-                    .build();
+        } else if (type == ComboBox.class) {
+            return VaadinBuilders.comboBox()
+                .setMultiSelect(false)
+                .setConverter(uip.getConverter())
+                .setNullSelectionAllowed(false)
+                .setTextInputAllowed(false)
+                .setValidationVisible(true)
+                .addItems(uip.getAllowedValues().stream()
+                    .map(v -> uip.getConverter().convertToPresentation(v, String.class, Locale.getDefault()))
+                    .collect(Collectors.toList()))
+                .setPropertyDataSource(uip.getProperty())
+                .build();
+        } else if (type == TextField.class) {
+            TextField textField = VaadinBuilders.textField()
+                .setPropertyDataSource(uip.getProperty())
+                .setValidationVisible(true)
+                .setImmediate(true)
+                .build();
 
-                if (Number.class.isAssignableFrom(propertyType)) {
-                    textField.setNullRepresentation("");
-                    if (plainNumberConverters.containsKey(propertyType)) {
-                        textField.setConverter(plainNumberConverters.get(propertyType));
-                    }
+            Class<?> propertyType = uip.getProperty().getType();
+            if (Number.class.isAssignableFrom(propertyType)) {
+                textField.setNullRepresentation("");
+                if (plainNumberConverters.containsKey(propertyType)) {
+                    textField.setConverter(plainNumberConverters.get(propertyType));
                 }
-
-                return textField;
-            } else {
-                return VaadinBuilders.comboBox()
-                    .setMultiSelect(false)
-                    .setConverter(uip.getConverter())
-                    .setNullSelectionAllowed(false)
-                    .setTextInputAllowed(false)
-                    .setValidationVisible(true)
-                    .addItems(uip.getAllowedValues().stream()
-                        .map(v -> uip.getConverter().convertToPresentation(v, String.class, Locale.getDefault()))
-                        .collect(Collectors.toList()))
-                    .setPropertyDataSource(uip.getProperty())
-                    .build();
             }
+
+            return textField;
+        } else {
+            throw new IllegalStateException("Component type: '" + type.getSimpleName() + "' is not supported");
         }
     }
 
@@ -325,16 +355,24 @@ public class VaadinForm {
             uip.getCustomComponentModifiers(layoutType).forEach(cm -> cm.accept(component));
 
             if (setCaptions) {
-                component.setCaption(name);
+                if (name != null) {
+                    component.setCaption(name);
+                    component.setCaptionAsHtml(true);
+                }
             } else {
-                Label label = VaadinBuilders.label()
-                    .setValue(uip.getShortName())
-                    .build();
-                labelModifiers.forEach(cm -> cm.accept(label));
-                layout.addComponent(label);
+                if (name != null) {
+                    Label label = VaadinBuilders.label()
+                        .setContentMode(ContentMode.HTML)
+                        .setValue(uip.getShortName())
+                        .build();
+                    labelModifiers.forEach(cm -> cm.accept(label));
+                    layout.addComponent(label);
+                }
             }
 
-            layout.addComponent(component);
+            if (component != null) {
+                layout.addComponent(component);
+            }
         });
     }
 
