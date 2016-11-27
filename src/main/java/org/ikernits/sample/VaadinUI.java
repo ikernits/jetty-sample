@@ -391,6 +391,7 @@ public class VaadinUI extends UI {
             FormProperty.doubleTextField("Double", "Double Number", 10),
             FormProperty.checkBox("Boolean", "Boolean Flag", true),
             FormProperty.dateField("Date", "Date Value", DateTime.now()),
+            FormProperty.label("Lists Section"),
             FormProperty.stringComboBox("String List", "String List Field", "A", ImmutableList.of("A","B","C")),
             FormProperty.comboBox(
                 "Number List",

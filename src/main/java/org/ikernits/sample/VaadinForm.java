@@ -47,7 +47,7 @@ import static org.ikernits.vaadin.VaadinComponentAttributes.ComponentAttributes.
 public class VaadinForm {
 
     public enum FormLayoutType {
-        Horizontal, Vertial, Form
+        Horizontal, Vertical, Form
     }
 
     public static class FormProperty<T> {
@@ -58,7 +58,7 @@ public class VaadinForm {
         private final Converter<String, T> converter;
         private final List<T> allowedValues;
         private final Class<? extends AbstractComponent> componentType;
-        final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
+        private final ListenerList<FormProperty<?>> changeListeners = new ListenerList<>(
             MoreExecutors.directExecutor(), th -> {}
         );
 
@@ -89,8 +89,8 @@ public class VaadinForm {
             return new FormProperty<>(name, name, Void.class, Button.class, null);
         }
 
-        public static FormProperty<String> label(String value) {
-            return new FormProperty<>(null, null, String.class, Label.class, null);
+        public static FormProperty<String> label(String initialValue) {
+            return new FormProperty<>(null, null, String.class, Label.class, initialValue);
         }
 
         public static FormProperty<String> stringComboBox(String shortName, String longName, String initialValue, List<String> values) {
@@ -114,7 +114,7 @@ public class VaadinForm {
             List<T> values, Map<T, String> valueMapping,
             Class<T> propertyType) {
 
-            return new FormProperty<T>(
+            return new FormProperty<>(
                 shortName,
                 longName,
                 propertyType,
@@ -230,7 +230,7 @@ public class VaadinForm {
                 NumberFormat format = super.getFormat(locale);
                 format.setGroupingUsed(false);
                 return format;
-            };
+            }
         },
         Long.class, new StringToLongConverter() {
             @Override
@@ -238,7 +238,7 @@ public class VaadinForm {
                 NumberFormat format = super.getFormat(locale);
                 format.setGroupingUsed(false);
                 return format;
-            };
+            }
         },
         Double.class, new StringToDoubleConverter() {
             @Override
@@ -246,7 +246,7 @@ public class VaadinForm {
                 NumberFormat format = super.getFormat(locale);
                 format.setGroupingUsed(false);
                 return format;
-            };
+            }
         }
     );
 
@@ -294,6 +294,7 @@ public class VaadinForm {
         } else if (type == Label.class) {
             return VaadinBuilders.label()
                 .setContentMode(ContentMode.HTML)
+                .setPropertyDataSource(uip.getProperty())
                 .setWidthUndefined()
                 .build();
         } else if (type == CheckBox.class) {
@@ -394,7 +395,7 @@ public class VaadinForm {
         VerticalLayout layout = VaadinBuilders.verticalLayout()
             .setAttributes(modifiers)
             .build();
-        addComponentsToLayout(layout, FormLayoutType.Vertial, false, false,
+        addComponentsToLayout(layout, FormLayoutType.Vertical, false, false,
             ImmutableList.of(vaStyleMargin(Side.Bottom, Size.Tiny)),
             ImmutableList.of(vaStyleMargin(Side.Bottom, Size.Small)));
         return layout;
@@ -415,7 +416,7 @@ public class VaadinForm {
         changeListeners.add(listener);
     }
 
-    public void removeChangeListener(Object key) {
-        changeListeners.remove(key);
+    public void removeChangeListener(Consumer<FormProperty<?>> listener) {
+        changeListeners.remove(listener);
     }
 }
