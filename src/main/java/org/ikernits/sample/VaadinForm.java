@@ -283,6 +283,10 @@ public class VaadinForm {
         this.properties.forEach(p -> p.changeListeners.add(changeListeners::fire));
     }
 
+    public VaadinForm(FormProperty<?>... properties) {
+        this(Arrays.asList(properties));
+    }
+
     private <T> AbstractComponent createComponentForProperty(FormProperty<T> uip) {
         Class<? extends AbstractComponent> type = uip.getComponentType();
 
