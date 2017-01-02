@@ -10,8 +10,12 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.ProgressBar;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -91,6 +95,22 @@ public class VaadinBuilders {
     
     public static DateFieldBuilder<DateField, ? extends DateFieldBuilder<DateField, ?>> dateField() {
         return new DateFieldBuilder<>(new DateField());
+    }
+    
+    public static PasswordFieldBuilder<PasswordField, ? extends PasswordFieldBuilder<PasswordField, ?>> passwordField() {
+        return new PasswordFieldBuilder<>(new PasswordField());
+    }
+    
+    public static ListSelectBuilder<ListSelect, ? extends ListSelectBuilder<ListSelect, ?>> listSelect() {
+        return new ListSelectBuilder<>(new ListSelect());
+    }
+    
+    public static ProgressBarBuilder<ProgressBar, ? extends ProgressBarBuilder<ProgressBar, ?>> progressBar() {
+        return new ProgressBarBuilder<>(new ProgressBar());
+    }
+    
+    public static SliderBuilder<Slider, ? extends SliderBuilder<Slider, ?>> slider() {
+        return new SliderBuilder<>(new Slider());
     }
     
 }

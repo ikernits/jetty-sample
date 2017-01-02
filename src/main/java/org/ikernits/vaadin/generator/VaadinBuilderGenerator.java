@@ -14,8 +14,12 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.ProgressBar;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -61,7 +65,11 @@ class VaadinBuilderGenerator {
         Grid.class,
         Window.class,
         FormLayout.class,
-        DateField.class
+        DateField.class,
+        PasswordField.class,
+        ListSelect.class,
+        ProgressBar.class,
+        Slider.class
     );
 
     private static class IndentedPrinter {

@@ -57,22 +57,6 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     }
     
     /**
-     * @see com.vaadin.ui.AbstractField#addListener
-     */
-    public B addListener(ValueChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractField#addListener
-     */
-    public B addListener(ReadOnlyStatusChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractField#setInvalidCommitted
      */
     public B setInvalidCommitted(boolean invalidCommitted) {
@@ -91,7 +75,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Converter converter) {
+    public B setConverter(Class converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -99,7 +83,7 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
     /**
      * @see com.vaadin.ui.AbstractField#setConverter
      */
-    public B setConverter(Class converter) {
+    public B setConverter(Converter converter) {
         delegate.setConverter(converter);
         return self;
     }
@@ -181,6 +165,22 @@ public class AbstractFieldBuilder<T extends AbstractField, B extends AbstractFie
      */
     public B setCurrentBufferedSourceException(SourceException currentBufferedSourceException) {
         delegate.setCurrentBufferedSourceException(currentBufferedSourceException);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#addListener
+     */
+    public B addListener(ReadOnlyStatusChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractField#addListener
+     */
+    public B addListener(ValueChangeListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     

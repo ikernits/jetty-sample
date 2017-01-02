@@ -12,14 +12,6 @@ public class LinkBuilder<T extends Link, B extends LinkBuilder<T, B>> extends Ab
     }
     
     /**
-     * @see com.vaadin.ui.Link#setResource
-     */
-    public B setResource(Resource resource) {
-        delegate.setResource(resource);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.Link#setTargetBorder
      */
     public B setTargetBorder(BorderStyle targetBorder) {
@@ -48,6 +40,14 @@ public class LinkBuilder<T extends Link, B extends LinkBuilder<T, B>> extends Ab
      */
     public B setTargetWidth(int targetWidth) {
         delegate.setTargetWidth(targetWidth);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Link#setResource
+     */
+    public B setResource(Resource resource) {
+        delegate.setResource(resource);
         return self;
     }
     

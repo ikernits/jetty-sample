@@ -23,16 +23,16 @@ public class AbsoluteLayoutBuilder<T extends AbsoluteLayout, B extends AbsoluteL
     /**
      * @see com.vaadin.ui.AbsoluteLayout#addComponent
      */
-    public B addComponent(Component component) {
-        delegate.addComponent(component);
+    public B addComponent(Component param1, String param2) {
+        delegate.addComponent(param1, param2);
         return self;
     }
     
     /**
      * @see com.vaadin.ui.AbsoluteLayout#addComponent
      */
-    public B addComponent(Component param1, String param2) {
-        delegate.addComponent(param1, param2);
+    public B addComponent(Component component) {
+        delegate.addComponent(component);
         return self;
     }
     

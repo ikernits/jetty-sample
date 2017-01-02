@@ -1,14 +1,23 @@
 package org.ikernits.vaadin;
 
+import com.vaadin.ui.Panel;
+import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.MouseEvents.ClickListener;
-import com.vaadin.ui.Panel;
 
 @SuppressWarnings({"deprecation", "unused", "unchecked"})
 public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends AbstractSingleComponentContainerBuilder<T, B> {
 
     public PanelBuilder(T delegate) {
         super(delegate);
+    }
+    
+    /**
+     * @see com.vaadin.ui.Panel#addClickListener
+     */
+    public B addClickListener(ClickListener clickListener) {
+        delegate.addClickListener(clickListener);
+        return self;
     }
     
     /**
@@ -36,26 +45,18 @@ public class PanelBuilder<T extends Panel, B extends PanelBuilder<T, B>> extends
     }
     
     /**
-     * @see com.vaadin.ui.Panel#setTabIndex
-     */
-    public B setTabIndex(int tabIndex) {
-        delegate.setTabIndex(tabIndex);
-        return self;
-    }
-
-    /**
-     * @see com.vaadin.ui.Panel#addClickListener
-     */
-    public B addClickListener(ClickListener clickListener) {
-        delegate.addClickListener(clickListener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.Panel#setCaption
      */
     public B setCaption(String caption) {
         delegate.setCaption(caption);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Panel#setTabIndex
+     */
+    public B setTabIndex(int tabIndex) {
+        delegate.setTabIndex(tabIndex);
         return self;
     }
     

@@ -25,26 +25,34 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSelect#addItem
-     */
-    public B addItem() {
-        delegate.addItem();
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#addItem
-     */
-    public B addItem(Object item) {
-        delegate.addItem(item);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractSelect#setContainerDataSource
      */
     public B setContainerDataSource(Container containerDataSource) {
         delegate.setContainerDataSource(containerDataSource);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addContainerProperty
+     */
+    public B addContainerProperty(Object param1, Class param2, Object param3) {
+        delegate.addContainerProperty(param1, param2, param3);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#setNewItemsAllowed
+     */
+    public B setNewItemsAllowed(boolean newItemsAllowed) {
+        delegate.setNewItemsAllowed(newItemsAllowed);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#setItemCaptionMode
+     */
+    public B setItemCaptionMode(ItemCaptionMode itemCaptionMode) {
+        delegate.setItemCaptionMode(itemCaptionMode);
         return self;
     }
     
@@ -137,30 +145,6 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
     }
     
     /**
-     * @see com.vaadin.ui.AbstractSelect#addContainerProperty
-     */
-    public B addContainerProperty(Object param1, Class param2, Object param3) {
-        delegate.addContainerProperty(param1, param2, param3);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#setNewItemsAllowed
-     */
-    public B setNewItemsAllowed(boolean newItemsAllowed) {
-        delegate.setNewItemsAllowed(newItemsAllowed);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractSelect#setItemCaptionMode
-     */
-    public B setItemCaptionMode(ItemCaptionMode itemCaptionMode) {
-        delegate.setItemCaptionMode(itemCaptionMode);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractSelect#addListener
      */
     public B addListener(ItemSetChangeListener listener) {
@@ -173,6 +157,22 @@ public class AbstractSelectBuilder<T extends AbstractSelect, B extends AbstractS
      */
     public B addListener(PropertySetChangeListener listener) {
         delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addItem
+     */
+    public B addItem() {
+        delegate.addItem();
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractSelect#addItem
+     */
+    public B addItem(Object item) {
+        delegate.addItem(item);
         return self;
     }
     

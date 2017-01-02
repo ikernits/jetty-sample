@@ -31,14 +31,6 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
-     * @see com.vaadin.ui.Grid#setHeight
-     */
-    public B setHeight(float height, Unit unit) {
-        delegate.setHeight(height, unit);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.Grid#setColumnReorderingAllowed
      */
     public B setColumnReorderingAllowed(boolean columnReorderingAllowed) {
@@ -95,10 +87,10 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
     }
     
     /**
-     * @see com.vaadin.ui.Grid#addListener
+     * @see com.vaadin.ui.Grid#addColumn
      */
-    public B addListener(ItemClickListener listener) {
-        delegate.addListener(listener);
+    public B addColumn(Object param1, Class param2) {
+        delegate.addColumn(param1, param2);
         return self;
     }
     
@@ -107,14 +99,6 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
      */
     public B addColumn(Object column) {
         delegate.addColumn(column);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Grid#addColumn
-     */
-    public B addColumn(Object param1, Class param2) {
-        delegate.addColumn(param1, param2);
         return self;
     }
     
@@ -315,6 +299,22 @@ public class GridBuilder<T extends Grid, B extends GridBuilder<T, B>> extends Ab
      */
     public B setDetailsVisible(Object param1, boolean param2) {
         delegate.setDetailsVisible(param1, param2);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Grid#addListener
+     */
+    public B addListener(ItemClickListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Grid#setHeight
+     */
+    public B setHeight(float height, Unit unit) {
+        delegate.setHeight(height, unit);
         return self;
     }
     

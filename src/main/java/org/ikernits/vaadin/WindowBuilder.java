@@ -34,62 +34,6 @@ public class WindowBuilder<T extends Window, B extends WindowBuilder<T, B>> exte
     }
     
     /**
-     * @see com.vaadin.ui.Window#addBlurListener
-     */
-    public B addBlurListener(BlurListener blurListener) {
-        delegate.addBlurListener(blurListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#addFocusListener
-     */
-    public B addFocusListener(FocusListener focusListener) {
-        delegate.addFocusListener(focusListener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#setClosable
-     */
-    public B setClosable(boolean closable) {
-        delegate.setClosable(closable);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#addListener
-     */
-    public B addListener(CloseListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#addListener
-     */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#addListener
-     */
-    public B addListener(ResizeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.Window#addListener
-     */
-    public B addListener(FocusListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.Window#setPositionX
      */
     public B setPositionX(int positionX) {
@@ -214,6 +158,62 @@ public class WindowBuilder<T extends Window, B extends WindowBuilder<T, B>> exte
      */
     public B setTabStopBottomAssistiveText(String tabStopBottomAssistiveText) {
         delegate.setTabStopBottomAssistiveText(tabStopBottomAssistiveText);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addBlurListener
+     */
+    public B addBlurListener(BlurListener blurListener) {
+        delegate.addBlurListener(blurListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addFocusListener
+     */
+    public B addFocusListener(FocusListener focusListener) {
+        delegate.addFocusListener(focusListener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addListener
+     */
+    public B addListener(ResizeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addListener
+     */
+    public B addListener(CloseListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addListener
+     */
+    public B addListener(BlurListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#addListener
+     */
+    public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.Window#setClosable
+     */
+    public B setClosable(boolean closable) {
+        delegate.setClosable(closable);
         return self;
     }
     

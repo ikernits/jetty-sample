@@ -38,30 +38,6 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
     }
     
     /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(BlurListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(FocusListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
-     * @see com.vaadin.ui.AbstractTextField#addListener
-     */
-    public B addListener(TextChangeListener listener) {
-        delegate.addListener(listener);
-        return self;
-    }
-    
-    /**
      * @see com.vaadin.ui.AbstractTextField#setNullRepresentation
      */
     public B setNullRepresentation(String nullRepresentation) {
@@ -138,6 +114,30 @@ public class AbstractTextFieldBuilder<T extends AbstractTextField, B extends Abs
      */
     public B setCursorPosition(int cursorPosition) {
         delegate.setCursorPosition(cursorPosition);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(TextChangeListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(BlurListener listener) {
+        delegate.addListener(listener);
+        return self;
+    }
+    
+    /**
+     * @see com.vaadin.ui.AbstractTextField#addListener
+     */
+    public B addListener(FocusListener listener) {
+        delegate.addListener(listener);
         return self;
     }
     
