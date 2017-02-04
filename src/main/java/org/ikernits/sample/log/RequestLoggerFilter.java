@@ -15,11 +15,13 @@ import java.io.IOException;
 
 public class RequestLoggerFilter implements Filter {
 
-    private Logger logger;
+    private Logger requestLogger;
+    private Logger errorLogger;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger = Logger.getLogger("request");
+        requestLogger = Logger.getLogger("request");
+        errorLogger = Logger.getLogger(RequestLoggerFilter.class);
     }
 
     @Override
@@ -31,6 +33,9 @@ public class RequestLoggerFilter implements Filter {
         try {
             chain.doFilter(request, response);
             status = resp.getStatus();
+        } catch (Exception ex) {
+            status = 500;
+            errorLogger.error("Unhandled HTTP request exception", ex);
         } finally {
             final Level level;
             if (status >= 200 && status < 400) {
@@ -40,7 +45,7 @@ public class RequestLoggerFilter implements Filter {
             } else {
                 level = Level.ERROR;
             }
-            logger.log(level, req.getMethod() + " - " + req.getRequestURL() + " - " + status);
+            requestLogger.log(level, req.getRemoteAddr() + " - " + req.getMethod() + " - " + req.getRequestURL() + " - " + status);
         }
     }
 
