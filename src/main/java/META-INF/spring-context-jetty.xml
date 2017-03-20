@@ -54,6 +54,7 @@
             <list>
                 <bean id="connector" class="org.eclipse.jetty.server.ServerConnector">
                     <constructor-arg ref="jettyServer"/>
+                    <property name="host" value="${server.host}"/>
                     <property name="port" value="${server.port}"/>
                 </bean>
             </list>
