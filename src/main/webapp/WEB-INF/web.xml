@@ -52,18 +52,22 @@
             <param-name>UI</param-name>
             <param-value>org.ikernits.sample.VaadinUI</param-value>
         </init-param>
-        <!--<init-param>-->
-            <!--<param-name>pushmode</param-name>-->
-            <!--<param-value>automatic</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>org.atmosphere.cpr.asyncSupport</param-name>-->
-            <!--<param-value>org.atmosphere.container.JSR356AsyncSupport</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>org.atmosphere.cpr.asyncSupport</param-name>-->
-            <!--<param-value>org.atmosphere.container.Jetty9AsyncSupportWithWebSocket</param-value>-->
-        <!--</init-param>-->
+        <init-param>
+            <param-name>pushmode</param-name>
+            <param-value>automatic</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.asyncSupport</param-name>
+            <param-value>org.atmosphere.container.JSR356AsyncSupport</param-value>
+        </init-param>
+        <init-param>
+            <param-name>heartbeatInterval</param-name>
+            <param-value>60</param-value>
+        </init-param>
+        <init-param>
+            <param-name>productionMode</param-name>
+            <param-value>true</param-value>
+        </init-param>
         <async-supported>true</async-supported>
     </servlet>
 

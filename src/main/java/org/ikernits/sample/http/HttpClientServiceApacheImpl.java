@@ -25,6 +25,7 @@ import org.springframework.util.StreamUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -148,8 +149,8 @@ public class HttpClientServiceApacheImpl implements HttpClientService, Initializ
 
         try (CloseableHttpResponse httpResponse = httpClient.execute(httpRequest)) {
             int code = httpResponse.getStatusLine().getStatusCode();
-            Map<String, String> headers = Stream.of(httpResponse.getAllHeaders())
-                .collect(Collectors.toMap(Header::getName, Header::getValue));
+            Map<String, List<String>> headers = Stream.of(httpResponse.getAllHeaders())
+                .collect(Collectors.groupingBy(Header::getName, Collectors.mapping(Header::getValue, Collectors.toList())));
             ByteArrayOutputStream bodyStream = new ByteArrayOutputStream();
             StreamUtils.copyRange(
                 httpResponse.getEntity().getContent(),
@@ -158,7 +159,7 @@ public class HttpClientServiceApacheImpl implements HttpClientService, Initializ
                 responseSizeLimitBytes
             );
 
-            HttpResponse response = new HttpResponse(code, headers, bodyStream.toString(Charsets.UTF_8.name()));
+            HttpResponse response = new HttpResponse(code, headers, bodyStream.toByteArray());
             if (code < 400 || code >= 600) {
                 return response;
             } else {

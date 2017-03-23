@@ -1,12 +1,16 @@
 package org.ikernits.sample.http;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonParseException;
 import org.ikernits.sample.util.GsonUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -114,10 +118,10 @@ public interface HttpClientService {
 
     class HttpResponse {
         private final Integer code;
-        private final Map<String, String> headers;
-        private final String body;
+        private final Map<String, List<String>> headers;
+        private final byte[] body;
 
-        public HttpResponse(Integer code, Map<String, String> headers, String body) {
+        public HttpResponse(Integer code, Map<String, List<String>> headers, byte[] body) {
             this.code = code;
             this.headers = headers;
             this.body = body;
@@ -127,12 +131,21 @@ public interface HttpClientService {
             return code;
         }
 
-        public Map<String, String> getHeaders() {
+        public Map<String, List<String>> getHeaders() {
             return headers;
         }
 
-        public String getBody() {
+        public String getFirstHeader(String name) {
+            return headers.getOrDefault(name, ImmutableList.of()).stream()
+                .findFirst().orElse(null);
+        }
+
+        public byte[] getBody() {
             return body;
+        }
+
+        public String getBodyAsString() {
+            return new String(body, Charsets.UTF_8);
         }
     }
 
@@ -144,16 +157,24 @@ public interface HttpClientService {
     }
 
     default <T> T executeWithJsonResponse(HttpRequest request, Class<T> responseType, Predicate<T> verifier) {
+        return executeWithJsonResponse(request, TypeToken.of(responseType), verifier);
+    }
+
+    default <T> T executeWithJsonResponse(HttpRequest request, TypeToken<T> responseType) {
+        return executeWithJsonResponse(request, responseType, r -> true);
+    }
+
+    default <T> T executeWithJsonResponse(HttpRequest request, TypeToken<T> responseType, Predicate<T> verifier) {
         HttpResponse response = execute(request);
         T result;
         try {
-            result = GsonUtils.gson.fromJson(response.getBody(), responseType);
+            result = GsonUtils.gson.fromJson(response.getBodyAsString(), responseType.getType());
         } catch (JsonParseException ex) {
             throw new HttpClientException(
                 HttpClientException.Type.ParseError,
                 request,
                 response,
-                "Failed to parse json response of type '" + responseType.getName() + "'",
+                "Failed to parse json response of type '" + responseType.getType().getTypeName() + "'",
                 ex
             );
         }
@@ -163,7 +184,7 @@ public interface HttpClientService {
                 HttpClientException.Type.VerifyError,
                 request,
                 response,
-                "Failed to verify response of type '" + responseType.getName() + "'",
+                "Failed to verify response of type '" + responseType.getType().getTypeName() + "'",
                 null
             );
         }
